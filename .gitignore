@@ -7,3 +7,5 @@ build/
 app/build/
 /captures
 .externalNativeBuild
+app/src/main/gen/
+gradle.properties
