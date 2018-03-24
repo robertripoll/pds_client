@@ -22,5 +22,10 @@
     <string name="text_favorites">Favorites</string>
     <string name="text_schedules">Schedules</string>
     <string name="text_tasks">Tasks</string>
+    <string name="nav_home"/>
+    <string name="navegation_home">Home</string>
+    <string name="navegation_listContacts">Contacts</string>
+    <string name="navegation_chats">Chats</string>
+    <string name="navegation_gps">Location</string>
 
 </resources>
