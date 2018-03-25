@@ -62,7 +62,7 @@ public class Login extends Activity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-                    Login.this.startActivity(new Intent(Login.this, NavigationActivity.class));
+                    Login.this.startActivity(new Intent(Login.this, UsuariValid.class));
                 } else {
                     Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
                     toast.show();
