@@ -54,8 +54,8 @@ public class Login extends Activity {
     // This method is called when the "Login" button is pressed in the Login fragment
     public void checkCredentials(String username, String password) {
         UserLogin ul = new UserLogin();
-        ul.username = username;
-        ul.password = password;
+        ul.correu = username;
+        ul.contrasenya = password;
         Call<User> call = mCheapyService.login(ul);
         call.enqueue(new Callback<User>() {
             @Override
