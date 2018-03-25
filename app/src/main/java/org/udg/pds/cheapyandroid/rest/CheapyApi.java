@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 
 public interface CheapyApi {
 
-    @POST("rest/users/auth")
+    @POST("/usuaris/autenticar")
     Call<User> login(@Body UserLogin login);
 }
