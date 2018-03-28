@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".activity.TestActivity"
-                android:label="Cheapy Android">
+                android:label="Cheapy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

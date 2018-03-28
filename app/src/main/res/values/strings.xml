@@ -12,6 +12,10 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
+    <!-- Strings relacionades amb el menú de navegació -->
+    <string name="navmenu_item_llista_productes">Productes</string>
+    <string name="navmenu_item_perfil">Perfil</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="email2">Email:</string>
@@ -30,5 +34,8 @@
     <string name="text_schedules">Schedules</string>
     <string name="text_tasks">Tasks</string>
     <string name="title_activity_test">TestActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

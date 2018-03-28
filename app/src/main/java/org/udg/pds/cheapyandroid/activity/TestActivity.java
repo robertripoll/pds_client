@@ -20,15 +20,14 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        // Configurem el Toolbar.
+        configurarToolbar();
+
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        // Attaching the layout to the toolbar object
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.mipmap.ic_menu_white_24dp);
-        // Setting toolbar as the ActionBar with setSupportActionBar() call
-        setSupportActionBar(toolbar);
+
 
         // Set behavior of Navigation drawer
         navigationView.setNavigationItemSelectedListener(
@@ -44,6 +43,15 @@ public class TestActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    private void configurarToolbar() {
+        // Agafem el Toolbar per la seva id.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Indiquem la icona del nostre toolbar per obrir el NavigationMenu.
+        toolbar.setNavigationIcon(R.mipmap.ic_menu_white_24dp);
+        // Configurem el Toolbar com a ActionBar de la nostra vista.
+        setSupportActionBar(toolbar);
     }
 
     @Override
