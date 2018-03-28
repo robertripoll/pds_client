@@ -26,17 +26,17 @@
                         android:orientation="vertical"
                         android:layout_height="200dp">
                     <TextView
-                            android:layout_marginTop="40dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nom:"
-                            android:textSize="25dp"
-                            android:id="@+id/nomUsuari"/>
+                        android:layout_marginTop="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Diego"
+                        android:textSize="25dp"
+                        android:id="@+id/nomUsuari"/>
                     <TextView
                             android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cognoms:"
+                            android:text="Martínez"
                             android:textSize="25dp"
                             android:id="@+id/cognomUsuari"/>
 
@@ -115,11 +115,32 @@
         </RelativeLayout>
     <RelativeLayout
             android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Productes Comprats"
+                android:layout_alignBaseline="@+id/textView3" android:layout_alignBottom="@+id/textView3"
+                android:layout_alignEnd="@+id/bottomNavigationView" android:layout_marginEnd="39dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Productes a la Venda"
+                android:layout_marginTop="44dp" android:id="@+id/textView3"
+                android:layout_alignParentTop="true" android:layout_alignParentStart="true"
+                android:layout_marginStart="33dp"/>
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
                 android:id="@+id/imageButton2"
-                android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:layout_marginTop="78dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
+                android:id="@+id/imageButton3"
+                android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_marginLeft="100dp"
                 android:layout_marginTop="78dp"/>
         <android.support.design.widget.BottomNavigationView
                 android:layout_width="match_parent"
