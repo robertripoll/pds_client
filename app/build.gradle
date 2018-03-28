@@ -14,8 +14,8 @@ repositories {
 
 android {
     packagingOptions {
-         pickFirst 'META-INF/LICENSE'
-         pickFirst 'META-INF/NOTICE'
+        pickFirst 'META-INF/LICENSE'
+        pickFirst 'META-INF/NOTICE'
 
     }
 

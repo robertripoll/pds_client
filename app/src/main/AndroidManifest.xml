@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".activity.UsuariValid">
         </activity>
+        <activity android:name=".activity.SignUp">
+        </activity>
     </application>
 
 </manifest>

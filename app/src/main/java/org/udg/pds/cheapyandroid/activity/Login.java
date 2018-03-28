@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,12 +42,23 @@ public class Login extends Activity {
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
         Button b = (Button)findViewById(R.id.login_button);
+
+        // Link per donar-se d'alta
+        TextView link = (TextView) findViewById(R.id.link_signup);
+
         // This is teh listener that will be used when the user presses the "Login" button
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText u = (EditText) Login.this.findViewById(R.id.login_username);
                 EditText p = (EditText) Login.this.findViewById(R.id.login_password);
                 Login.this.checkCredentials(u.getText().toString(), p.getText().toString());
+            }
+        });
+
+        link.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Login.this.startActivity(new Intent(Login.this, SignUp.class));
             }
         });
 
@@ -69,6 +81,8 @@ public class Login extends Activity {
                 }
             }
 
+            // Invoked when a network exception occurred talking to the server or when an unexpected exception
+            // occurred creating the request or processing the response.
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
