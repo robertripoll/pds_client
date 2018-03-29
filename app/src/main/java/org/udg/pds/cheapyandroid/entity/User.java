@@ -1,6 +1,69 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import java.util.HashMap;
+
+public class User {
+
+    private String id;
+    private String nom;
+    private String cognoms;
+    private String dataNaixement;
+    private String correu;
+    private int nombreVendes;
+    private int nombreCompres;
+    private Ubicacio ubicació;
+    private String imatge;
+
+    public User(String id, String nom, String cognoms, String dataNaixement, String correu, int nombreVendes, int nombreCompres, Ubicacio ubicació, String imatge) {
+        this.id = id;
+        this.nom = nom;
+        this.cognoms = cognoms;
+        this.dataNaixement = dataNaixement;
+        this.correu = correu;
+        this.nombreVendes = nombreVendes;
+        this.nombreCompres = nombreCompres;
+        this.ubicació = ubicació;
+        this.imatge = imatge;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getCognoms() {
+        return cognoms;
+    }
+
+    public String getDataNaixement() {
+        return dataNaixement;
+    }
+
+    public String getCorreu() {
+        return correu;
+    }
+
+    public int getNombreVendes() {
+        return nombreVendes;
+    }
+
+    public int getNombreCompres() {
+        return nombreCompres;
+    }
+
+    public Ubicacio getUbicació() {
+        return ubicació;
+    }
+
+    public String getImatge() {
+        return imatge;
+    }
+}
+
+
+/*import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -41,3 +104,4 @@ public class User {
     }
 
 }
+*/
