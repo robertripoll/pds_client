@@ -12,36 +12,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "nom"
+    "totalCount",
+    "limit",
+    "offset"
 })
-public class Categoria {
+public class Metadata {
 
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("nom")
-    private String nom;
+    @JsonProperty("totalCount")
+    private Integer totalCount;
+    @JsonProperty("limit")
+    private Integer limit;
+    @JsonProperty("offset")
+    private Integer offset;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("totalCount")
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
+    @JsonProperty("totalCount")
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
     }
 
-    @JsonProperty("nom")
-    public String getNom() {
-        return nom;
+    @JsonProperty("limit")
+    public Integer getLimit() {
+        return limit;
     }
 
-    @JsonProperty("nom")
-    public void setNom(String nom) {
-        this.nom = nom;
+    @JsonProperty("limit")
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    @JsonProperty("offset")
+    public Integer getOffset() {
+        return offset;
+    }
+
+    @JsonProperty("offset")
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     @JsonAnyGetter

@@ -7,4 +7,9 @@
         android:layout_height="match_parent"
         tools:context="org.udg.pds.cheapyandroid.activity.LlistaProductes">
 
+    <Button
+            android:text="Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="92dp"
+            tools:layout_editor_absoluteX="116dp" android:id="@+id/button_test"/>
 </android.support.constraint.ConstraintLayout>

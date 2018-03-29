@@ -12,36 +12,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "nom"
+    "imatge"
 })
-public class Categoria {
+public class Imatge {
 
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("nom")
-    private String nom;
+    @JsonProperty("imatge")
+    private Imatge_ imatge;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("imatge")
+    public Imatge_ getImatge() {
+        return imatge;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @JsonProperty("nom")
-    public String getNom() {
-        return nom;
-    }
-
-    @JsonProperty("nom")
-    public void setNom(String nom) {
-        this.nom = nom;
+    @JsonProperty("imatge")
+    public void setImatge(Imatge_ imatge) {
+        this.imatge = imatge;
     }
 
     @JsonAnyGetter

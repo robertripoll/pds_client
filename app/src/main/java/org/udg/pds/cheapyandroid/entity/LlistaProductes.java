@@ -2,6 +2,7 @@
 package org.udg.pds.cheapyandroid.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -12,36 +13,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "nom"
+    "productes",
+    "metadata"
 })
-public class Categoria {
+public class LlistaProductes {
 
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("nom")
-    private String nom;
+    @JsonProperty("productes")
+    private List<Producte> productes = null;
+    @JsonProperty("metadata")
+    private Metadata metadata;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("productes")
+    public List<Producte> getProductes() {
+        return productes;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
+    @JsonProperty("productes")
+    public void setProductes(List<Producte> productes) {
+        this.productes = productes;
     }
 
-    @JsonProperty("nom")
-    public String getNom() {
-        return nom;
+    @JsonProperty("metadata")
+    public Metadata getMetadata() {
+        return metadata;
     }
 
-    @JsonProperty("nom")
-    public void setNom(String nom) {
-        this.nom = nom;
+    @JsonProperty("metadata")
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
     @JsonAnyGetter
