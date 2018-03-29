@@ -5,11 +5,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="org.udg.pds.cheapyandroid.activity.LlistaProductes">
+        tools:context="org.udg.pds.cheapyandroid.activity.LlistaProductesActivity">
 
-    <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="92dp"
-            tools:layout_editor_absoluteX="116dp" android:id="@+id/button_test"/>
+    <ListView android:id="@+id/llista_productes"
+            android:layout_width="243dp"
+            android:layout_height="373dp"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp"/>
+
+
 </android.support.constraint.ConstraintLayout>

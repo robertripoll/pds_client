@@ -19,15 +19,15 @@
         <activity
                 android:name=".activity.Login"
                 android:label="Cheapy Android">
+        </activity>
+        <activity
+                android:name=".activity.LlistaProductesActivity"
+                android:label="@string/title_activity_llista_productes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity
-                android:name=".activity.LlistaProductes"
-                android:label="@string/title_activity_llista_productes">
         </activity>
     </application>
 
