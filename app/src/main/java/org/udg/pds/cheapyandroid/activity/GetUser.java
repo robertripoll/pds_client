@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
@@ -26,8 +27,14 @@ public class GetUser extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prova_getuser_info);
 
-        final TextView textView = (TextView) findViewById(R.id.informacio);
-        final TextView textView2 = (TextView) findViewById(R.id.informacio2);
+        final TextView textView = (TextView) findViewById(R.id.nom);
+        final TextView textView2 = (TextView) findViewById(R.id.cognom);
+        final TextView textView3 = (TextView) findViewById(R.id.dataNaixement);
+        final TextView textView4 = (TextView) findViewById(R.id.correu);
+        final TextView textView5 = (TextView) findViewById(R.id.vendes);
+        final TextView textView6 = (TextView) findViewById(R.id.compres);
+        final TextView textView7 = (TextView) findViewById(R.id.valoracions);
+        final TextView textView8 = (TextView) findViewById(R.id.mitjanaValoracions);
 
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
@@ -46,12 +53,31 @@ public class GetUser extends Activity {
             Log.d("id", usuari.getId());
             Log.d("nom", usuari.getNom());
             Log.d("cognoms", usuari.getCognoms());
+            Log.d("dataNaixement", usuari.getDataNaixement());
+            Log.d("correu", usuari.getCorreu());
+            Log.d("nombreVendes", String.valueOf(usuari.getNombreVendes()));
+            Log.d("nombreCompres", String.valueOf(usuari.getNombreCompres()));
+            Log.d("nombreValoracions", String.valueOf(usuari.getValoracions()));
+            Log.d("mitjanaValoracions", String.valueOf(usuari.getMitjanaValoracions()));
 
             String usuariNom = usuari.getNom();
             String usuariCognoms = usuari.getCognoms();
+            String usuariData = usuari.getDataNaixement();
+            String usuariCorreu = usuari.getCorreu();
+            String usuariVendes = String.valueOf(usuari.getNombreVendes());
+            String usuariCompres = String.valueOf(usuari.getNombreCompres());
+            String usuariNumValoracions = String.valueOf(usuari.getValoracions());
+            String usuariValoracions = String.valueOf(usuari.getMitjanaValoracions());
 
             textView.append(usuariNom);
             textView2.append(usuariCognoms);
+            textView3.append(usuariData);
+            textView4.append(usuariCorreu);
+            textView5.append(usuariVendes);
+            textView6.append(usuariCompres);
+            textView7.append(usuariNumValoracions);
+            textView8.append(usuariValoracions);
+
         }
 
 

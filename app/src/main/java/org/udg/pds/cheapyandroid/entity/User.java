@@ -10,10 +10,12 @@ public class User {
     private String correu;
     private int nombreVendes;
     private int nombreCompres;
+    private int nombreValoracions;
+    private double mitjanaValoracions;
     private Ubicacio ubicació;
     private String imatge;
 
-    public User(String id, String nom, String cognoms, String dataNaixement, String correu, int nombreVendes, int nombreCompres, Ubicacio ubicació, String imatge) {
+    public User(String id, String nom, String cognoms, String dataNaixement, String correu, int nombreVendes, int nombreCompres, int nombreValoracions, double mitjanaValoracions, Ubicacio ubicació, String imatge) {
         this.id = id;
         this.nom = nom;
         this.cognoms = cognoms;
@@ -21,6 +23,8 @@ public class User {
         this.correu = correu;
         this.nombreVendes = nombreVendes;
         this.nombreCompres = nombreCompres;
+        this.nombreValoracions = nombreValoracions;
+        this.mitjanaValoracions = mitjanaValoracions;
         this.ubicació = ubicació;
         this.imatge = imatge;
     }
@@ -51,6 +55,14 @@ public class User {
 
     public int getNombreCompres() {
         return nombreCompres;
+    }
+
+    public int getValoracions() {
+        return nombreValoracions;
+    }
+
+    public double getMitjanaValoracions() {
+        return mitjanaValoracions;
     }
 
     public Ubicacio getUbicació() {
