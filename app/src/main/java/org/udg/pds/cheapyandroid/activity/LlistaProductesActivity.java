@@ -1,139 +1,104 @@
 package org.udg.pds.cheapyandroid.activity;
 
-import android.app.Activity;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import org.udg.pds.cheapyandroid.CheapyApp;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.entity.LlistaProductes;
-import org.udg.pds.cheapyandroid.entity.Producte_;
-import org.udg.pds.cheapyandroid.rest.CheapyApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
+import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
 
-public class LlistaProductesActivity extends Activity {
+public class LlistaProductesActivity extends AppCompatActivity {
 
-    private CheapyApi mCheapyService;
-    private ListView llistaProductesView;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_llista_productes);
+        setContentView(R.layout.activity_test);
 
-        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        // Configurem el Toolbar.
+        configurarToolbar();
 
-        llistaProductesView = (ListView) findViewById(R.id.llista_productes);
-
-        carregarProductes();
+        // Configurem el Navigation Menú.
+        configurarNavigationView();
     }
 
-    private void carregarProductes() {
-        Call<LlistaProductes> call = mCheapyService.getProductes();
-        call.enqueue(new Callback<LlistaProductes>() {
-            @Override
-            public void onResponse(Call<LlistaProductes> call, Response<LlistaProductes> response) {
+    private void configurarNavigationView() {
+        // Create Navigation drawer and inflate layout
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-                if (response.isSuccessful()) {
-                    mostrarProductes(response.body());
-                } else {
-                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Els productes no s'han pogut carregar correctament", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<LlistaProductes> call, Throwable t) {
-                Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
+        // Set behavior of Navigation drawer
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    // This method will trigger on item Click of navigation menu
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // Set item in checked state
+                        menuItem.setChecked(true);
+
+                        // Handle Navigation
+                        int id = menuItem.getItemId();
+                        Fragment fragment = null;
+                        if (id == R.id.nav_item_llista_productes)
+                            fragment = new LlistaProductesFragment();
+                        else if (id == R.id.nav_item_perfil)
+                            fragment = new PerfilFragment();
+
+                        if (fragment != null) {
+                            FragmentTransaction fragmentManager = getSupportFragmentManager()
+                                    .beginTransaction();
+
+                            fragmentManager.replace(R.id.frame_layout, fragment);
+                            fragmentManager.commit();
+                        }
+
+
+                        // Closing drawer on item click
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
-    private void mostrarProductes(final LlistaProductes llistaProductes) {
+    private void configurarToolbar() {
+        // Agafem el Toolbar per la seva id.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Indiquem la icona del nostre toolbar per obrir el NavigationMenu.
+        toolbar.setNavigationIcon(R.mipmap.ic_menu_white_24dp);
+        // Configurem el Toolbar com a ActionBar de la nostra vista.
+        setSupportActionBar(toolbar);
+    }
 
-        llistaProductesView.setAdapter(new ListAdapter() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public boolean isEnabled(int i) {
-                return false;
-            }
-
-            @Override
-            public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public int getCount() {
-                return llistaProductes.getProductes().size();
-            }
-
-            @Override
-            public Object getItem(int i) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int i) {
-                return llistaProductes.getProductes().get(i).getProducte().getId();
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getView(int i, View view, ViewGroup viewGroup) {
-                LayoutInflater inflater = LlistaProductesActivity.this.getLayoutInflater();
-                View rowView = inflater.inflate(R.layout.adapter_llista_productes, null);
-
-                TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
-                TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
-
-                Producte_ producte = llistaProductes.getProductes().get(i).getProducte();
-
-                nomView.setText(producte.getNom());
-                preuView.setText(producte.getPreu().toString());
-
-                return rowView;
-            }
-
-            @Override
-            public int getItemViewType(int i) {
-                return 0;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return llistaProductes.getProductes().size();
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-        });
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == 1) {
+            return true;
+        } else if (id == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -4,10 +4,10 @@
              android:layout_height="match_parent"
              tools:context="org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+    <ListView android:id="@+id/llista_productes"
+              android:layout_width="243dp"
+              android:layout_height="373dp"
+              tools:layout_editor_absoluteY="8dp"
+              tools:layout_editor_absoluteX="8dp"/>
 
 </FrameLayout>
