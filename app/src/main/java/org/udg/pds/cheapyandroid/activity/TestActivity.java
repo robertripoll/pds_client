@@ -2,6 +2,8 @@ package org.udg.pds.cheapyandroid.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
+import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -23,10 +27,14 @@ public class TestActivity extends AppCompatActivity {
         // Configurem el Toolbar.
         configurarToolbar();
 
+        // Configurem el Navigation Menú.
+        configurarNavigationView();
+    }
+
+    private void configurarNavigationView() {
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
 
 
         // Set behavior of Navigation drawer
@@ -37,7 +45,24 @@ public class TestActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // Set item in checked state
                         menuItem.setChecked(true);
-                        // TODO: handle navigation
+
+                        // Handle Navigation
+                        int id = menuItem.getItemId();
+                        Fragment fragment = null;
+                        if (id == R.id.nav_item_llista_productes)
+                            fragment = new LlistaProductesFragment();
+                        else if (id == R.id.nav_item_perfil)
+                            fragment = new PerfilFragment();
+
+                        if (fragment != null) {
+                            FragmentTransaction fragmentManager = getSupportFragmentManager()
+                                    .beginTransaction();
+
+                            fragmentManager.replace(R.id.frame_layout, fragment);
+                            fragmentManager.commit();
+                        }
+
+
                         // Closing drawer on item click
                         mDrawerLayout.closeDrawers();
                         return true;
