@@ -17,7 +17,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".activity.TestActivity"
+                android:name=".activity.LlistaProductesActivity"
                 android:label="Cheapy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,10 +31,6 @@
                 android:label="Cheapy Android">
         </activity>
 
-        <activity
-                android:name=".activity.LlistaProductesActivity"
-                android:label="@string/title_activity_llista_productes">
-        </activity>
     </application>
 
 </manifest>
