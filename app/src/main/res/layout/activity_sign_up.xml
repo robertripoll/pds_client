@@ -11,7 +11,7 @@
             android:orientation="vertical"
             android:layout_width="368dp"
             android:layout_height="wrap_content"
-            android:paddingTop="70dp"
+            android:paddingTop="5dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp" tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="8dp">
 
@@ -21,29 +21,15 @@
         <ImageView android:src="@drawable/cheapy_logo"
                    android:layout_width="wrap_content"
                    android:layout_height="100dp"
-                   android:layout_marginBottom="40dp"
+                   android:layout_marginBottom="5dp"
                    android:layout_gravity="center_horizontal" />
 
-        <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/signup_username"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textEmailAddress"
-                      android:hint="Username" />
-        </android.support.design.widget.TextInputLayout>
-
-
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
             <EditText android:id="@+id/signup_email"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -56,13 +42,75 @@
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/login_password"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_password"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="textPassword"
                       android:hint="Password"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_sex"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textEmailAddress"
+                      android:hint="Sex" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_name"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textEmailAddress"
+                      android:hint="Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_surname"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textEmailAddress"
+                      android:hint="Surname" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_telephone"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textEmailAddress"
+                      android:hint="Telephone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+            <EditText android:id="@+id/signup_birthdate"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textEmailAddress"
+                      android:hint="Birthdate" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

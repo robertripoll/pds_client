@@ -58,7 +58,7 @@ public class Login extends Activity {
         link.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Login.this.startActivity(new Intent(Login.this, SignUp.class));
+                Login.this.startActivity(new Intent(Login.this, AddUser.class));
             }
         });
 
