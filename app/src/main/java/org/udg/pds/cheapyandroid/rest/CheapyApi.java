@@ -10,4 +10,7 @@ public interface CheapyApi {
 
     @POST("/usuaris/autenticar")
     Call<User> login(@Body UserLogin login);
+
+    @POST("/usuaris")
+    Call<User> addUser(@Body User task);
 }
