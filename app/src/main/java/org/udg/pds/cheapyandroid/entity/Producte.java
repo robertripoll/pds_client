@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-package org.udg.pds.cheapyandroid.entity;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class Imatge {
-
-
-
-    @JsonProperty("ruta")
-    private String ruta;
-
-
-    @JsonProperty("ruta")
-    public String getRuta() {
-        return ruta;
-    }
-
-    @JsonProperty("ruta")
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
-    }
-
-
-=======
 
 package org.udg.pds.cheapyandroid.entity;
 
@@ -37,23 +12,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "imatge"
+    "producte"
 })
-public class Imatge {
+public class Producte {
 
-    @JsonProperty("imatge")
-    private Imatge_ imatge;
+    @JsonProperty("producte")
+    private Producte_ producte;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("imatge")
-    public Imatge_ getImatge() {
-        return imatge;
+    @JsonProperty("producte")
+    public Producte_ getProducte() {
+        return producte;
     }
 
-    @JsonProperty("imatge")
-    public void setImatge(Imatge_ imatge) {
-        this.imatge = imatge;
+    @JsonProperty("producte")
+    public void setProducte(Producte_ producte) {
+        this.producte = producte;
     }
 
     @JsonAnyGetter
@@ -65,6 +40,5 @@ public class Imatge {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
->>>>>>> master
 
 }

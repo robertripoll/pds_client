@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-package org.udg.pds.cheapyandroid.entity;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class Imatge {
-
-
-
-    @JsonProperty("ruta")
-    private String ruta;
-
-
-    @JsonProperty("ruta")
-    public String getRuta() {
-        return ruta;
-    }
-
-    @JsonProperty("ruta")
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
-    }
-
-
-=======
 
 package org.udg.pds.cheapyandroid.entity;
 
@@ -37,23 +12,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "imatge"
+    "totalCount",
+    "limit",
+    "offset"
 })
-public class Imatge {
+public class Metadata {
 
-    @JsonProperty("imatge")
-    private Imatge_ imatge;
+    @JsonProperty("totalCount")
+    private Integer totalCount;
+    @JsonProperty("limit")
+    private Integer limit;
+    @JsonProperty("offset")
+    private Integer offset;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("imatge")
-    public Imatge_ getImatge() {
-        return imatge;
+    @JsonProperty("totalCount")
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    @JsonProperty("imatge")
-    public void setImatge(Imatge_ imatge) {
-        this.imatge = imatge;
+    @JsonProperty("totalCount")
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    @JsonProperty("limit")
+    public Integer getLimit() {
+        return limit;
+    }
+
+    @JsonProperty("limit")
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    @JsonProperty("offset")
+    public Integer getOffset() {
+        return offset;
+    }
+
+    @JsonProperty("offset")
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     @JsonAnyGetter
@@ -65,6 +66,5 @@ public class Imatge {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
->>>>>>> master
 
 }

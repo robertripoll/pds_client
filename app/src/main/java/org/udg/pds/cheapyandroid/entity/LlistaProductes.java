@@ -1,32 +1,8 @@
-<<<<<<< HEAD
-package org.udg.pds.cheapyandroid.entity;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class Imatge {
-
-
-
-    @JsonProperty("ruta")
-    private String ruta;
-
-
-    @JsonProperty("ruta")
-    public String getRuta() {
-        return ruta;
-    }
-
-    @JsonProperty("ruta")
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
-    }
-
-
-=======
 
 package org.udg.pds.cheapyandroid.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -37,23 +13,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "imatge"
+    "productes",
+    "metadata"
 })
-public class Imatge {
+public class LlistaProductes {
 
-    @JsonProperty("imatge")
-    private Imatge_ imatge;
+    @JsonProperty("productes")
+    private List<Producte> productes = null;
+    @JsonProperty("metadata")
+    private Metadata metadata;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("imatge")
-    public Imatge_ getImatge() {
-        return imatge;
+    @JsonProperty("productes")
+    public List<Producte> getProductes() {
+        return productes;
     }
 
-    @JsonProperty("imatge")
-    public void setImatge(Imatge_ imatge) {
-        this.imatge = imatge;
+    @JsonProperty("productes")
+    public void setProductes(List<Producte> productes) {
+        this.productes = productes;
+    }
+
+    @JsonProperty("metadata")
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    @JsonProperty("metadata")
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
     @JsonAnyGetter
@@ -65,6 +54,5 @@ public class Imatge {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
->>>>>>> master
 
 }
