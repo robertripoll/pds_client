@@ -61,20 +61,13 @@ public class AddUser extends Activity implements Callback<User> {
                 EditText birthdate = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
 
                 try {
-                    User u = new User();
-                    u.correu = email.toString();
-                    u.contrasenya = pass.toString();
-                    u.sexe = sex.toString();
-                    u.nom = name.toString();
-                    u.cognom = surname.toString();
-                    u.telefon = Double.parseDouble(telephone.toString());
-                    u.dataNaixament = birthdate.toString();
+                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), Double.parseDouble(telephone.toString()));
+
                     Call<User> call = mCheapyService.addUser(u);
                     call.enqueue(AddUser.this);
                 } catch (Exception ex) {
                     return;
                 }
-
             }
         });
 
