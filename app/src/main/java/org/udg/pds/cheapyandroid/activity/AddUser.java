@@ -59,13 +59,13 @@ public class AddUser extends Activity implements Callback<User> {
                 EditText surname = (EditText) AddUser.this.findViewById(R.id.signup_surname);
                 EditText telephone = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
                 EditText birthdate = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
-
                 try {
-                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), Double.parseDouble(telephone.toString()));
-
+                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), telephone );
                     Call<User> call = mCheapyService.addUser(u);
                     call.enqueue(AddUser.this);
                 } catch (Exception ex) {
+                    Toast toast = Toast.makeText(AddUser.this, "Error add user "+ex.toString(), Toast.LENGTH_SHORT);
+                    toast.show();
                     return;
                 }
             }
