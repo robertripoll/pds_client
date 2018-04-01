@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.udg.pds.cheapyandroid.CheapyApp;
+import okhttp3.OkHttpClient;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
@@ -19,6 +19,11 @@ import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static org.udg.pds.cheapyandroid.util.Global.BASE_URL;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,8 +43,6 @@ public class Login extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
-        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
         Button b = (Button)findViewById(R.id.login_button);
 
@@ -68,24 +71,51 @@ public class Login extends Activity {
         UserLogin ul = new UserLogin();
         ul.correu = username;
         ul.contrasenya = password;
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+        Retrofit.Builder builder =
+                new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(
+                                GsonConverterFactory.create()
+                        );
+
+        Retrofit retrofit =
+                builder
+                        .client(
+                                httpClient.build()
+                        )
+                        .build();
+
+        mCheapyService =  retrofit.create(CheapyApi.class);
+
         Call<User> call = mCheapyService.login(ul);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
-                if (response.isSuccessful()) {
-                    Login.this.startActivity(new Intent(Login.this, UsuariValid.class));
-                } else {
-                    Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
-                    toast.show();
+                switch (response.code()) {
+                    case 200:
+                        Login.this.startActivity(new Intent(Login.this, UsuariValid.class));
+                        break;
+                    case 401:
+
+                        break;
+                    default:
+                        Toast toast = Toast.makeText(Login.this, "Error logging in " , Toast.LENGTH_SHORT);
+                        toast.show();
+                        break;
                 }
+
+
             }
 
             // Invoked when a network exception occurred talking to the server or when an unexpected exception
             // occurred creating the request or processing the response.
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Login.this, "Error logging in"+t.toString(), Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
