@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheapyApp extends Application {
 
-    CheapyApi mTodoService;
+    CheapyApi mCheapyService;
 
     @Override
     public void onCreate() {
@@ -45,11 +45,11 @@ public class CheapyApp extends Application {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        mTodoService = retrofit.create(CheapyApi.class);
+        mCheapyService = retrofit.create(CheapyApi.class);
     }
 
     public CheapyApi getAPI() {
-        return mTodoService;
+        return mCheapyService;
     }
 }
 
