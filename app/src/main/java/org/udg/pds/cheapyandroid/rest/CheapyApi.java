@@ -10,14 +10,9 @@ import retrofit2.http.POST;
 
 public interface CheapyApi {
 
-    @POST("/usuaris/autenticar")
+    @POST("rest/users/auth")
     Call<User> login(@Body UserLogin login);
 
-<<<<<<< HEAD
-    @POST("/usuaris")
-    Call<User> addUser(@Body User task);
-=======
     @GET("/productes")
     Call<LlistaProductes> getProductes();
->>>>>>> master
 }

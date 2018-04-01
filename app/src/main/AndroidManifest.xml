@@ -17,29 +17,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-<<<<<<< HEAD
-                android:name=".activity.Login"
-                android:label="Cheapy Android">
-        </activity>
-        <activity android:name=".activity.UsuariValid">
-        </activity>
-        <activity android:name=".activity.Presentation">
-=======
                 android:name=".activity.LlistaProductesActivity"
                 android:label="Cheapy">
->>>>>>> master
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".activity.AddUser">
-        </activity>
-    </application>
-
-=======
 
         <activity
                 android:name=".activity.Login"
@@ -48,5 +33,4 @@
 
     </application>
 
->>>>>>> master
 </manifest>
