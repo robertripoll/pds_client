@@ -1,3 +1,28 @@
+<<<<<<< HEAD
+package org.udg.pds.cheapyandroid.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Imatge {
+
+
+
+    @JsonProperty("ruta")
+    private String ruta;
+
+
+    @JsonProperty("ruta")
+    public String getRuta() {
+        return ruta;
+    }
+
+    @JsonProperty("ruta")
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
+
+=======
 
 package org.udg.pds.cheapyandroid.entity;
 
@@ -40,5 +65,6 @@ public class Imatge {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+>>>>>>> master
 
 }
