@@ -33,6 +33,11 @@ public class Coordenades {
         this.latitud = latitud;
     }
 
+    public Coordenades withLatitud(Double latitud) {
+        this.latitud = latitud;
+        return this;
+    }
+
     @JsonProperty("longitud")
     public Double getLongitud() {
         return longitud;
@@ -43,6 +48,11 @@ public class Coordenades {
         this.longitud = longitud;
     }
 
+    public Coordenades withLongitud(Double longitud) {
+        this.longitud = longitud;
+        return this;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -51,6 +61,11 @@ public class Coordenades {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public Coordenades withAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+        return this;
     }
 
 }
