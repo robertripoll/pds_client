@@ -1,18 +1,17 @@
 package org.udg.pds.cheapyandroid.activity;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
+import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +36,14 @@ public class GetUser extends Activity {
         final TextView textView8 = (TextView) findViewById(R.id.mitjanaValoracions);
 
 
+
+        final TextView textView9 = (TextView) findViewById(R.id.latitudCoordenades);
+        final TextView textView10 = (TextView) findViewById(R.id.ciutatUbicacio);
+        final TextView textView11 = (TextView) findViewById(R.id.paisUbicacio);
+        final TextView textView12 = (TextView) findViewById(R.id.longitudCoordenades);
+        final ImageView imageView = (ImageView) findViewById(R.id.foto);
+
+
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Global.BASE_URL)
@@ -50,34 +57,27 @@ public class GetUser extends Activity {
         @Override
         public void onResponse(Call<User> call, Response<User> response) {
             User usuari = response.body();
-            Log.d("id", usuari.getId());
-            Log.d("nom", usuari.getNom());
-            Log.d("cognoms", usuari.getCognoms());
-            Log.d("dataNaixement", usuari.getDataNaixement());
-            Log.d("correu", usuari.getCorreu());
-            Log.d("nombreVendes", String.valueOf(usuari.getNombreVendes()));
-            Log.d("nombreCompres", String.valueOf(usuari.getNombreCompres()));
-            Log.d("nombreValoracions", String.valueOf(usuari.getValoracions()));
-            Log.d("mitjanaValoracions", String.valueOf(usuari.getMitjanaValoracions()));
 
-            String usuariNom = usuari.getNom();
-            String usuariCognoms = usuari.getCognoms();
-            String usuariData = usuari.getDataNaixement();
-            String usuariCorreu = usuari.getCorreu();
-            String usuariVendes = String.valueOf(usuari.getNombreVendes());
-            String usuariCompres = String.valueOf(usuari.getNombreCompres());
-            String usuariNumValoracions = String.valueOf(usuari.getValoracions());
-            String usuariValoracions = String.valueOf(usuari.getMitjanaValoracions());
+            String longitud = String.valueOf(usuari.getUbicacio().getCoordenades().getLongitud());
+            String latitud = String.valueOf(usuari.getUbicacio().getCoordenades().getLatitud());
+            String mitjana = String.valueOf(usuari.getMitjanaValoracions());
+            String compres = String.valueOf(usuari.getNombreCompres());
+            String vendes = String.valueOf(usuari.getNombreVendes());
+            String valoracions = String.valueOf(usuari.getNombreValoracions());
 
-            textView.append(usuariNom);
-            textView2.append(usuariCognoms);
-            textView3.append(usuariData);
-            textView4.append(usuariCorreu);
-            textView5.append(usuariVendes);
-            textView6.append(usuariCompres);
-            textView7.append(usuariNumValoracions);
-            textView8.append(usuariValoracions);
-
+            textView.append(usuari.getNom());
+            textView2.append(usuari.getCognoms());
+            textView3.append(usuari.getDataNaixement());
+            textView4.append(usuari.getCorreu());
+            textView5.append(vendes);
+            textView6.append(compres);
+            textView7.append(valoracions);
+            textView8.append(mitjana);
+            textView9.append(latitud);
+            textView12.append(longitud);
+            textView10.append(usuari.getUbicacio().getCiutat());
+            textView11.append(usuari.getUbicacio().getPais());
+            imageView.setImageURI(Uri.parse(usuari.getImatgeURL()));
         }
 
 
