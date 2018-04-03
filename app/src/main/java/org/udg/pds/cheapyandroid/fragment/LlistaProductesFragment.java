@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
-import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte_;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;

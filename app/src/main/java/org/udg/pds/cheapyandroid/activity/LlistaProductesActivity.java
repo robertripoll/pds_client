@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
+import org.udg.pds.cheapyandroid.fragment.LoginFragment;
 import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
 
 public class LlistaProductesActivity extends AppCompatActivity {
@@ -53,6 +54,8 @@ public class LlistaProductesActivity extends AppCompatActivity {
                             fragment = new LlistaProductesFragment();
                         else if (id == R.id.nav_item_perfil)
                             fragment = new PerfilFragment();
+                        else if (id == R.id.nav_item_login)
+                            fragment = new LoginFragment();
 
                         if (fragment != null) {
                             FragmentTransaction fragmentManager = getSupportFragmentManager()

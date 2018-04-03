@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import okhttp3.OkHttpClient;
+import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
@@ -41,84 +42,8 @@ public class Login extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-
-        Button b = (Button)findViewById(R.id.login_button);
-
-        // Link per donar-se d'alta
-        TextView link = (TextView) findViewById(R.id.link_signup);
-
-        // This is teh listener that will be used when the user presses the "Login" button
-        b.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                EditText u = (EditText) Login.this.findViewById(R.id.login_username);
-                EditText p = (EditText) Login.this.findViewById(R.id.login_password);
-                Login.this.checkCredentials(u.getText().toString(), p.getText().toString());
-            }
-        });
-
-        link.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Login.this.startActivity(new Intent(Login.this, AddUser.class));
-            }
-        });
-
-    }
-    // This method is called when the "Login" button is pressed in the Login fragment
-    public void checkCredentials(String username, String password) {
-        UserLogin ul = new UserLogin();
-        ul.correu = username;
-        ul.contrasenya = password;
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        Retrofit.Builder builder =
-                new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(
-                                GsonConverterFactory.create()
-                        );
-
-        Retrofit retrofit =
-                builder
-                        .client(
-                                httpClient.build()
-                        )
-                        .build();
-
-        mCheapyService =  retrofit.create(CheapyApi.class);
-
-        Call<User> call = mCheapyService.login(ul);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-
-                switch (response.code()) {
-                    case 200:
-                        Login.this.startActivity(new Intent(Login.this, UsuariValid.class));
-                        break;
-                    case 401:
-
-                        break;
-                    default:
-                        Toast toast = Toast.makeText(Login.this, "Error logging in " , Toast.LENGTH_SHORT);
-                        toast.show();
-                        break;
-                }
 
 
-            }
-
-            // Invoked when a network exception occurred talking to the server or when an unexpected exception
-            // occurred creating the request or processing the response.
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast toast = Toast.makeText(Login.this, "Error logging in"+t.toString(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
     }
 
 }

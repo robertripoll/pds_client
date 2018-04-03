@@ -12,11 +12,17 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
+    <!-- Strings pantalla login -->
     <string name="title_app">Cheapy</string>
+    <string name="login_email">Correu electrònic</string>
+    <string name="login_password">Contrasenya</string>
+    <string name="login_button">Inicia Sessió</string>
+    <string name="login_link_registre">Encara no tens compte? Registra't!</string>
 
     <!-- Strings relacionades amb el menú de navegació -->
     <string name="navmenu_item_llista_productes">Productes</string>
     <string name="navmenu_item_perfil">Perfil</string>
+    <string name="navmenu_item_login">Login</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
