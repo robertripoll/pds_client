@@ -60,7 +60,7 @@ public class AddUser extends Activity implements Callback<User> {
                 EditText telephone = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
                 EditText birthdate = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
                 try {
-                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), telephone );
+                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), Double.parseDouble(telephone.toString()));
                     Call<User> call = mCheapyService.addUser(u);
                     call.enqueue(AddUser.this);
                 } catch (Exception ex) {
