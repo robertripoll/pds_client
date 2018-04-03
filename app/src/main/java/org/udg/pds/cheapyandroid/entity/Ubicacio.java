@@ -36,6 +36,11 @@ public class Ubicacio {
         this.coordenades = coordenades;
     }
 
+    public Ubicacio withCoordenades(Coordenades coordenades) {
+        this.coordenades = coordenades;
+        return this;
+    }
+
     @JsonProperty("ciutat")
     public String getCiutat() {
         return ciutat;
@@ -44,6 +49,11 @@ public class Ubicacio {
     @JsonProperty("ciutat")
     public void setCiutat(String ciutat) {
         this.ciutat = ciutat;
+    }
+
+    public Ubicacio withCiutat(String ciutat) {
+        this.ciutat = ciutat;
+        return this;
     }
 
     @JsonProperty("pais")
@@ -56,6 +66,11 @@ public class Ubicacio {
         this.pais = pais;
     }
 
+    public Ubicacio withPais(String pais) {
+        this.pais = pais;
+        return this;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -64,6 +79,11 @@ public class Ubicacio {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public Ubicacio withAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+        return this;
     }
 
 }
