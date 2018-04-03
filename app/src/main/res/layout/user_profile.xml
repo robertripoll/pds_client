@@ -29,16 +29,14 @@
                         android:layout_marginTop="40dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Diego"
                         android:textSize="25dp"
-                        android:id="@+id/nomUsuari"/>
+                        android:id="@+id/nom"/>
                     <TextView
                             android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Martínez"
                             android:textSize="25dp"
-                            android:id="@+id/cognomUsuari"/>
+                            android:id="@+id/cognom"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -68,7 +66,7 @@
                                 android:gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="238418" android:id="@+id/num_CompresRealitzades"/>
+                                android:id="@+id/compres"/>
                     </LinearLayout>
                     <LinearLayout
                             android:gravity="center"
@@ -85,7 +83,7 @@
                                 android:gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="238418" android:id="@+id/num_VendesRealitzades"/>
+                                android:id="@+id/vendes"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -103,7 +101,7 @@
                                 android:gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="238418" android:id="@+id/num_ValoracionsRebudes"/>
+                                android:id="@+id/valoracions"/>
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
