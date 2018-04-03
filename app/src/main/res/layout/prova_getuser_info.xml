@@ -27,6 +27,7 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:id="@+id/vendes"/>
     <TextView
             android:layout_width="fill_parent"
@@ -43,6 +44,34 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:id="@+id/mitjanaValoracions"/>
+
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ciutatUbicacio"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/paisUbicacio"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/latitudCoordenades"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/longitudCoordenades"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foto"/>
+
 
 
 </LinearLayout>
