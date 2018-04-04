@@ -12,6 +12,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
+
+    <string name="title_app">Cheapy</string>
+
     <!-- Strings relacionades amb el menú de navegació -->
     <string name="navmenu_item_llista_productes">Productes</string>
     <string name="navmenu_item_perfil">Perfil</string>

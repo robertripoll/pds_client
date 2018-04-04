@@ -18,4 +18,8 @@ public interface CheapyApi {
 
     @GET("usuaris/{usuari_id}")
     Call<User> getSpecificUser();
+
+    @POST("/usuaris")
+    Call<User> addUser(@Body User task);
+
 }
