@@ -23,7 +23,7 @@ public class Perfil extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_profile);
+        setContentView(R.layout.fragment_perfil);
 
     }
 }
