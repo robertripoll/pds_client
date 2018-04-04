@@ -37,5 +37,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_home"/>
+    <string name="navegation_profile">Profile</string>
+    <string name="navegation_listContacts">Contacts</string>
+    <string name="navegation_chats">Chats</string>
+    <string name="navegation_gps">Location</string>
 
 </resources>

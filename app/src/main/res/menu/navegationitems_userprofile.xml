@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:title="@string/navegation_profile"
+            android:icon="@drawable/ic_perm_identity_black_24dp"
+            android:checked="true"
+            android:enabled="true"/>
+    <item
+            android:title="@string/navegation_chats"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:checked="true"
+            android:enabled="true"/>
+
+    <item
+            android:title="@string/navegation_gps"
+            android:icon="@drawable/ic_person_pin_circle_black_24dp"
+            android:checked="true"
+            android:enabled="true"/>
+</menu>
