@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -31,10 +32,16 @@ public class User {
     private String nom;
     @JsonProperty("cognoms")
     private String cognoms;
+    @JsonProperty("telefon")
+    private Integer telefon;
     @JsonProperty("dataNaixement")
     private String dataNaixement;
     @JsonProperty("correu")
     private String correu;
+    @JsonProperty("contrasenya")
+    private String contrasenya;
+    @JsonProperty("sexe")
+    private String sexe;
     @JsonProperty("nombreVendes")
     private Integer nombreVendes;
     @JsonProperty("nombreCompres")
@@ -49,6 +56,25 @@ public class User {
     private String imatgeURL;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public User(String correu, String contrasenya, String sexe, String nom, String cognoms, int telefon, String dataNaixement) {
+
+        this.correu = correu;
+        this.contrasenya = contrasenya;
+        this.sexe = sexe;
+        this.nom = nom;
+        this.cognoms = cognoms;
+        this.telefon = telefon;
+        this.dataNaixement = dataNaixement;
+
+        this.id = 0;
+        this.nombreVendes = 0;
+        this.nombreCompres = 0;
+        this.nombreValoracions = 0;
+        this.mitjanaValoracions = 0.0;
+        this.imatgeURL = "";
+        this.ubicacio = new Ubicacio();
+    }
 
     @JsonProperty("id")
     public Integer getId() {
@@ -230,4 +256,48 @@ public class User {
         return this;
     }
 
+    @JsonProperty("telefon")
+    public Integer getTelefon() {
+        return telefon;
+    }
+
+    @JsonProperty("telefon")
+    public void setTelefon(Integer telefon) {
+        this.telefon = telefon;
+    }
+
+    public User withTelefon(Integer telefon) {
+        this.telefon = telefon;
+        return this;
+    }
+
+    @JsonProperty("contrasenya")
+    public String getContrasenya() {
+        return contrasenya;
+    }
+
+    @JsonProperty("contrasenya")
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
+    }
+
+    public User withContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
+        return this;
+    }
+
+    @JsonProperty("sexe")
+    public String getSexe() {
+        return sexe;
+    }
+
+    @JsonProperty("sexe")
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    public User withSexe(String sexe) {
+        this.sexe = sexe;
+        return this;
+    }
 }
