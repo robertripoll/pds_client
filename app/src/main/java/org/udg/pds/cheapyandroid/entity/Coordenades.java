@@ -23,6 +23,11 @@ public class Coordenades {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Coordenades() {
+        this.latitud = 0.0;
+        this.longitud = 0.0;
+    }
+
     @JsonProperty("latitud")
     public Double getLatitud() {
         return latitud;
