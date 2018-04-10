@@ -13,6 +13,7 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
+import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +43,7 @@ public class AddUser extends Activity implements Callback<User> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
+
         setContentView(R.layout.activity_sign_up);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
@@ -52,15 +53,15 @@ public class AddUser extends Activity implements Callback<User> {
         // When the "Save" button is pressed, we make the call to the responder
         s.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText email = (EditText) AddUser.this.findViewById(R.id.signup_email);
-                EditText pass = (EditText) AddUser.this.findViewById(R.id.signup_password);
-                EditText sex = (EditText) AddUser.this.findViewById(R.id.signup_sex);
-                EditText name = (EditText) AddUser.this.findViewById(R.id.signup_name);
-                EditText surname = (EditText) AddUser.this.findViewById(R.id.signup_surname);
-                EditText telephone = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
-                EditText birthdate = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
+                EditText correu = (EditText) AddUser.this.findViewById(R.id.signup_email);
+                EditText contrasenya = (EditText) AddUser.this.findViewById(R.id.signup_password);
+                EditText sexe = (EditText) AddUser.this.findViewById(R.id.signup_sex);
+                EditText nom = (EditText) AddUser.this.findViewById(R.id.signup_name);
+                EditText cognoms = (EditText) AddUser.this.findViewById(R.id.signup_surname);
+                EditText telefon = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
+                EditText dataNaixament = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
                 try {
-                    User u = new User(name.toString(), surname.toString(), birthdate.toString(), email.toString(), pass.toString(), sex.toString(), Double.parseDouble(telephone.toString()));
+                    User u = new User(correu.getText().toString(), contrasenya.getText().toString(), sexe.getText().toString(), nom.getText().toString(), cognoms.getText().toString(), Integer.parseInt(telefon.getText().toString()), dataNaixament.getText().toString());
                     Call<User> call = mCheapyService.addUser(u);
                     call.enqueue(AddUser.this);
                 } catch (Exception ex) {
@@ -70,6 +71,6 @@ public class AddUser extends Activity implements Callback<User> {
                 }
             }
         });
- */
+
     }
 }

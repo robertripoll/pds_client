@@ -26,6 +26,12 @@ public class Ubicacio {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Ubicacio() {
+        this.coordenades = new Coordenades();
+        this.ciutat = "";
+        this.pais = "";
+    }
+
     @JsonProperty("coordenades")
     public Coordenades getCoordenades() {
         return coordenades;
