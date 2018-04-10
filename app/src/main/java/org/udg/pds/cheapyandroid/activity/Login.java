@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,6 +42,10 @@ public class Login extends Activity {
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
         Button b = (Button)findViewById(R.id.login_button);
+
+        // Link per donar-se d'alta
+        TextView link = (TextView) findViewById(R.id.link_signup);
+
         // This is teh listener that will be used when the user presses the "Login" button
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -50,19 +55,24 @@ public class Login extends Activity {
             }
         });
 
+        link.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Login.this.startActivity(new Intent(Login.this, AddUser.class));
+            }
+         });
+
     }
     // This method is called when the "Login" button is pressed in the Login fragment
     public void checkCredentials(String username, String password) {
-        UserLogin ul = new UserLogin();
-        ul.username = username;
-        ul.password = password;
+        UserLogin ul = new UserLogin(username, password);
+
         Call<User> call = mCheapyService.login(ul);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-                    Login.this.startActivity(new Intent(Login.this, NavigationActivity.class));
+                    Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
                 } else {
                     Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
                     toast.show();
