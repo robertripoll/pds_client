@@ -19,6 +19,12 @@
         <activity
                 android:name=".activity.LlistaProductesActivity"
                 android:label="Cheapy">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity
@@ -29,11 +35,7 @@
         <activity
                 android:name=".activity.Login"
                 android:label="Cheapy Android">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
     </application>
