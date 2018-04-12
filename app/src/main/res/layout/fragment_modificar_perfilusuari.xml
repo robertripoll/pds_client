@@ -32,12 +32,13 @@
             android:orientation="horizontal"
             android:layout_margin="25dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:id="@+id/botoFotoActualitzada"
                 android:layout_weight="2"
-                android:hint="Change Photo"/>
+                android:hint="Change Photo"
+                android:enabled="false"/>
             <Button android:layout_width="wrap_content" android:layout_height="25dp"
                 android:textColor="@color/colorWhite_UserProfile"
                 android:background="@color/colorPrimary"
+                android:id="@+id/botoFotoActualitzada"
                 android:text="Photo"/>
         </LinearLayout>
 
