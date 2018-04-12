@@ -1,161 +1,158 @@
-<FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-             xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/fragment_perfil"
-             tools:context="org.udg.pds.cheapyandroid.fragment.PerfilUsuari_Fragment">
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:background="@drawable/userprofile_background"
-            android:weightSum="1" android:orientation="vertical"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/userprofile_background"
+        android:weightSum="1" android:orientation="vertical"
+        android:id="@+id/fragment_perfil"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <RelativeLayout
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="340dp" android:visibility="visible">
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="340dp" android:visibility="visible">
+                android:orientation="horizontal"
+                android:layout_height="200dp" android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="200dp">
+                <ImageView
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:src="@drawable/usuario_de_prova" android:id="@+id/imageView"/>
+                <Button
+                        android:layout_width="70dp"
+                        android:layout_height="22dp"
+                        android:enabled="true"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/botoEditarPerfil"
+                        android:background="@android:color/transparent"
+                        android:text="Editar Perfil"
+                        android:textSize="9dp"
+                        android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="200dp">
+                <TextView
+                        android:layout_marginTop="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:id="@+id/nom"/>
+                <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:id="@+id/cognom"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_marginRight="45dp"
+                android:layout_marginLeft="45dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="200dp">
             <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_height="200dp" android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true">
+                    android:weightSum="3">
                 <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_height="200dp">
-                    <ImageView
-                            android:layout_marginTop="30dp"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
-                            android:src="@drawable/usuario_de_prova" android:id="@+id/imageView"/>
-                    <Button
-                            android:layout_width="70dp"
-                            android:layout_height="22dp"
-                            android:enabled="true"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="30dp"
-                            android:id="@+id/botoEditarPerfil"
-                            android:background="@android:color/transparent"
-                            android:text="Editar Perfil"
-                            android:textSize="9dp"
-                            android:textColor="@android:color/darker_gray"/>
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                    <TextView
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Compres Realitzades"/>
+                    <TextView
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/compres"/>
                 </LinearLayout>
                 <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_height="200dp">
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
                     <TextView
-                            android:layout_marginTop="40dp"
+                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="25dp"
-                            android:id="@+id/nom"/>
+                            android:text="Vendes Realitzades"/>
                     <TextView
-                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/vendes"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                    <TextView
+                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="25dp"
-                            android:id="@+id/cognom"/>
-
+                            android:text="Valoracions Rebudes"/>
+                    <TextView
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/valoracions"/>
                 </LinearLayout>
             </LinearLayout>
-            <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_marginRight="45dp"
-                    android:layout_marginLeft="45dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="200dp">
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
-                    <LinearLayout
-                            android:gravity="center"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Compres Realitzades"/>
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/compres"/>
-                    </LinearLayout>
-                    <LinearLayout
-                            android:gravity="center"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Vendes Realitzades"/>
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/vendes"/>
-                    </LinearLayout>
-                    <LinearLayout
-                            android:gravity="center"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Valoracions Rebudes"/>
-                        <TextView
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/valoracions"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
-        <RelativeLayout
-                android:layout_width="match_parent" android:layout_height="match_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Productes Comprats"
-                    android:id="@+id/textView2" android:layout_alignBaseline="@+id/textView3"
-                    android:layout_alignBottom="@+id/textView3" android:layout_alignParentStart="true"
-                    android:layout_marginStart="39dp"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Productes a la Venda"
-                    android:layout_marginTop="54dp" android:id="@+id/textView3"
-                    android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="52dp"/>
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
-                    android:id="@+id/imageButton2"
-                    android:layout_alignParentTop="true" android:layout_alignParentRight="true"
-                    android:layout_marginRight="100dp"
-                    android:layout_marginTop="78dp"/>
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
-                    android:id="@+id/imageButton3"
-                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="78dp"/>
-        </RelativeLayout>
-    </LinearLayout>
-</FrameLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Productes Comprats"
+                android:id="@+id/textView2" android:layout_alignBaseline="@+id/textView3"
+                android:layout_alignBottom="@+id/textView3" android:layout_alignParentStart="true"
+                android:layout_marginStart="39dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Productes a la Venda"
+                android:layout_marginTop="54dp" android:id="@+id/textView3"
+                android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+                android:layout_marginEnd="52dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
+                android:id="@+id/imageButton2"
+                android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:layout_marginTop="78dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_shopping_cart_black_36dp"
+                android:id="@+id/imageButton3"
+                android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="78dp"/>
+    </RelativeLayout>
+</LinearLayout>
+
 
 
