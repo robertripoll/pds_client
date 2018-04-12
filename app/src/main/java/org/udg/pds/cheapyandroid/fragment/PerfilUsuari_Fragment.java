@@ -53,10 +53,17 @@ public class PerfilUsuari_Fragment extends Fragment {
         mostrarDadesPerfil();
 
         editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
-        //editarPerfil.setOnClickListener(new View.OnClickListener
+        editarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ModifyUserProfile_Fragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
 
+            }
+            });
         return view;
     }
+
 
     private void mostrarDadesPerfil() {
         Retrofit retrofit = new Retrofit.Builder()
