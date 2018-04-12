@@ -3,17 +3,20 @@
 
     <item
             android:title="@string/navegation_profile"
+            android:id="@+id/menu_Perfil"
             android:icon="@drawable/ic_perm_identity_black_24dp"
             android:checked="true"
             android:enabled="true"/>
     <item
             android:title="@string/navegation_chats"
+            android:id="@+id/menu_Chats"
             android:icon="@drawable/ic_chat_black_24dp"
             android:checked="true"
             android:enabled="true"/>
 
     <item
             android:title="@string/navegation_gps"
+            android:id="@+id/menu_Location"
             android:icon="@drawable/ic_person_pin_circle_black_24dp"
             android:checked="true"
             android:enabled="true"/>
