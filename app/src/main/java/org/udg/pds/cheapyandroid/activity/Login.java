@@ -2,7 +2,9 @@ package org.udg.pds.cheapyandroid.activity;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +18,14 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
+import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,7 +70,7 @@ public class Login extends Activity {
 
     }
     // This method is called when the "Login" button is pressed in the Login fragment
-    public void checkCredentials(String username, String password) {
+    public void checkCredentials(final String username, final String password) {
         UserLogin ul = new UserLogin(username, password);
 
         Call<User> call = mCheapyService.login(ul);
@@ -72,7 +79,27 @@ public class Login extends Activity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-                    Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+                    User usuari = response.body();
+
+                    String user_name = String.valueOf(usuari.getNom());
+                    String user_pass = String.valueOf(usuari.getContrasenya());
+                    if(user_name.equals(username) && user_pass.equals(password)) {
+
+                        //Afegeix noves preferencies per usuari i la seva contrasenya correctes
+                        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("usuari_nom", username);
+                        editor.putString("contrasenya_nom", password);
+                        editor.commit();
+
+                        Toast toast = Toast.makeText(Login.this, "Usuari OK", Toast.LENGTH_SHORT);
+                        toast.show();
+                        Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+                    }
+                    else{
+                        Toast toast = Toast.makeText(Login.this, "Usuari o contrasenya no son correctes", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 } else {
                     Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
                     toast.show();
