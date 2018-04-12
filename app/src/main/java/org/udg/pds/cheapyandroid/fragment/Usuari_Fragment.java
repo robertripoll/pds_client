@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 
-import java.util.Objects;
 
 public class Usuari_Fragment extends Fragment {
 
@@ -66,7 +64,7 @@ public class Usuari_Fragment extends Fragment {
             //    fragment = new FragmentThree();
             //}
 
-       getFragmentManager().beginTransaction().add(R.id.fragment_usuari, fragment).commit();
+       getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
     }
 
     private void canviarColorMenu(BottomNavigationView bottomNavigation, int i) {
