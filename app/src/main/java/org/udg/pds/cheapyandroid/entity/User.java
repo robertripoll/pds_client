@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "id",
         "nom",
         "cognoms",
+        "contrasenya",
         "dataNaixement",
         "correu",
         "nombreVendes",
