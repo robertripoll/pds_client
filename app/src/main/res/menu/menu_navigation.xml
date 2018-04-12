@@ -10,6 +10,12 @@
                 android:id="@+id/nav_item_perfil"
                 android:icon="@mipmap/ic_account_circle_white_24dp"
                 android:tint="@color/colorPrimary"
+                android:visible="false"
                 android:title="@string/navmenu_item_perfil" />
+        <item
+                android:id="@+id/log_out"
+                android:visible="false"
+                android:icon="@drawable/logout_logo"
+                android:title="Log Out"/>
     </group>
 </menu>

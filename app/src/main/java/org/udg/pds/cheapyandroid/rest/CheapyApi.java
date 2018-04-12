@@ -22,4 +22,9 @@ public interface CheapyApi {
     @POST("/usuaris")
     Call<User> addUser(@Body User task);
 
+    @GET("/usuaris/jo")
+    Call<UserLogin> isConnected();
+
+    @POST("/logout")
+    Call<User> diconnect();
 }

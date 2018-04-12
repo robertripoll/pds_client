@@ -1,6 +1,8 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,25 +14,48 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.entity.User;
+import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
 import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
+import org.udg.pds.cheapyandroid.rest.CheapyApi;
+import org.udg.pds.cheapyandroid.util.Global;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LlistaProductesActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
+    CheapyApi mCheapyService;
+    String user_, pass_;
+
+    public static final String PREFS_NAME = "MisPreferencias";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+
+        //Llegeix l'usuari actual que hi ha a l'app
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)
+        pass_ = prefs.getString("contrasenya_nom", "contrasenya_prova"); //getString(identificador, default)
 
         // Configurem el Toolbar.
         configurarToolbar();
 
         // Configurem el Navigation Menú.
         configurarNavigationView();
+
     }
 
     private void configurarNavigationView() {
@@ -38,6 +63,14 @@ public class LlistaProductesActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
+        comprovarLoginLogout(navigationView);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        headerLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                LlistaProductesActivity.this.startActivity(new Intent(LlistaProductesActivity.this, Login.class));
+            }
+        });
 
         // Set behavior of Navigation drawer
         navigationView.setNavigationItemSelectedListener(
@@ -49,12 +82,20 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
 
                         // Handle Navigation
-                        int id = menuItem.getItemId();
                         Fragment fragment = null;
-                        if (id == R.id.nav_item_llista_productes)
-                            fragment = new LlistaProductesFragment();
-                        else if (id == R.id.nav_item_perfil)
-                            fragment = new PerfilFragment();
+                        switch(menuItem.getItemId()){
+                            case R.id.nav_item_llista_productes:
+                                fragment = new LlistaProductesFragment();
+                                break;
+                            case R.id.nav_item_perfil:
+                                fragment = new PerfilFragment();
+                                break;
+                            case R.id.log_out:
+                                Toast.makeText(LlistaProductesActivity.this, "Has fet click a Log Out", Toast.LENGTH_SHORT).show();
+                                posarUsuariLogout();
+                                break;
+                        }
+
 
                         if (fragment != null) {
                             FragmentTransaction fragmentManager = getSupportFragmentManager()
@@ -70,11 +111,41 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
 
-        View headerLayout = navigationView.getHeaderView(0);
-        headerLayout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                LlistaProductesActivity.this.startActivity(new Intent(LlistaProductesActivity.this, Login.class));
+    private void comprovarLoginLogout(final NavigationView navigationView) {
+
+        Call<UserLogin> call = mCheapyService.isConnected();
+        call.enqueue(new Callback<UserLogin>() {
+            @Override
+            public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+
+                if (response.isSuccessful()) {
+
+                    UserLogin usuari = response.body();
+                    String user_name = String.valueOf(usuari.getUsuari());
+                    String user_pass = String.valueOf(usuari.getContrasenya());
+                    if(user_name.equals(user_) && user_pass.equals(pass_)) {
+                        navigationView.getMenu().findItem(R.id.nav_item_perfil).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.log_out).setVisible(true);
+                    }
+                    else {
+                        posarUsuariLogout();
+                        Toast toast = Toast.makeText(LlistaProductesActivity.this, "Usuari No registrat", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+
+                } else {
+                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Al intentar comprovar login d'usuari", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<UserLogin> call, Throwable t) {
+                Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
@@ -86,6 +157,49 @@ public class LlistaProductesActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.mipmap.ic_menu_white_24dp);
         // Configurem el Toolbar com a ActionBar de la nostra vista.
         setSupportActionBar(toolbar);
+    }
+
+    private void posarUsuariLogout(){
+
+        // FA LA CRIDA LOGOUT I RETORNA OK
+        Call<User> call = mCheapyService.diconnect();
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if (response.isSuccessful()) {
+                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "LOGOUT OK", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout ", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+
+        //S'eliminen les preferencies que s'han afegit al fer Login
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear().commit();
+
+        //S'amaga les opcions de perfil i log out, ja que ara l'estat actual es No registrat
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_perfil).setVisible(false);
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.log_out).setVisible(false);
+
+        //Navigation Header Buit
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.nameTxt);
+        TextView email = (TextView)header.findViewById(R.id.emailTxt);
+        name.setText("Nom Cognom");
+        email.setText("nom.cognom@gmail.com");
     }
 
     @Override
