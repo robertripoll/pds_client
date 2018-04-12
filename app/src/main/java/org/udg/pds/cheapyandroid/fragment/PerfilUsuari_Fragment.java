@@ -1,17 +1,18 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
@@ -24,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PerfilFragment extends Fragment {
+public class PerfilUsuari_Fragment extends Fragment {
 
     private CheapyApi mCheapyService;
     private TextView textView;
@@ -33,9 +34,11 @@ public class PerfilFragment extends Fragment {
     private TextView textView4;
     private TextView textView5;
 
+    private Button editarPerfil;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
@@ -48,6 +51,9 @@ public class PerfilFragment extends Fragment {
         textView5 = (TextView) view.findViewById(R.id.valoracions);
 
         mostrarDadesPerfil();
+
+        editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
+        //editarPerfil.setOnClickListener(new View.OnClickListener
 
         return view;
     }
@@ -84,5 +90,4 @@ public class PerfilFragment extends Fragment {
             }
         });
     }
-
 }
