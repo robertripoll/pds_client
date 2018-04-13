@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -22,8 +23,13 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private static final int CODI_SELECCIO = 2;
     private static final int CODI_FOTO = 1;
     private CheapyApi mCheapyService;
+
     private Button btnFoto;
+    private Button btnActualitzar;
     private ImageView foto;
+    private EditText nom;
+    private EditText cognom;
+    private EditText email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,9 +37,32 @@ public class ModifyUserProfile_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_modificar_perfilusuari, container, false);
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
-        btnFoto = (Button) view.findViewById(R.id.botoFotoActualitzada);
-        foto = (ImageView) view.findViewById(R.id.fotoActualitzada);
 
+        inicialitzarVariables(view);
+
+        System.out.println("NOOOOOM ACTUALIIIIITZAAAAT----->"+nom.getText());
+
+        eventOnButtons();
+
+        editTextFocus(nom);
+        editTextFocus(cognom);
+        editTextFocus(email);
+
+        return view;
+    }
+
+    private void editTextFocus(final EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(editText.getText().length()<3){
+                    editText.setError("It's too short");
+                }
+            }
+        });
+    }
+
+    private void eventOnButtons() {
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +70,33 @@ public class ModifyUserProfile_Fragment extends Fragment {
             }
         });
 
-        return view;
+        btnActualitzar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(comprovarSiInfoPlena()){
+                    //mostrar missatge de confirmacio
+                    Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(),"ERROR: Missing Required Fields",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    private Boolean comprovarSiInfoPlena() {
+        return nom.getText().length()>=3 && cognom.getText().length()>=3
+                && email.getText().length()>=3;
+    }
+
+    private void inicialitzarVariables(View view) {
+        btnFoto = (Button) view.findViewById(R.id.botoFotoActualitzada);
+        btnActualitzar = (Button) view.findViewById(R.id.botoActualitzarInformacio);
+        foto = (ImageView) view.findViewById(R.id.fotoActualitzada);
+        nom = (EditText) view.findViewById(R.id.nomActualitzat);
+        cognom = (EditText) view.findViewById(R.id.cognomActualitzat);
+        email = (EditText) view.findViewById(R.id.emailActualitzat);
     }
 
     private void mostrarOpcions() {
