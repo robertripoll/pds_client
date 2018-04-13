@@ -63,19 +63,11 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void eventOnButtons() {
-        btnFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mostrarOpcions();
-            }
-        });
-
         btnActualitzar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(comprovarSiInfoPlena()){
-                    //mostrar missatge de confirmacio
-                    Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
+                    mostrarMenuConfirmacio();
                 }
                 else{
                     Toast.makeText(getContext(),"ERROR: Missing Required Fields",Toast.LENGTH_SHORT).show();
@@ -83,6 +75,35 @@ public class ModifyUserProfile_Fragment extends Fragment {
                 }
             }
         });
+
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarOpcions();
+            }
+        });
+    }
+
+    private void mostrarMenuConfirmacio() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        alertDialog.setTitle("Are you sure that you have filled in the fields correctly?");
+        alertDialog.setPositiveButton("I'm sure!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+               //Enviar les noves dades i actualitzarles al servidor! (@POST)
+                Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
+            }
+        });
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                nom.setText("");
+                cognom.setText("");
+                email.setText("");
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private Boolean comprovarSiInfoPlena() {
