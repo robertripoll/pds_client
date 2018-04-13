@@ -10,13 +10,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
+import org.udg.pds.cheapyandroid.util.Global;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ModifyUserProfile_Fragment extends Fragment {
 
@@ -29,7 +32,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private ImageView foto;
     private EditText nom;
     private EditText cognom;
-    private EditText email;
+    private TextView email;
+    private EditText telefon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,15 +44,24 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
         inicialitzarVariables(view);
 
-        System.out.println("NOOOOOM ACTUALIIIIITZAAAAT----->"+nom.getText());
-
         eventOnButtons();
 
         editTextFocus(nom);
         editTextFocus(cognom);
-        editTextFocus(email);
+        editNumberFocus();
 
         return view;
+    }
+
+    private void editNumberFocus() {
+        telefon.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(telefon.getText().length()<9){
+                    telefon.setError("The number must contain 9 digits");
+                }
+            }
+        });
     }
 
     private void editTextFocus(final EditText editText) {
@@ -71,7 +84,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
                 }
                 else{
                     Toast.makeText(getContext(),"ERROR: Missing Required Fields",Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -90,8 +102,9 @@ public class ModifyUserProfile_Fragment extends Fragment {
         alertDialog.setPositiveButton("I'm sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-               //Enviar les noves dades i actualitzarles al servidor! (@POST)
-                Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
+               // Enviar les noves dades i actualitzarles al servidor! (@POST)
+                updateInformation();
             }
         });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -99,16 +112,28 @@ public class ModifyUserProfile_Fragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 nom.setText("");
                 cognom.setText("");
-                email.setText("");
+                telefon.setText("");
                 dialogInterface.dismiss();
             }
         });
         alertDialog.show();
     }
 
+    private void updateInformation() {
+        /*
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Global.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mCheapyService = retrofit.create(CheapyApi.class);
+        Call.....
+        */
+    }
+
     private Boolean comprovarSiInfoPlena() {
         return nom.getText().length()>=3 && cognom.getText().length()>=3
-                && email.getText().length()>=3;
+                && telefon.getText().length()>=9;
     }
 
     private void inicialitzarVariables(View view) {
@@ -117,7 +142,12 @@ public class ModifyUserProfile_Fragment extends Fragment {
         foto = (ImageView) view.findViewById(R.id.fotoActualitzada);
         nom = (EditText) view.findViewById(R.id.nomActualitzat);
         cognom = (EditText) view.findViewById(R.id.cognomActualitzat);
-        email = (EditText) view.findViewById(R.id.emailActualitzat);
+        email = (TextView) view.findViewById(R.id.emailActualitzat);
+        telefon = (EditText) view.findViewById(R.id.telefonActualitzat);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            email.setText(bundle.getString("Email"));
+        }
     }
 
     private void mostrarOpcions() {
@@ -150,7 +180,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("-----resultCode-----" + resultCode);
         if (requestCode == CODI_SELECCIO){
             Uri elMeuPath = data.getData();
             foto.setImageURI(elMeuPath);
