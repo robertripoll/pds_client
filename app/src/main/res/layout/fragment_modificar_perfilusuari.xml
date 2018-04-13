@@ -21,20 +21,26 @@
             android:background="@color/colorPrimary"
             android:layout_marginBottom="10dp"/>
 
-        <ImageView android:layout_width="200dp" android:layout_height="200dp"
-                   android:id="@+id/fotoActualitzada"
-                   android:layout_gravity="center"
-                   android:src="@drawable/usuario_de_prova"/>
+        <ImageView
+            android:id="@+id/fotoActualitzada"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+           android:src="@drawable/usuario_de_prova"
+           android:layout_gravity="center"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="25dp">
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="Change Photo"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:textColorHint="@color/colorPrimary"/>
             <Button android:layout_width="wrap_content" android:layout_height="25dp"
                 android:textColor="@color/colorWhite_UserProfile"
                 android:background="@color/colorPrimary"
@@ -46,25 +52,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="25dp">
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:id="@+id/nomActualitzat"
                   android:layout_weight="2"
-                  android:hint="Name"/>
+                  android:hint="Name"
+                  android:textColorHint="@color/colorPrimary"/>
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:id="@+id/cognomActualitzat"
                       android:layout_weight="1"
-                      android:hint="Surname"/>
+                      android:hint="Surname"
+                      android:textColorHint="@color/colorPrimary"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="25dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:id="@+id/emailActualitzat"
                       android:layout_weight="2"
-                      android:hint="Email"/>
+                      android:hint="Email"
+                      android:textColorHint="@color/colorPrimary"/>
+            <Button android:layout_width="match_parent" android:layout_height="25dp"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/colorWhite_UserProfile"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/botoActualitzarInformacio"
+                    android:text="Confirm Changes"/>
         </LinearLayout>
 
     </LinearLayout>
