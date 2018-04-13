@@ -19,8 +19,8 @@ import org.udg.pds.cheapyandroid.rest.CheapyApi;
 
 public class ModifyUserProfile_Fragment extends Fragment {
 
-    private static final int CODI_SELECCIO = 10;
-    private static final int CODI_FOTO = 20;
+    private static final int CODI_SELECCIO = 2;
+    private static final int CODI_FOTO = 1;
     private CheapyApi mCheapyService;
     private Button btnFoto;
     private ImageView foto;
@@ -31,7 +31,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_modificar_perfilusuari, container, false);
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
-        inicialitzarComponents(view);
+        btnFoto = (Button) view.findViewById(R.id.botoFotoActualitzada);
+        foto = (ImageView) view.findViewById(R.id.fotoActualitzada);
 
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +58,9 @@ public class ModifyUserProfile_Fragment extends Fragment {
                     Toast.makeText(getContext(), "TAKE A PHOTO",Toast.LENGTH_SHORT).show();
                 }
                 else if(diversesOpcions[i].equals(opcio2)){
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/");
-                    startActivityForResult(intent,CODI_SELECCIO);
+                    startActivityForResult(intent.createChooser(intent,"Choose"),CODI_SELECCIO);
                 }
                 else{
                     dialogInterface.dismiss();
@@ -69,18 +70,15 @@ public class ModifyUserProfile_Fragment extends Fragment {
         builder.show();
     }
 
-    /*public void onActivityResult(int codiDemanat, int codiResultant, Intent intent){
-        super.onActivityResult(codiDemanat,codiResultant,intent);
-        if(codiResultant==CODI_SELECCIO){
-            Uri elMeuPath = intent.getData();
+    //Com que hem utilitzat el startActivityForResults, hem de sobrescriure el següent mètode
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("-----resultCode-----" + resultCode);
+        if (requestCode == CODI_SELECCIO){
+            Uri elMeuPath = data.getData();
             foto.setImageURI(elMeuPath);
         }
-    }
-    */
-
-    private void inicialitzarComponents(View view) {
-        btnFoto = (Button) view.findViewById(R.id.botoFotoActualitzada);
-        foto = (ImageView) view.findViewById(R.id.fotoActualitzada);
     }
 
 }
