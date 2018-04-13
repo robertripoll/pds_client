@@ -28,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PerfilUsuari_Fragment extends Fragment {
 
     private CheapyApi mCheapyService;
+
     private TextView textView;
     private TextView textView2;
     private TextView textView3;
@@ -35,6 +36,7 @@ public class PerfilUsuari_Fragment extends Fragment {
     private TextView textView5;
 
     private Button editarPerfil;
+    private String email;
 
 
     @Override
@@ -56,9 +58,11 @@ public class PerfilUsuari_Fragment extends Fragment {
         editarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new ModifyUserProfile_Fragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
-
+                ModifyUserProfile_Fragment fragmentModif = new ModifyUserProfile_Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("Email",email);
+                fragmentModif.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragmentModif).commit();
             }
             });
         return view;
@@ -88,6 +92,8 @@ public class PerfilUsuari_Fragment extends Fragment {
                 textView3.append(vendes);
                 textView4.append(compres);
                 textView5.append(valoracions);
+
+                email = usuari.getCorreu();
             }
 
             @Override
