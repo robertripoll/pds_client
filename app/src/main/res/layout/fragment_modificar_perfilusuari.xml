@@ -17,7 +17,7 @@
             android:gravity="center"
             android:text="Edit Profile"
             android:textSize="20dp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:background="@color/colorPrimary"
             android:layout_marginBottom="10dp"/>
 
@@ -28,7 +28,24 @@
            android:src="@drawable/usuario_de_prova"
            android:layout_gravity="center"
         />
-
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp">
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/nomActualitzat"
+                      android:layout_weight="2"
+                      android:hint="Name"
+                      android:textColorHint="@color/colorPrimary"/>
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/cognomActualitzat"
+                      android:layout_weight="1"
+                      android:hint="Surname"
+                      android:textColorHint="@color/colorPrimary"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,8 +55,9 @@
             android:layout_marginTop="10dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="Change Photo"
-                android:enabled="false"
+                android:hint="Phone"
+                android:inputType="number"
+                android:id="@+id/telefonActualitzat"
                 android:textColorHint="@color/colorPrimary"/>
             <Button android:layout_width="wrap_content" android:layout_height="25dp"
                 android:textColor="@color/colorWhite_UserProfile"
@@ -47,37 +65,18 @@
                 android:id="@+id/botoFotoActualitzada"
                 android:text="Photo"/>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="10dp">
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:id="@+id/nomActualitzat"
-                  android:layout_weight="2"
-                  android:hint="Name"
-                  android:textColorHint="@color/colorPrimary"/>
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/cognomActualitzat"
-                      android:layout_weight="1"
-                      android:hint="Surname"
-                      android:textColorHint="@color/colorPrimary"/>
-        </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp">
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/emailActualitzat"
-                      android:layout_weight="2"
-                      android:hint="Email"
-                      android:textColorHint="@color/colorPrimary"/>
+                android:layout_margin="25dp">
+            <TextView
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="Email"
+                    android:textSize="20dp"
+                    android:id="@+id/emailActualitzat"
+                    android:textColorHint="@color/colorPrimary"/>
             <Button android:layout_width="match_parent" android:layout_height="25dp"
                     android:layout_marginTop="30dp"
                     android:textColor="@color/colorWhite_UserProfile"
