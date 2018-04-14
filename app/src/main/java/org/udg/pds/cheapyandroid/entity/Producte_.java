@@ -185,4 +185,15 @@ public class Producte_ {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+
+        String dadesProducte = "";
+        dadesProducte = dadesProducte + "id = " + id + "\n" + "nom = " + nom + "\n" + "preu = " + preu + "\n" + "descripcio = " + descripcio + "\n";
+        dadesProducte = dadesProducte + "dataPublicacio = " + dataPublicacio + "\n" + "preuNegociable = " + preuNegociable + "\n" + "intercanviAcceptat = " + intercanviAcceptat + "\n";
+        dadesProducte = dadesProducte + "reservat = " + reservat + "\n" + "numeroVisites = " + numeroVisites + "\n";
+        dadesProducte = dadesProducte + "cateogira = " + categoria.getNom() + "\n" + "venedor = " + venedor.getNom() + "\n";
+
+        return dadesProducte;
+    }
 }
