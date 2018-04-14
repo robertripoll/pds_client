@@ -4,9 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Imatge {
 
+    @JsonProperty("imatge")
+    private Imatge_ imatge;
     @JsonProperty("ruta")
     private String ruta;
 
+
+    @JsonProperty("imatge")
+    public Imatge_ getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Imatge_ imatge) {
+        this.imatge = imatge;
+    }
 
     @JsonProperty("ruta")
     public String getRuta() {
@@ -18,4 +30,8 @@ public class Imatge {
         this.ruta = ruta;
     }
 
+    @Override
+    public String toString() {
+        return " -  " + imatge.toString();
+    }
 }

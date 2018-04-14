@@ -23,12 +23,10 @@ import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
 import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
-import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class LlistaProductesActivity extends AppCompatActivity {
 
@@ -50,6 +48,9 @@ public class LlistaProductesActivity extends AppCompatActivity {
         user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)
         pass_ = prefs.getString("contrasenya_nom", "contrasenya_prova"); //getString(identificador, default)
 
+        // Carrega els productes
+        carregarProductesALaVenda(); // metode que carrega els productes "a lo bestia"
+
         // Configurem el Toolbar.
         configurarToolbar();
 
@@ -57,6 +58,15 @@ public class LlistaProductesActivity extends AppCompatActivity {
         configurarNavigationView();
 
     }
+
+
+    private void carregarProductesALaVenda() {
+        Fragment fragment = new LlistaProductesFragment();
+        FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
+        fragmentManager.replace(R.id.frame_layout, fragment);
+        fragmentManager.commit();
+    }
+
 
     private void configurarNavigationView() {
         // Create Navigation drawer and inflate layout
