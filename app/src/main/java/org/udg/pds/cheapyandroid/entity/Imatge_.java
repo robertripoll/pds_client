@@ -41,4 +41,9 @@ public class Imatge_ {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return ruta;
+    }
+
 }
