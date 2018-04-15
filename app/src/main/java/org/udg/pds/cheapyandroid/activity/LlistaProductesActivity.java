@@ -21,11 +21,12 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
-import org.udg.pds.cheapyandroid.fragment.PerfilFragment;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import org.udg.pds.cheapyandroid.fragment.Usuari_Fragment;
 
 
 public class LlistaProductesActivity extends AppCompatActivity {
@@ -98,7 +99,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                                 fragment = new LlistaProductesFragment();
                                 break;
                             case R.id.nav_item_perfil:
-                                fragment = new PerfilFragment();
+                                fragment = new Usuari_Fragment();
                                 break;
                             case R.id.log_out:
                                 Toast.makeText(LlistaProductesActivity.this, "Has fet click a Log Out", Toast.LENGTH_SHORT).show();
