@@ -35,6 +35,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private TextView email;
     private EditText telefon;
 
+    private boolean fotoActualitzada;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,8 +104,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
         alertDialog.setPositiveButton("I'm sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-               // Toast.makeText(getContext(),"Perfect! NICE AND SWEET",Toast.LENGTH_SHORT).show();
-               // Enviar les noves dades i actualitzarles al servidor! (@POST)
                 updateInformation();
             }
         });
@@ -121,14 +121,16 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
     private void updateInformation() {
         /*
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Global.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mCheapyService = retrofit.create(CheapyApi.class);
-        Call.....
+        Mirar com fer lo de la imatge mes endavant utilitzant l'atribut fotoActualitzada per tal de saber si s'ha canviat o no
         */
+        // Enviar les noves dades i actualitzarles al servidor! (@PUT)
+        PerfilUsuari_Fragment fragmentPerf = new PerfilUsuari_Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("NomActualitzat", String.valueOf(nom.getText()));
+        bundle.putString("CognomActualitzat", String.valueOf(cognom.getText()));
+        bundle.putString("TelefonActualitzat", String.valueOf(telefon.getText()));
+        fragmentPerf.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_modificarPerfil, fragmentPerf).commit();
     }
 
     private Boolean comprovarSiInfoPlena() {
@@ -144,6 +146,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         cognom = (EditText) view.findViewById(R.id.cognomActualitzat);
         email = (TextView) view.findViewById(R.id.emailActualitzat);
         telefon = (EditText) view.findViewById(R.id.telefonActualitzat);
+        fotoActualitzada = false;
         Bundle bundle = getArguments();
         if(bundle!=null){
             email.setText(bundle.getString("Email"));
@@ -183,6 +186,11 @@ public class ModifyUserProfile_Fragment extends Fragment {
         if (requestCode == CODI_SELECCIO){
             Uri elMeuPath = data.getData();
             foto.setImageURI(elMeuPath);
+            fotoActualitzada = true;
+        }
+        else if (requestCode == CODI_FOTO){
+            //Comentar-ho als demés si volen fer-ho o no aquesta part
+            fotoActualitzada = true;
         }
     }
 
