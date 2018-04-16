@@ -4,7 +4,9 @@ import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface CheapyApi {
 
@@ -13,6 +15,9 @@ public interface CheapyApi {
 
     @GET("/productes")
     Call<LlistaProductes> getProductes();
+
+    @GET("/usuaris/jo/productes")
+    Call<LlistaProductes> getProductesVendaPerfil();
 
     @GET("usuaris/{usuari_id}")
     Call<User> getSpecificUser();
