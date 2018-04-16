@@ -1,18 +1,19 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.activity.LlistaProductesVendaPerfil;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
@@ -36,6 +37,7 @@ public class PerfilUsuari_Fragment extends Fragment {
     private TextView textView5;
 
     private Button editarPerfil;
+    private Button ButtonVendesPerfil;
     // private User userInformation; Preguntar a en nacho si es pot passar tot lobjecte Responsee<User> al altre fragment
     // que actualitza el perfil i que aquell fagi el PUT o si el put l'hem de fer des d'aquí
     private User userInformation;
@@ -58,7 +60,7 @@ public class PerfilUsuari_Fragment extends Fragment {
         mirarSiInformacioActualitzada();
 
         editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
-        editarPerfil.setOnClickListener(new View.OnClickListener() {
+        editarPerfil.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 ModifyUserProfile_Fragment fragmentModif = new ModifyUserProfile_Fragment();
@@ -68,6 +70,15 @@ public class PerfilUsuari_Fragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragmentModif).commit();
             }
             });
+//ALEX STARTO
+        ButtonVendesPerfil = (Button) view.findViewById(R.id.imageButton2);
+        ButtonVendesPerfil.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PerfilUsuari_Fragment.this.startActivity(new Intent(PerfilUsuari_Fragment.this, LlistaProductesVendaPerfil.class));
+            }
+        });
+//ALEX FINITO
         return view;
     }
 

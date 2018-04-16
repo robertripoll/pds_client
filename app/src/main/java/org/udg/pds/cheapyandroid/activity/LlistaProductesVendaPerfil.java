@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
-import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesPerfilFragment;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
@@ -25,9 +23,7 @@ import retrofit2.Response;
 public class LlistaProductesVendaPerfil extends AppCompatActivity {
 
     CheapyApi mCheapyService;
-    Producte producte;
     String user_, pass_;
-    private DrawerLayout mDrawerLayout;
 
     public static final String PREFS_NAME = "MisPreferencias";
 
