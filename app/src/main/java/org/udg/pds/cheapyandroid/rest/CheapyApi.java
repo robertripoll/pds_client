@@ -25,13 +25,8 @@ public interface CheapyApi {
 
     @POST("/logout")
     Call<User> diconnect();
-    /*Opció Intent1
+
     @PUT("/usuari/{usuari_id}")
-    Call<User> updateUserInformation(@Path(("id"))
-                                    @Field("nom") String nom,
-                                     @Field("cognoms") String cognoms);*//*, @Field String telefon);*/
-    /*Opció Intent2
-    @PUT("/usuari/{usuari_id}")
-    Call<User> updateUserInformation(@Body User userInformation);*/
+    Call<User> updateUserInformation(@Body User u);
 
 }

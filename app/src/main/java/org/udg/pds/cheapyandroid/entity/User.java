@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "ubicacio",
         "imatgeURL"
 })
-public class User {
+public class User implements Serializable{
 
     @JsonProperty("id")
     private Integer id;
