@@ -58,7 +58,7 @@ public class Usuari_Fragment extends Fragment {
         if (i == 0) {
             fragment = new PerfilUsuari_Fragment();
         } else if (i == 1) {
-            fragment = new PerfilUsuari_Fragment();//canviar-ho pel fragment que toqui
+            fragment = new Chats_Fragment();//canviar-ho pel fragment que toqui
         } else {
             fragment = new PerfilUsuari_Fragment();//canviar-ho pel fragment que toqui
         }
