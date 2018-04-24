@@ -70,15 +70,27 @@ public class PerfilUsuari_Fragment extends Fragment {
             }
             });
 //ALEX START
+        //Implementa el click per veure els productes a la venda que tinc des del perfil
         ImageButton buttonVendes = (ImageButton) view.findViewById(R.id.imageButton2);
         buttonVendes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new LlistaProductesPerfilFragment();
-                FragmentTransaction fragmentManager = getFragmentManager().beginTransaction();
-                fragmentManager.replace(R.id.frame_layout, fragment);
-                fragmentManager.commit();
-                //PerfilUsuari_Fragment.this.startActivity(new Intent(PerfilUsuari_Fragment.this.getActivity(), LlistaProductesPerfilFragment.class));
+                Fragment fragmentVendes = new LlistaProductesPerfilVendesFragment();
+                FragmentTransaction fragmentManagerVendes = getFragmentManager().beginTransaction();
+                fragmentManagerVendes.replace(R.id.frame_layout, fragmentVendes);
+                fragmentManagerVendes.commit();
+            }
+        });
+
+        //Implementa el click per veure els productes que he comprat des del perfil
+        ImageButton buttonCompres = (ImageButton) view.findViewById(R.id.imageButton3);
+        buttonCompres.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentCompres = new LlistaProductesPerfilCompresFragment();
+                FragmentTransaction fragmentManagerCompres = getFragmentManager().beginTransaction();
+                fragmentManagerCompres.replace(R.id.frame_layout, fragmentCompres);
+                fragmentManagerCompres.commit();
             }
         });
 //ALEX END

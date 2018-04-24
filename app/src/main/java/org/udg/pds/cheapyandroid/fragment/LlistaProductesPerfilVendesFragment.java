@@ -17,11 +17,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LlistaProductesPerfilFragment extends Fragment {
+public class LlistaProductesPerfilVendesFragment extends Fragment {
 
-        private CheapyApi mCheapyService;
-        private ListView llistaProductesVendaPerfilView;
-        private LlistaProductes llistaProductesVendaPerfil;
+    private CheapyApi mCheapyService;
+    private ListView llistaProductesVendaPerfilView;
+    private LlistaProductes llistaProductesVendaPerfil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,8 +35,6 @@ public class LlistaProductesPerfilFragment extends Fragment {
 
         carregarProductesVendaPerfil();
 
-        mostrarProductes(llistaProductesVendaPerfil);
-
         return view;
     }
 
@@ -49,6 +47,7 @@ public class LlistaProductesPerfilFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     llistaProductesVendaPerfil = response.body();
+                    mostrarProductes(llistaProductesVendaPerfil);
                 } else {
                     Toast toast = Toast.makeText(getActivity(), "ERROR: No té productes a la venta.", Toast.LENGTH_SHORT);
                     toast.show();

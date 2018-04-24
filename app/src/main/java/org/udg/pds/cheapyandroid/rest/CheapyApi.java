@@ -16,8 +16,11 @@ public interface CheapyApi {
     @GET("/productes")
     Call<LlistaProductes> getProductes();
 
-    @GET("/usuaris/jo/productes")
+    @GET("/usuaris/jo/productes_venda")
     Call<LlistaProductes> getProductesVendaPerfil();
+
+    @GET("/usuaris/jo/productes_comprats")
+    Call<LlistaProductes> getProductesCompraPerfil();
 
     @GET("usuaris/{usuari_id}")
     Call<User> getSpecificUser();
