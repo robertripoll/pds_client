@@ -151,7 +151,7 @@ public class LlistaProductesFragment extends Fragment {
 
                         //Intent s'afegeix un parametre, un valor enter (posició del producte en la llista)
                         Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("key_producte", position);
+                        intent.putExtra("Producte", producteMostrar);
                         startActivity(intent);
                     }
                 });

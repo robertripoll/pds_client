@@ -1,6 +1,7 @@
 
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "producte"
 })
-public class Producte {
+public class Producte implements Serializable{
 
     @JsonProperty("producte")
     private Producte_ producte;

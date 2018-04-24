@@ -1,6 +1,7 @@
 
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "venedor",
     "imatges"
 })
-public class Producte_ {
+public class Producte_ implements Serializable {
 
     @JsonProperty("id")
     private Integer id;
