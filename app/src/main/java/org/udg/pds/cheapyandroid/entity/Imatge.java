@@ -2,7 +2,9 @@ package org.udg.pds.cheapyandroid.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Imatge {
+import java.io.Serializable;
+
+public class Imatge implements Serializable{
 
     @JsonProperty("imatge")
     private Imatge_ imatge;
