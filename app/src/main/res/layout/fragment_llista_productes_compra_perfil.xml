@@ -7,6 +7,9 @@
     <ListView android:id="@+id/llista_productes"
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
+              android:dividerHeight="10.0sp"
+              android:layout_marginLeft="20dp"
+              android:layout_marginTop="10dp"
               tools:layout_editor_absoluteY="8dp"
               tools:layout_editor_absoluteX="8dp"/>
 
