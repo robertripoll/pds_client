@@ -1,14 +1,15 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -57,7 +58,7 @@ public class PerfilUsuari_Fragment extends Fragment {
         mirarSiInformacioActualitzada();
 
         editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
-        editarPerfil.setOnClickListener(new View.OnClickListener() {
+        editarPerfil.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 ModifyUserProfile_Fragment fragmentModif = new ModifyUserProfile_Fragment();
@@ -67,6 +68,31 @@ public class PerfilUsuari_Fragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragmentModif).commit();
             }
             });
+//ALEX START
+        //Implementa el click per veure els productes a la venda que tinc des del perfil
+        ImageButton buttonVendes = (ImageButton) view.findViewById(R.id.imageButton2);
+        buttonVendes.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentVendes = new LlistaProductesPerfilVendesFragment();
+                FragmentTransaction fragmentManagerVendes = getFragmentManager().beginTransaction();
+                fragmentManagerVendes.replace(R.id.frame_layout, fragmentVendes);
+                fragmentManagerVendes.commit();
+            }
+        });
+
+        //Implementa el click per veure els productes que he comprat des del perfil
+        ImageButton buttonCompres = (ImageButton) view.findViewById(R.id.imageButton3);
+        buttonCompres.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentCompres = new LlistaProductesPerfilCompresFragment();
+                FragmentTransaction fragmentManagerCompres = getFragmentManager().beginTransaction();
+                fragmentManagerCompres.replace(R.id.frame_layout, fragmentCompres);
+                fragmentManagerCompres.commit();
+            }
+        });
+//ALEX END
         return view;
     }
 

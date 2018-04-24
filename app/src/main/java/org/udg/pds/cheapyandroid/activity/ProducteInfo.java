@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -24,7 +23,6 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ProducteInfo extends AppCompatActivity {
