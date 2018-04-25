@@ -39,7 +39,9 @@ import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_N
 // then a RESTResponder_RF is called to check the authentication
 public class Login extends Activity {
 
+    public static int userID_connected;
     CheapyApi mCheapyService;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class Login extends Activity {
 
                 if (response.isSuccessful()) {
                     User usuari = response.body();
-
+                    userID_connected=usuari.getId();
                     String user_name = String.valueOf(usuari.getNom());
                     String user_pass = String.valueOf(usuari.getContrasenya());
                     if(user_name.equals(username) && user_pass.equals(password)) {
