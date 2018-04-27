@@ -1,8 +1,6 @@
 package org.udg.pds.cheapyandroid.rest;
 
-import org.udg.pds.cheapyandroid.entity.LlistaProductes;
-import org.udg.pds.cheapyandroid.entity.User;
-import org.udg.pds.cheapyandroid.entity.UserLogin;
+import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -13,6 +11,9 @@ public interface CheapyApi {
 
     @GET("/productes")
     Call<LlistaProductes> getProductes();
+
+    @POST("/usuaris/jo/conversacions")
+    Call<Conversacio> addChat(@Body Producte producte);
 
     @GET("usuaris/{usuari_id}")
     Call<User> getSpecificUser();
