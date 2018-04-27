@@ -41,6 +41,8 @@
                 android:label="@string/title_activity_producte_info"
                 android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".activity.Conversa">
+        </activity>
     </application>
 
 </manifest>
