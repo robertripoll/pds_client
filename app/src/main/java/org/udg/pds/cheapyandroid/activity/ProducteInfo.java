@@ -25,7 +25,6 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ProducteInfo extends AppCompatActivity {

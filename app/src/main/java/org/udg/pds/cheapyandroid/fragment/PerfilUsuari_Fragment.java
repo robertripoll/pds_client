@@ -1,14 +1,15 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -36,14 +37,13 @@ public class PerfilUsuari_Fragment extends Fragment {
     private TextView textView5;
 
     private Button editarPerfil;
-    // private User userInformation; Preguntar a en nacho si es pot passar tot lobjecte Responsee<User> al altre fragment
-    // que actualitza el perfil i que aquell fagi el PUT o si el put l'hem de fer des d'aquí
+
     private User userInformation;
 
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         mCheapyService = ((CheapyApp)getActivity().getApplication()).getAPI();
@@ -58,47 +58,57 @@ public class PerfilUsuari_Fragment extends Fragment {
         mirarSiInformacioActualitzada();
 
         editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
-        editarPerfil.setOnClickListener(new View.OnClickListener() {
+        editarPerfil.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 ModifyUserProfile_Fragment fragmentModif = new ModifyUserProfile_Fragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("Email", userInformation.getCorreu());
+                bundle.putSerializable("oldUser", userInformation);
                 fragmentModif.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragmentModif).commit();
             }
             });
+//ALEX START
+        //Implementa el click per veure els productes a la venda que tinc des del perfil
+        ImageButton buttonVendes = (ImageButton) view.findViewById(R.id.imageButton2);
+        buttonVendes.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentVendes = new LlistaProductesPerfilVendesFragment();
+                FragmentTransaction fragmentManagerVendes = getFragmentManager().beginTransaction();
+                fragmentManagerVendes.replace(R.id.frame_layout, fragmentVendes);
+                fragmentManagerVendes.commit();
+            }
+        });
+
+        //Implementa el click per veure els productes que he comprat des del perfil
+        ImageButton buttonCompres = (ImageButton) view.findViewById(R.id.imageButton3);
+        buttonCompres.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentCompres = new LlistaProductesPerfilCompresFragment();
+                FragmentTransaction fragmentManagerCompres = getFragmentManager().beginTransaction();
+                fragmentManagerCompres.replace(R.id.frame_layout, fragmentCompres);
+                fragmentManagerCompres.commit();
+            }
+        });
+//ALEX END
         return view;
     }
 
     private void mirarSiInformacioActualitzada() {
         Bundle bundle = getArguments();
         if(bundle!=null){
-            String nom = bundle.getString("NomActualitzat");
-            System.out.println("nom->"+nom);
-            String cognoms = bundle.getString("CognomActualitzat");
-            System.out.println("cognoms->"+cognoms);
-            String telefon = bundle.getString("TelefonActualitzat");
-
-
-            //S'HA DE TREURE AIXO!!!! ---------------------------------------------
-            textView.clearComposingText();
-            textView.setText(bundle.getString("NomActualitzat"));
-            textView2.clearComposingText();
-            textView2.setText(bundle.getString("CognomActualitzat"));
-            //---------------------------------------------------------------------
-
-            System.out.println("MIREM D'ACTUALITZAR EL SERVIDOR!");
-            updateUserInformation(nom,cognoms,telefon);
-            System.out.println("VALEEEE SH'A ACTUALITZAT TOT BE!");
+            userInformation = (User) bundle.getSerializable("newUser");
+            updateUserInformation();
 
         }
     }
 
-    private void updateUserInformation(String nom, String cognoms, String telefon) {
-        //System.out.println("nom->"+userInformation.getNom()); PREGUNTAR A EN NACHO PERQUE PETA SI INTENTO MOSTRAR EL NOM ***************************************
+    private void updateUserInformation() {
 
-        /*Call<User> call = mCheapyService.updateUserInformation(userInformation);
+        Call<User> call = mCheapyService.updateUserInformation(userInformation);
+        //System.out.println("NOM  "+userInformation.getNom());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -115,7 +125,7 @@ public class PerfilUsuari_Fragment extends Fragment {
                 Toast toast = Toast.makeText(getContext(), "ERROR: No s'ha pogut actualitzar el perfil! Revisa la connexió a Internet.", Toast.LENGTH_LONG);
                 toast.show();
             }
-        });*/
+        });
     }
 
 

@@ -2,7 +2,9 @@ package org.udg.pds.cheapyandroid.rest;
 
 import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface CheapyApi {
 
@@ -14,6 +16,12 @@ public interface CheapyApi {
 
     @POST("/usuaris/jo/conversacions")
     Call<Conversacio> addChat(@Body Producte producte);
+  
+    @GET("/usuaris/jo/productes_venda")
+    Call<LlistaProductes> getProductesVendaPerfil();
+
+    @GET("/usuaris/jo/productes_comprats")
+    Call<LlistaProductes> getProductesCompraPerfil();
 
     @GET("usuaris/{usuari_id}")
     Call<User> getSpecificUser();
@@ -26,13 +34,8 @@ public interface CheapyApi {
 
     @POST("/logout")
     Call<User> diconnect();
-    /*Opció Intent1
+
     @PUT("/usuari/{usuari_id}")
-    Call<User> updateUserInformation(@Path(("id"))
-                                    @Field("nom") String nom,
-                                     @Field("cognoms") String cognoms);*//*, @Field String telefon);*/
-    /*Opció Intent2
-    @PUT("/usuari/{usuari_id}")
-    Call<User> updateUserInformation(@Body User userInformation);*/
+    Call<User> updateUserInformation(@Body User u);
 
 }

@@ -56,13 +56,12 @@ public class Usuari_Fragment extends Fragment {
     private void canviarFragment(int i) {
         Fragment fragment = null;
         if (i == 0) {
-
             fragment = new PerfilUsuari_Fragment();
-        } //else if (i % 2 != 0) {
-            //    fragment = new FragmentTwo();
-            //} else {
-            //    fragment = new FragmentThree();
-            //}
+        } else if (i == 1) {
+            fragment = new PerfilUsuari_Fragment();//canviar-ho pel fragment que toqui
+        } else {
+            fragment = new PerfilUsuari_Fragment();//canviar-ho pel fragment que toqui
+        }
 
        getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
     }

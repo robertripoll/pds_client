@@ -24,7 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ModifyUserProfile_Fragment extends Fragment {
 
     private static final int CODI_SELECCIO = 2;
-    private static final int CODI_FOTO = 1;
     private CheapyApi mCheapyService;
 
     private Button btnFoto;
@@ -36,6 +35,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private EditText telefon;
 
     private boolean fotoActualitzada;
+    private User userAct;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,15 +120,12 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void updateInformation() {
-        /*
-        Mirar com fer lo de la imatge mes endavant utilitzant l'atribut fotoActualitzada per tal de saber si s'ha canviat o no
-        */
-        // Enviar les noves dades i actualitzarles al servidor! (@PUT)
         PerfilUsuari_Fragment fragmentPerf = new PerfilUsuari_Fragment();
         Bundle bundle = new Bundle();
-        bundle.putString("NomActualitzat", String.valueOf(nom.getText()));
-        bundle.putString("CognomActualitzat", String.valueOf(cognom.getText()));
-        bundle.putString("TelefonActualitzat", String.valueOf(telefon.getText()));
+        userAct.setNom(String.valueOf(nom.getText()));
+        userAct.setCognoms(String.valueOf(cognom.getText()));
+        //userAct.setTelefon(String.valueOf(telefon.getText()));
+        bundle.putSerializable("newUser",userAct);
         fragmentPerf.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fragment_modificarPerfil, fragmentPerf).commit();
     }
@@ -149,24 +146,21 @@ public class ModifyUserProfile_Fragment extends Fragment {
         fotoActualitzada = false;
         Bundle bundle = getArguments();
         if(bundle!=null){
-            email.setText(bundle.getString("Email"));
+            userAct = (User) bundle.getSerializable("oldUser");
+            email.setText(userAct.getCorreu());
         }
     }
 
     private void mostrarOpcions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Choose an action");
-        final String opcio1 = "Take a photo";
-        final String opcio2 = "Choose a photo";
-        final String opcio3 = "Cancel";
-        final CharSequence [] diversesOpcions = {opcio1,opcio2,opcio3};
+        final String opcio1 = "Choose a photo";
+        final String opcio2 = "Cancel";
+        final CharSequence [] diversesOpcions = {opcio1,opcio2};
         builder.setItems(diversesOpcions, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(diversesOpcions[i].equals(opcio1)){
-                    Toast.makeText(getContext(), "TAKE A PHOTO",Toast.LENGTH_SHORT).show();
-                }
-                else if(diversesOpcions[i].equals(opcio2)){
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/");
                     startActivityForResult(intent.createChooser(intent,"Choose"),CODI_SELECCIO);
@@ -186,10 +180,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
         if (requestCode == CODI_SELECCIO){
             Uri elMeuPath = data.getData();
             foto.setImageURI(elMeuPath);
-            fotoActualitzada = true;
-        }
-        else if (requestCode == CODI_FOTO){
-            //Comentar-ho als demés si volen fer-ho o no aquesta part
             fotoActualitzada = true;
         }
     }
