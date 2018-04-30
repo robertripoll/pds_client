@@ -131,12 +131,12 @@ public class Chats_Fragment extends Fragment {
                 TextView userName = (TextView) rowView.findViewById(R.id.lastMessageUser);
                 TextView userLastMessage = (TextView) rowView.findViewById(R.id.lastMessage);
 
-                Conversacio conv = llistaConverses.getLlistaConversacions().get(position).getConversacio();
+                ConversacioChat conv = llistaConverses.getLlistaConversacions().get(position).getConversacio();
 
-                userName.setText(conv.getvenedor().getNom());
-                userLastMessage.setText(conv.getultimMissatge().toString());
+                userName.setText(conv.getUsuari().getNom());
+                userLastMessage.setText(conv.getUltimMissatge().toString());
 
-                if(llistaConverses.getLlistaConversacions().get(position).getConversacio().getmissatgesPerLlegir()){
+                if(llistaConverses.getLlistaConversacions().get(position).getConversacio().getMissatgesPerLlegir()){
                     TextView userNameTextview = (TextView) rowView.findViewById(R.id.userNameTextview);
                     TextView userMessageTextview = (TextView) rowView.findViewById(R.id.userMessageTextview);
                     userNameTextview.setTypeface(null, Typeface.BOLD);
