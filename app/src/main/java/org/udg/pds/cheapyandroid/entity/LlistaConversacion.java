@@ -17,21 +17,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class LlistaConversacion {
 
     @JsonProperty("conversacio")
-    private Conversacio conversacio;
+    private ConversacioChat conversacio;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("conversacio")
-    public Conversacio getConversacio() {
+    public ConversacioChat getConversacio() {
         return conversacio;
     }
 
     @JsonProperty("conversacio")
-    public void setConversacio(Conversacio conversacio) {
+    public void setConversacio(ConversacioChat conversacio) {
         this.conversacio = conversacio;
     }
 
-    public LlistaConversacion withConversacio(Conversacio conversacio) {
+    public LlistaConversacion withConversacio(ConversacioChat conversacio) {
         this.conversacio = conversacio;
         return this;
     }
