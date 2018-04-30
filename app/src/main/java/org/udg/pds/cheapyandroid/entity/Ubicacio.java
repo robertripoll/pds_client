@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "ciutat",
         "pais"
 })
-public class Ubicacio {
+public class Ubicacio implements Serializable {
 
     @JsonProperty("coordenades")
     private Coordenades coordenades;

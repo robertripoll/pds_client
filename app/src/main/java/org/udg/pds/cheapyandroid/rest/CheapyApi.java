@@ -24,7 +24,7 @@ public interface CheapyApi {
     Call<LlistaProductes> getProductesCompraPerfil();
 
     @GET("usuaris/{usuari_id}")
-    Call<User> getSpecificUser();
+    Call<User> getSpecificUser(@Path("usuari_id") int userID);
 
     @POST("/usuaris")
     Call<User> addUser(@Body User task);
@@ -35,7 +35,13 @@ public interface CheapyApi {
     @POST("/logout")
     Call<User> diconnect();
 
-    @PUT("/usuari/{usuari_id}")
-    Call<User> updateUserInformation(@Body User u);
+    @FormUrlEncoded
+    @PUT("/usuaris/{usuari_id}")
+    Call<User> updateUserInformation(@Path("usuari_id") int userID,
+                                     @Field("nom") String nom,
+                                     @Field("cognoms") String cognoms,
+                                     @Field("telefon") Integer telefon); //Retorna response 307 :/
 
+    @GET("/usuaris/jo/conversacions")
+    Call<ConversationList> getConversations();
 }

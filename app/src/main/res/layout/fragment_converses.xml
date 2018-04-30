@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp"
+              android:descendantFocusability="afterDescendants">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_margin="25dp"
+            android:id="@+id/ChatsTextview"
+            android:textSize="30dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorWhite_UserProfile"
+            android:text="All your conversations"/>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:layout_width="match_parent"
+                 android:layout_below = "@+id/ChatsTextview"
+                 android:layout_height="match_parent"
+                 android:id="@+id/fragment_conversesPerfil"
+                 tools:context="org.udg.pds.cheapyandroid.fragment.Chats_Fragment">
+
+        <ListView android:id="@+id/llista_converses"
+                  android:layout_width="match_parent"
+                  android:layout_height="373dp"
+                  tools:layout_editor_absoluteY="8dp"
+                  tools:layout_editor_absoluteX="8dp"/>
+
+    </FrameLayout>
+
+</RelativeLayout>
