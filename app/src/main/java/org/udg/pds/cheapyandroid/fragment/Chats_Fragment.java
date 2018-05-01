@@ -1,34 +1,21 @@
 package org.udg.pds.cheapyandroid.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.activity.ProducteInfo;
 import org.udg.pds.cheapyandroid.entity.*;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.ArrayList;
-
 
 public class Chats_Fragment extends Fragment {
     CheapyApi mCheapyService;
@@ -60,7 +47,7 @@ public class Chats_Fragment extends Fragment {
             public void onResponse(Call<ConversationList> call, Response<ConversationList> response) {
 
                 if (response.isSuccessful()) {
-                    mostrarProductes(response.body());
+                    mostrarConverses(response.body());
                 } else {
                     Toast toast = Toast.makeText(getActivity(), "ERROR: The conversations couldn't load correctly", Toast.LENGTH_SHORT);
                     toast.show();
@@ -75,49 +62,32 @@ public class Chats_Fragment extends Fragment {
         });
     }
 
-    private void mostrarProductes(final ConversationList llistaConverses) {
-
+    private void mostrarConverses(final ConversationList llistaConverses) {
         final ArrayAdapter<LlistaConversacion> itemsAdapter =
                 new ArrayAdapter<LlistaConversacion>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getLlistaConversacions());
-
-
         listChatsView.setAdapter(new ListAdapter() {
-
             @Override
             public boolean areAllItemsEnabled() {
                 return false;
             }
-
             @Override
             public boolean isEnabled(int i) {
                 return false;
             }
-
             @Override
-            public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
+            public void registerDataSetObserver(DataSetObserver dataSetObserver) {}
             @Override
-            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
+            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {}
             @Override
             public int getCount() {
                 return llistaConverses.getLlistaConversacions().size();
             }
-
             @Override
             public Object getItem(int i) {
                 return null;
             }
-
             @Override
-            public long getItemId(int i) {
-                return llistaConverses.getLlistaConversacions().get(i).getConversacio().getId();
-            }
-
+            public long getItemId(int i) { return llistaConverses.getLlistaConversacions().get(i).getConversacio().getId();}
             @Override
             public boolean hasStableIds() {
                 return false;
@@ -145,7 +115,6 @@ public class Chats_Fragment extends Fragment {
                     userLastMessage.setTypeface(null, Typeface.BOLD);
                 }
 
-
                 return rowView;
             }
 
@@ -153,19 +122,14 @@ public class Chats_Fragment extends Fragment {
             public int getItemViewType(int i) {
                 return 0;
             }
-
-
             @Override
             public int getViewTypeCount() {
                 return llistaConverses.getLlistaConversacions().size();
             }
-
             @Override
             public boolean isEmpty() {
                 return false;
             }
-
-
         });
 
     }
