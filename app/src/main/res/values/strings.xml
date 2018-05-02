@@ -27,6 +27,7 @@
     <string name="hint_intercanvi">Acceptes intercanvi</string>
     <string name="hint_preu_negociable">Preu negociable</string>
     <string name="button_publicar_anunci">Publicar</string>
+    <string name="error_falten_camps_publicar_anunci">Emplena tots els camps per poder publicar un anunci.</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

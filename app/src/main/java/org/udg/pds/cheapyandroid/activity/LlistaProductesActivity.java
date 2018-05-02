@@ -62,7 +62,12 @@ public class LlistaProductesActivity extends AppCompatActivity {
     }
 
 
-    private void carregarProductesALaVenda() {
+    public void carregarProductesALaVenda() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menuNav = navigationView.getMenu();
+        MenuItem menuItem = menuNav.findItem(R.id.nav_item_llista_productes);
+        menuItem.setChecked(true);
+
         Fragment fragment = new LlistaProductesFragment();
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
         fragmentManager.replace(R.id.frame_layout, fragment);
@@ -212,6 +217,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         //S'amaga les opcions de perfil i log out, ja que ara l'estat actual es No registrat
         ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_perfil).setVisible(false);
         ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.log_out).setVisible(false);
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_nou_producte).setVisible(false);
 
         //Navigation Header Buit
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

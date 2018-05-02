@@ -54,6 +54,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/cb_intercanvi" android:layout_weight="1"/>
             </LinearLayout>
+            <TextView
+                    android:id="@+id/tv_error_falten_camps_publicar_anunci"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorRed"
+                    android:text="@string/error_falten_camps_publicar_anunci"
+                    android:layout_marginTop="32dp"
+                    android:textAlignment="center"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
