@@ -90,6 +90,7 @@ public class Login extends Activity {
                         //Afegeix noves preferencies per usuari i la seva contrasenya correctes
                         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("usuari_id", usuari.getId().toString());
                         editor.putString("usuari_nom", username);
                         editor.putString("contrasenya_nom", password);
                         editor.commit();
