@@ -12,6 +12,9 @@ public interface CheapyApi {
     @GET("/productes")
     Call<LlistaProductes> getProductes();
 
+    @GET("/categories")
+    Call<LlistaCategories> getCategories();
+
     @POST("/usuaris/jo/conversacions")
     Call<Conversacio> addChat(@Body Producte producte);
   

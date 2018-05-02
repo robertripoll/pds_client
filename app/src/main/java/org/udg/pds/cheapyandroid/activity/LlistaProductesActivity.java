@@ -21,6 +21,7 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
+import org.udg.pds.cheapyandroid.fragment.PublicarAnunciFragment;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,11 +50,11 @@ public class LlistaProductesActivity extends AppCompatActivity {
         user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)
         pass_ = prefs.getString("contrasenya_nom", "contrasenya_prova"); //getString(identificador, default)
 
-        // Carrega els productes
-        carregarProductesALaVenda(); // metode que carrega els productes "a lo bestia"
-
         // Configurem el Toolbar.
         configurarToolbar();
+
+        // Carrega els productes
+        carregarProductesALaVenda(); // metode que carrega els productes "a lo bestia"
 
         // Configurem el Navigation Menú.
         configurarNavigationView();
@@ -66,6 +67,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
         fragmentManager.replace(R.id.frame_layout, fragment);
         fragmentManager.commit();
+        toolbar.setTitle(R.string.navmenu_item_llista_productes);
     }
 
 
@@ -95,11 +97,17 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         // Handle Navigation
                         Fragment fragment = null;
                         switch(menuItem.getItemId()){
+                            case R.id.nav_item_nou_producte:
+                                fragment = new PublicarAnunciFragment();
+                                toolbar.setTitle(R.string.navmenu_item_nou_producte);
+                                break;
                             case R.id.nav_item_llista_productes:
                                 fragment = new LlistaProductesFragment();
+                                toolbar.setTitle(R.string.navmenu_item_llista_productes);
                                 break;
                             case R.id.nav_item_perfil:
                                 fragment = new Usuari_Fragment();
+                                toolbar.setTitle(R.string.navmenu_item_perfil);
                                 break;
                             case R.id.log_out:
                                 Toast.makeText(LlistaProductesActivity.this, "Has fet click a Log Out", Toast.LENGTH_SHORT).show();
@@ -138,6 +146,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                     String user_pass = String.valueOf(usuari.getContrasenya());
                     if(user_name.equals(user_) && user_pass.equals(pass_)) {
                         navigationView.getMenu().findItem(R.id.nav_item_perfil).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.nav_item_nou_producte).setVisible(true);
                         navigationView.getMenu().findItem(R.id.log_out).setVisible(true);
                     }
                     else {
