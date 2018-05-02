@@ -18,6 +18,15 @@
     <!-- Strings relacionades amb el menú de navegació -->
     <string name="navmenu_item_llista_productes">Productes</string>
     <string name="navmenu_item_perfil">Perfil</string>
+    <string name="navmenu_item_nou_producte">Publicar Anunci</string>
+
+    <!-- Strings relacionades amb la pantalla de publicar anunci -->
+    <string name="hint_nom_producte">Nom</string>
+    <string name="hint_desc_producte">Descripció</string>
+    <string name="hint_preu_producte">Preu</string>
+    <string name="hint_intercanvi">Acceptes intercanvi</string>
+    <string name="hint_preu_negociable">Preu negociable</string>
+    <string name="button_publicar_anunci">Publicar</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
