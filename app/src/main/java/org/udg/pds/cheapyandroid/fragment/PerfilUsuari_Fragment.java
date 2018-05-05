@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.activity.Login;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
@@ -100,15 +101,15 @@ public class PerfilUsuari_Fragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle!=null){
             userInformation = (User) bundle.getSerializable("newUser");
+            //System.out.println("NOM  "+userInformation.getNom());
             updateUserInformation();
 
         }
     }
 
     private void updateUserInformation() {
-
-        Call<User> call = mCheapyService.updateUserInformation(userInformation);
-        //System.out.println("NOM  "+userInformation.getNom());
+        System.out.println("-----------------------"+userInformation.getNom()+userInformation.getCognoms());
+        Call<User> call = mCheapyService.updateUserInformation(userInformation.getId(), userInformation.getNom(),userInformation.getCognoms(),userInformation.getTelefon());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -136,7 +137,7 @@ public class PerfilUsuari_Fragment extends Fragment {
                 .build();
 
         mCheapyService = retrofit.create(CheapyApi.class);
-        Call<User> call = mCheapyService.getSpecificUser();
+        Call<User> call = mCheapyService.getSpecificUser(Login.userID_connected);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

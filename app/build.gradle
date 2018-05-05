@@ -58,6 +58,11 @@ dependencies {
     compile group: 'com.squareup.okhttp3', name: 'okhttp-urlconnection', version: '3.9.1'
 
 
+
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.9.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
 
@@ -66,6 +71,11 @@ dependencies {
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.9.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
