@@ -20,6 +20,10 @@ public interface CheapyApi {
 
     @POST("/usuaris/jo/conversacions")
     Call<Conversacio> addChat(@Body Producte producte);
+
+
+    @POST("/conversacio/{conversa_id}/missatges")
+    Call<Void> sendMessage(@Path("conversa_id") int messageID, @Body Missatge message);
   
     @GET("/usuaris/jo/productes_venda")
     Call<LlistaProductes> getProductesVendaPerfil();

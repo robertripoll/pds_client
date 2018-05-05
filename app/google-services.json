@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "428923663412",
+    "firebase_url": "https://cheapychat.firebaseio.com",
+    "project_id": "cheapychat",
+    "storage_bucket": "cheapychat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428923663412:android:3196f3b8c1b49be2",
+        "android_client_info": {
+          "package_name": "org.udg.pds.cheapyandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428923663412-2hfir2iudlh56j2j7fosba7hv40p8vim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqLz8G3eAWGqtB-qXMxdx88MbEz6-H_l8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
