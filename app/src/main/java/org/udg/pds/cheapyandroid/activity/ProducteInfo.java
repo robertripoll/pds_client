@@ -37,8 +37,6 @@ public class ProducteInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         producte = (Producte) getIntent().getSerializableExtra("Producte");
-        Toast toast = Toast.makeText(ProducteInfo.this, producte.getProducte().getNom(), Toast.LENGTH_SHORT);
-        toast.show();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producte_info);
@@ -50,9 +48,17 @@ public class ProducteInfo extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProducteInfo.this, Conversa.class);
-                intent.putExtra("Producte", producte);
-                startActivity(intent);
+
+                if(Login.userID_connected == Login.NO_REGISTRAT) {
+
+                    Toast toast = Toast.makeText(ProducteInfo.this, "Has d'estar registrat " , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    Intent intent = new Intent(ProducteInfo.this, Conversa.class);
+                    intent.putExtra("Producte", producte);
+                    startActivity(intent);
+                }
             }
         });
 
