@@ -86,7 +86,13 @@ public class LlistaProductesActivity extends AppCompatActivity {
         View headerLayout = navigationView.getHeaderView(0);
         headerLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                LlistaProductesActivity.this.startActivity(new Intent(LlistaProductesActivity.this, Login.class));
+
+                if(Login.userID_connected == Login.NO_REGISTRAT) {
+                    LlistaProductesActivity.this.startActivity(new Intent(LlistaProductesActivity.this, Login.class));
+                }
+                else{
+                    Toast.makeText(LlistaProductesActivity.this, "Ja estàs registrat :-)", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -115,7 +121,6 @@ public class LlistaProductesActivity extends AppCompatActivity {
                                 toolbar.setTitle(R.string.navmenu_item_perfil);
                                 break;
                             case R.id.log_out:
-                                Toast.makeText(LlistaProductesActivity.this, "Has fet click a Log Out", Toast.LENGTH_SHORT).show();
                                 posarUsuariLogout();
                                 break;
                         }
@@ -156,8 +161,6 @@ public class LlistaProductesActivity extends AppCompatActivity {
                     }
                     else {
                         posarUsuariLogout();
-                        Toast toast = Toast.makeText(LlistaProductesActivity.this, "Usuari No registrat", Toast.LENGTH_SHORT);
-                        toast.show();
                     }
 
                 } else {
@@ -186,14 +189,16 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
     private void posarUsuariLogout(){
 
+        Login.userID_connected = Login.NO_REGISTRAT;
+
         // FA LA CRIDA LOGOUT I RETORNA OK
-        Call<User> call = mCheapyService.diconnect();
-        call.enqueue(new Callback<User>() {
+        Call<Void> call = mCheapyService.diconnect();
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
 
                 if (response.isSuccessful()) {
-                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "LOGOUT OK", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "Usuari No registrat", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout ", Toast.LENGTH_SHORT);
@@ -202,7 +207,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout internet", Toast.LENGTH_SHORT);
                 toast.show();
             }

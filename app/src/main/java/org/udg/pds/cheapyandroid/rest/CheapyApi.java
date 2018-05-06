@@ -4,6 +4,8 @@ import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.List;
+
 public interface CheapyApi {
 
     @POST("/usuaris/autenticar")
@@ -19,8 +21,10 @@ public interface CheapyApi {
     Call<LlistaCategories> getCategories();
 
     @POST("/usuaris/jo/conversacions")
-    Call<Conversacio> addChat(@Body Producte producte);
+    Call<ConversacioChat> addChat(@Body Producte producte);
 
+    @GET("/conversacio/{conversa_id}/missatges")
+    Call<List<Missatge>> getChatID(@Path("conversa_id") Integer id_chat);
 
     @POST("/conversacio/{conversa_id}/missatges")
     Call<Void> sendMessage(@Path("conversa_id") int messageID, @Body Missatge message);
@@ -41,7 +45,7 @@ public interface CheapyApi {
     Call<UserLogin> isConnected();
 
     @POST("/logout")
-    Call<User> diconnect();
+    Call<Void> diconnect();
 
     @FormUrlEncoded
     @PUT("/usuaris/{usuari_id}")

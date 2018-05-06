@@ -10,7 +10,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "text",
         "estat",
         "dataEnviament",
-        "emisor"
+        "id_emisor",
+        "nom_emisor"
 })
 
 public class Missatge {
@@ -27,19 +28,23 @@ public class Missatge {
     @JsonProperty("dataEnviament")
     private String dataEnviament;
 
-    @JsonProperty("emisor")
-    private Emisor emisor;
+    @JsonProperty("id_emisor")
+    private Integer id_emisor;
 
-    public Missatge(String message, Emisor em) {
+    @JsonProperty("nom_emisor")
+    private String nom_emisor;
+
+    public Missatge() {
+
+    }
+
+    public Missatge(String message, Integer userID_connected, String userName_connected) {
         this.text = message;
         this.estat = "no llegit";
         this.id = -1; //quin identificado posar?
         this.dataEnviament = "data actual";
-        this.emisor = em;
-    }
-
-    public Missatge() {
-
+        this.id_emisor = userID_connected;
+        this.nom_emisor = userName_connected;
     }
 
 
@@ -83,14 +88,24 @@ public class Missatge {
         this.dataEnviament = dataEnviament;
     }
 
-    @JsonProperty("emisor")
-    public Emisor getEmisor() {
-        return emisor;
+    @JsonProperty("id_emisor")
+    public Integer getId_emisor() {
+        return id_emisor;
     }
 
-    @JsonProperty("emisor")
-    public void setEmisor(Emisor emisor) {
-        this.emisor = emisor;
+    @JsonProperty("id_emisor")
+    public void setId_emisor(Integer id_emisor) {
+        this.id_emisor = id_emisor;
+    }
+
+    @JsonProperty("nom_emisor")
+    public String getNom_emisor() {
+        return nom_emisor;
+    }
+
+    @JsonProperty("nom_emisor")
+    public void setNom_emisor(String nom_emisor) {
+        this.nom_emisor = nom_emisor;
     }
 
 }
