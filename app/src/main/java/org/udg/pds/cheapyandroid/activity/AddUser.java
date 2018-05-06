@@ -48,27 +48,61 @@ public class AddUser extends Activity implements Callback<User> {
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
+        final EditText correu = (EditText) AddUser.this.findViewById(R.id.signup_email);
+        final EditText contrasenya = (EditText) AddUser.this.findViewById(R.id.signup_password);
+        final EditText sexe = (EditText) AddUser.this.findViewById(R.id.signup_sex);
+        final EditText nom = (EditText) AddUser.this.findViewById(R.id.signup_name);
+        final EditText cognoms = (EditText) AddUser.this.findViewById(R.id.signup_surname);
+        final EditText telefon = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
+        final EditText dataNaixament = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
+
+
+
 
         Button s = (Button) findViewById(R.id.signup_button);
         // When the "Save" button is pressed, we make the call to the responder
         s.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText correu = (EditText) AddUser.this.findViewById(R.id.signup_email);
-                EditText contrasenya = (EditText) AddUser.this.findViewById(R.id.signup_password);
-                EditText sexe = (EditText) AddUser.this.findViewById(R.id.signup_sex);
-                EditText nom = (EditText) AddUser.this.findViewById(R.id.signup_name);
-                EditText cognoms = (EditText) AddUser.this.findViewById(R.id.signup_surname);
-                EditText telefon = (EditText) AddUser.this.findViewById(R.id.signup_telephone);
-                EditText dataNaixament = (EditText) AddUser.this.findViewById(R.id.signup_birthdate);
-                try {
-                    User u = new User(correu.getText().toString(), contrasenya.getText().toString(), sexe.getText().toString(), nom.getText().toString(), cognoms.getText().toString(), Integer.parseInt(telefon.getText().toString()), dataNaixament.getText().toString());
-                    Call<User> call = mCheapyService.addUser(u);
-                    call.enqueue(AddUser.this);
-                } catch (Exception ex) {
-                    Toast toast = Toast.makeText(AddUser.this, "Error add user "+ex.toString(), Toast.LENGTH_SHORT);
-                    toast.show();
+
+                final String correu_ = correu.getText().toString();
+                final String contrasenya_ = contrasenya.getText().toString();
+                final String sexe_ = sexe.getText().toString();
+                final String nom_ = nom.getText().toString();
+                final String cognoms_ = cognoms.getText().toString();
+                final String telefon__ = telefon.getText().toString();
+                final String dataNaixament_ = dataNaixament.getText().toString();
+
+                if (correu_.matches("") || contrasenya_.matches("") || sexe_.matches("") || nom_.matches("") || cognoms_.matches("") || telefon__.toString().matches("") || dataNaixament_.matches("")) {
+                    Toast.makeText(AddUser.this, "Emplena tots els camps, siusplau", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else{
+                    try {
+
+                        Integer telefon_ = Integer.parseInt(telefon.getText().toString());
+                        User u = new User(correu_, contrasenya_, sexe_, nom_, cognoms_, telefon_, dataNaixament_);
+                        Call<User> call = mCheapyService.addUser(u);
+                        call.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                Toast toast = Toast.makeText(AddUser.this, "Nou usuari enviat correctament.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Toast toast = Toast.makeText(AddUser.this, "Error al fer una nova compte " + t.toString(), Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        });
+
+                    } catch (Exception ex) {
+                        Toast toast = Toast.makeText(AddUser.this, "Error add user ", Toast.LENGTH_SHORT);
+                        toast.show();
+                        return;
+                    }
+                }
+
             }
         });
 
