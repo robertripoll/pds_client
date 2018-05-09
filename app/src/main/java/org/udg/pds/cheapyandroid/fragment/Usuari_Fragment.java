@@ -60,7 +60,7 @@ public class Usuari_Fragment extends Fragment {
         } else if (i == 1) {
             fragment = new Chats_Fragment();//canviar-ho pel fragment que toqui
         } else {
-            fragment = new PerfilUsuari_Fragment();//canviar-ho pel fragment que toqui
+            fragment = new Ubication_Fragment();//canviar-ho pel fragment que toqui
         }
 
        getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
