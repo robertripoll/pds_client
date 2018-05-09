@@ -11,6 +11,7 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
+import org.udg.pds.cheapyandroid.entity.Producte_;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +102,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
 
             @Override
             public long getItemId(int i) {
-                return llistaProductesVendaPerfil.getProductes().get(i).getId();
+                return llistaProductesVendaPerfil.getProductes().get(i).getProducte().getId();
             }
 
             @Override
@@ -117,7 +118,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = llistaProductesVendaPerfil.getProductes().get(position);
+                Producte_ producte = llistaProductesVendaPerfil.getProductes().get(position).getProducte();
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());

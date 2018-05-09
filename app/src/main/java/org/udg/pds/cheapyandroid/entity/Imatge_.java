@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-package org.udg.pds.cheapyandroid.entity;
-
-import com.fasterxml.jackson.annotation.*;
-=======
 
 package org.udg.pds.cheapyandroid.entity;
->>>>>>> parent of 3c62e01... Entitats principals Refactoritzades
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -19,36 +13,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "nom"
+    "ruta"
 })
-public class Categoria implements Serializable{
+public class Imatge_ implements Serializable {
 
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("nom")
-    private String nom;
+    @JsonProperty("ruta")
+    private String ruta;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("ruta")
+    public String getRuta() {
+        return ruta;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @JsonProperty("nom")
-    public String getNom() {
-        return nom;
-    }
-
-    @JsonProperty("nom")
-    public void setNom(String nom) {
-        this.nom = nom;
+    @JsonProperty("ruta")
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
     }
 
     @JsonAnyGetter
@@ -59,6 +40,11 @@ public class Categoria implements Serializable{
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return ruta;
     }
 
 }

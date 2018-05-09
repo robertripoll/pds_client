@@ -14,6 +14,7 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.ProducteInfo;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
+import org.udg.pds.cheapyandroid.entity.Producte_;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,7 +107,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public long getItemId(int i) {
-                return llistaProductes.getProductes().get(i).getId();
+                return llistaProductes.getProductes().get(i).getProducte().getId();
             }
 
             @Override
@@ -122,7 +123,7 @@ public class LlistaProductesFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = llistaProductes.getProductes().get(position);
+                Producte_ producte = llistaProductes.getProductes().get(position).getProducte();
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
@@ -141,7 +142,7 @@ public class LlistaProductesFragment extends Fragment {
                         // Access the row position here to get the correct data item
 
                         Producte producteMostrar = itemsAdapter.getItem(position);
-                        //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), producteMostrar.getProducte().getNom(), Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getActivity(), ProducteInfo.class);
                         intent.putExtra("Producte", producteMostrar);

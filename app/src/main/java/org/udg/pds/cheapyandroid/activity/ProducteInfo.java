@@ -73,7 +73,7 @@ public class ProducteInfo extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         try {
-            URL url = new URL(producte.getImatges().get(0).getImatge().getRuta());
+            URL url = new URL(producte.getProducte().getImatges().get(0).getImatge().getRuta());
             viewProducte.setImageBitmap(BitmapFactory.decodeStream((InputStream)url.getContent()));
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
@@ -81,6 +81,6 @@ public class ProducteInfo extends AppCompatActivity {
 
         //Carrega Info
         TextView viewInfoProducte = (TextView)findViewById(R.id.infoProducte);
-        viewInfoProducte.setText(producte.toString());
+        viewInfoProducte.setText(producte.getProducte().toString());
     }
 }

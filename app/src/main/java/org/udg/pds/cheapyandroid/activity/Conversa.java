@@ -46,11 +46,11 @@ public class Conversa extends AppCompatActivity  {
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
         producte = (Producte) getIntent().getSerializableExtra("Producte");
-        venedor = producte.getVenedor();
-        conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
+        venedor = producte.getProducte().getVenedor();
+        conversacio.setId(Login.userID_connected + producte.getProducte().getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
 
         nomProducte = (TextView) findViewById(R.id.nomProducteChat);
-        nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+        nomProducte.setText(producte.getProducte().getNom() + "\n" + producte.getProducte().getPreu() + "€");
         textChat = (EditText) findViewById(R.id.textMissatgeChat);
         buttonEnviar = (Button) findViewById(R.id.buttonEnviarChat);
 
@@ -177,7 +177,7 @@ public class Conversa extends AppCompatActivity  {
 
                 if (response.isSuccessful()) {
                     conversacio = response.body();
-                    conversacio.setId(Login.userID_connected + producte.getId());
+                    conversacio.setId(Login.userID_connected + producte.getProducte().getId());
 
                 } else {
                     Toast toast = Toast.makeText(Conversa.this, "Error new chat", Toast.LENGTH_SHORT);
@@ -250,8 +250,8 @@ public class Conversa extends AppCompatActivity  {
             }
 
             void bind(Missatge message) {
-                messageText.setText(message.getMissatge());
-                nameText.setText(message.getEmisor().getNom());
+                messageText.setText(message.getText());
+                nameText.setText(message.getNom_emisor());
 
             }
         }
@@ -268,8 +268,8 @@ public class Conversa extends AppCompatActivity  {
             }
 
             void bind(Missatge message) {
-                messageText.setText(message.getMissatge());
-                nameText.setText(message.getEmisor().getNom());
+                messageText.setText(message.getText());
+                nameText.setText(message.getNom_emisor());
 
             }
         }
@@ -289,7 +289,7 @@ public class Conversa extends AppCompatActivity  {
         public int getItemViewType(int position) {
             Missatge message = (Missatge) listMiss.get(position);
 
-            if (message.getId() == Login.userID_connected) {
+            if (message.getId_emisor() == Login.userID_connected) {
                 // If the current user is the sender of the message
                 return VIEW_TYPE_MESSAGE_SENT;
             } else {

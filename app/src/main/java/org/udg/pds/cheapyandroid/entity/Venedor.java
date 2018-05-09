@@ -1,33 +1,32 @@
 
 package org.udg.pds.cheapyandroid.entity;
 
-import com.fasterxml.jackson.annotation.*;
-
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "id",
-        "nom",
-        "sexe",
-        "ubicacio"
+    "id",
+    "nom"
 })
-public class Venedor {
+public class Venedor implements Serializable {
 
     @JsonProperty("id")
-    private long id;
+    private Integer id;
     @JsonProperty("nom")
     private String nom;
-    @JsonProperty("sexe")
-    private String sexe;
-    @JsonProperty("ubicacio")
-    private Ubicacio ubicacio;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -44,26 +43,6 @@ public class Venedor {
     @JsonProperty("nom")
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    @JsonProperty("sexe")
-    public String getSexe() {
-        return sexe;
-    }
-
-    @JsonProperty("sexe")
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
-    }
-
-    @JsonProperty("ubicacio")
-    public Ubicacio getUbicacio() {
-        return ubicacio;
-    }
-
-    @JsonProperty("ubicacio")
-    public void setUbicacio(Ubicacio ubicacio) {
-        this.ubicacio = ubicacio;
     }
 
     @JsonAnyGetter
