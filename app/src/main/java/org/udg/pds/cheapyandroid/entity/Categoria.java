@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.entity;
 
-
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;
