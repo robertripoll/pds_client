@@ -62,10 +62,10 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
         });
     }
 
-    private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
+    private void mostrarProductes(final LlistaProductes llistaProductes) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item,llistaProductesVendaPerfil.getProductes());
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item,llistaProductes.getProductes());
 
 
         llistaProductesVendaPerfilView.setAdapter(new ListAdapter() {

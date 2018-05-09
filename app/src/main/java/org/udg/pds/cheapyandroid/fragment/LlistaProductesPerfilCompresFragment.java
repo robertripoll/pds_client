@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.fragment;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.activity.ProducteInfo;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.entity.Producte_;
@@ -62,10 +64,10 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
         });
     }
 
-    private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
+    private void mostrarProductes(final LlistaProductes llistaProductes) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item,llistaProductesVendaPerfil.getProductes());
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item,llistaProductes.getProductes());
 
         llistaProductesCompraPerfilView.setAdapter(new ListAdapter() {
 
@@ -117,13 +119,35 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte_ producte = llistaProductesCompraPerfil.getProductes().get(position).getProducte();
+                Producte_ producte = llistaProductes.getProductes().get(position).getProducte();
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
 
+                TextView  clickProducte= (TextView) rowView.findViewById(R.id.nom_producte);
+                // Cache row position inside the button using `setTag`
+                clickProducte.setTag(position);
+                // Attach the click event handler
+                clickProducte.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = (Integer) view.getTag();
+                        // Access the row position here to get the correct data item
+
+                        //----> LES DUES LINIES SEGUENTS SERVEIXEN PER MOSTRAR QUIN PRODUCTE S'HA FET CLICK <-----//
+                        Producte producteMostrar = itemsAdapter.getItem(position);
+                        Toast.makeText(getActivity(), producteMostrar.getProducte().getNom(), Toast.LENGTH_SHORT).show();
+
+                        //Intent s'afegeix un parametre, un valor enter (posició del producte en la llista)
+                        Intent intent = new Intent(getActivity(), ProducteInfo.class);
+                        intent.putExtra("key_producte", position);
+                        startActivity(intent);
+                    }
+                });
+
                 return rowView;
             }
+
 
             @Override
             public int getItemViewType(int i) {

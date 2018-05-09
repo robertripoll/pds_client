@@ -1,16 +1,12 @@
 
 package org.udg.pds.cheapyandroid.entity;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -193,7 +189,7 @@ public class Producte_ implements Serializable {
         dadesProducte = dadesProducte + "id = " + id + "\n" + "nom = " + nom + "\n" + "preu = " + preu + "\n" + "descripcio = " + descripcio + "\n";
         dadesProducte = dadesProducte + "dataPublicacio = " + dataPublicacio + "\n" + "preuNegociable = " + preuNegociable + "\n" + "intercanviAcceptat = " + intercanviAcceptat + "\n";
         dadesProducte = dadesProducte + "reservat = " + reservat + "\n" + "numeroVisites = " + numeroVisites + "\n";
-        dadesProducte = dadesProducte + "cateogira = " + categoria.getNom() + "\n" + "venedor = " + venedor.getNom() + "\n";
+        dadesProducte = dadesProducte + "categoria = " + categoria.getNom() + "\n" + "venedor = " + venedor.getNom() + "\n";
 
         return dadesProducte;
     }
