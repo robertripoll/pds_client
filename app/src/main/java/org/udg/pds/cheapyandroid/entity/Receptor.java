@@ -1,5 +1,5 @@
-
 package org.udg.pds.cheapyandroid.entity;
+
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -10,24 +10,21 @@ import java.util.Map;
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe",
-        "ubicacio"
+        "sexe"
 })
-public class Venedor {
+public class Receptor {
 
     @JsonProperty("id")
-    private long id;
+    private Integer id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
-    @JsonProperty("ubicacio")
-    private Ubicacio ubicacio;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -54,16 +51,6 @@ public class Venedor {
     @JsonProperty("sexe")
     public void setSexe(String sexe) {
         this.sexe = sexe;
-    }
-
-    @JsonProperty("ubicacio")
-    public Ubicacio getUbicacio() {
-        return ubicacio;
-    }
-
-    @JsonProperty("ubicacio")
-    public void setUbicacio(Ubicacio ubicacio) {
-        this.ubicacio = ubicacio;
     }
 
     @JsonAnyGetter

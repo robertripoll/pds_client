@@ -20,7 +20,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -106,19 +105,16 @@ public class PublicarAnunciFragment extends Fragment {
 
             // No hi ha error, creem el producte i fem el POST.
             Producte producte  = new Producte();
-            Producte_ aux = new Producte_();
-            aux.setNom(nom);
-            aux.setDescripcio(desc);
-            aux.setPreu(Double.parseDouble(preuTxt));
-            aux.setCategoria(categories.get(iCategoria).getCategoria());
-            aux.setPreuNegociable(negociable);
-            aux.setIntercanviAcceptat(intercanvi);
+            producte.setNom(nom);
+            producte.setDescripcio(desc);
+            producte.setPreu(Double.parseDouble(preuTxt));
+            producte.setCategoria(categories.get(iCategoria).getCategoria());
+            producte.setPreuNegociable(negociable);
+            producte.setIntercanviAcceptat(intercanvi);
 
             Venedor venedor = new Venedor();
             venedor.setId(Integer.parseInt(_user_id));
-            aux.setVenedor(venedor);
-
-            producte.setProducte(aux);
+            producte.setVenedor(venedor);
 
             // Fem el POST.
             postAnunciProducte(producte);

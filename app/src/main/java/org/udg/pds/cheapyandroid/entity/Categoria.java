@@ -1,32 +1,27 @@
-
 package org.udg.pds.cheapyandroid.entity;
 
-import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "nom"
+        "id",
+        "nom"
 })
-public class Categoria implements Serializable{
+public class Categoria {
 
     @JsonProperty("id")
-    private Integer id;
+    private long id;
     @JsonProperty("nom")
     private String nom;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
