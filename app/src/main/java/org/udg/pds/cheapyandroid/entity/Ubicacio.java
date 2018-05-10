@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -12,14 +11,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "coordenades",
+        "coordLat",
+        "coordLng",
         "ciutat",
         "pais"
 })
-public class Ubicacio implements Serializable {
+public class Ubicacio {
 
-    @JsonProperty("coordenades")
-    private Coordenades coordenades;
+    @JsonProperty("coordLat")
+    private Double coordLat;
+    @JsonProperty("coordLng")
+    private Double coordLng;
     @JsonProperty("ciutat")
     private String ciutat;
     @JsonProperty("pais")
@@ -27,24 +29,33 @@ public class Ubicacio implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Ubicacio() {
-        this.coordenades = new Coordenades();
-        this.ciutat = "";
-        this.pais = "";
+    @JsonProperty("coordLat")
+    public Double getCoordLat() {
+        return coordLat;
     }
 
-    @JsonProperty("coordenades")
-    public Coordenades getCoordenades() {
-        return coordenades;
+    @JsonProperty("coordLat")
+    public void setCoordLat(Double coordLat) {
+        this.coordLat = coordLat;
     }
 
-    @JsonProperty("coordenades")
-    public void setCoordenades(Coordenades coordenades) {
-        this.coordenades = coordenades;
+    public Ubicacio withCoordLat(Double coordLat) {
+        this.coordLat = coordLat;
+        return this;
     }
 
-    public Ubicacio withCoordenades(Coordenades coordenades) {
-        this.coordenades = coordenades;
+    @JsonProperty("coordLng")
+    public Double getCoordLng() {
+        return coordLng;
+    }
+
+    @JsonProperty("coordLng")
+    public void setCoordLng(Double coordLng) {
+        this.coordLng = coordLng;
+    }
+
+    public Ubicacio withCoordLng(Double coordLng) {
+        this.coordLng = coordLng;
         return this;
     }
 

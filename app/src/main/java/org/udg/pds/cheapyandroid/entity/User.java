@@ -1,7 +1,5 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,69 +12,34 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
+        "correu",
         "nom",
         "cognoms",
-        "contrasenya",
-        "dataNaixement",
-        "correu",
-        "nombreVendes",
-        "nombreCompres",
-        "nombreValoracions",
-        "mitjanaValoracions",
-        "ubicacio",
-        "imatgeURL"
+        "sexe",
+        "telefon",
+        "dataNaix",
+        "ubicacio"
 })
-public class User implements Serializable{
+public class User {
 
     @JsonProperty("id")
     private Integer id;
+    @JsonProperty("correu")
+    private String correu;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("cognoms")
     private String cognoms;
-    @JsonProperty("telefon")
-    private Integer telefon;
-    @JsonProperty("dataNaixement")
-    private String dataNaixement;
-    @JsonProperty("correu")
-    private String correu;
-    @JsonProperty("contrasenya")
-    private String contrasenya;
     @JsonProperty("sexe")
     private String sexe;
-    @JsonProperty("nombreVendes")
-    private Integer nombreVendes;
-    @JsonProperty("nombreCompres")
-    private Integer nombreCompres;
-    @JsonProperty("nombreValoracions")
-    private Integer nombreValoracions;
-    @JsonProperty("mitjanaValoracions")
-    private Double mitjanaValoracions;
+    @JsonProperty("telefon")
+    private String telefon;
+    @JsonProperty("dataNaix")
+    private String dataNaix;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
-    @JsonProperty("imatgeURL")
-    private String imatgeURL;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    public User(String correu, String contrasenya, String sexe, String nom, String cognoms, int telefon, String dataNaixement) {
-
-        this.correu = correu;
-        this.contrasenya = contrasenya;
-        this.sexe = sexe;
-        this.nom = nom;
-        this.cognoms = cognoms;
-        this.telefon = telefon;
-        this.dataNaixement = dataNaixement;
-
-        this.id = 0;
-        this.nombreVendes = 0;
-        this.nombreCompres = 0;
-        this.nombreValoracions = 0;
-        this.mitjanaValoracions = 0.0;
-        this.imatgeURL = "";
-        this.ubicacio = new Ubicacio();
-    }
 
     @JsonProperty("id")
     public Integer getId() {
@@ -90,6 +53,21 @@ public class User implements Serializable{
 
     public User withId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    @JsonProperty("correu")
+    public String getCorreu() {
+        return correu;
+    }
+
+    @JsonProperty("correu")
+    public void setCorreu(String correu) {
+        this.correu = correu;
+    }
+
+    public User withCorreu(String correu) {
+        this.correu = correu;
         return this;
     }
 
@@ -123,93 +101,48 @@ public class User implements Serializable{
         return this;
     }
 
-    @JsonProperty("dataNaixement")
-    public String getDataNaixement() {
-        return dataNaixement;
+    @JsonProperty("sexe")
+    public String getSexe() {
+        return sexe;
     }
 
-    @JsonProperty("dataNaixement")
-    public void setDataNaixement(String dataNaixement) {
-        this.dataNaixement = dataNaixement;
+    @JsonProperty("sexe")
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
     }
 
-    public User withDataNaixement(String dataNaixement) {
-        this.dataNaixement = dataNaixement;
+    public User withSexe(String sexe) {
+        this.sexe = sexe;
         return this;
     }
 
-    @JsonProperty("correu")
-    public String getCorreu() {
-        return correu;
+    @JsonProperty("telefon")
+    public String getTelefon() {
+        return telefon;
     }
 
-    @JsonProperty("correu")
-    public void setCorreu(String correu) {
-        this.correu = correu;
+    @JsonProperty("telefon")
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
     }
 
-    public User withCorreu(String correu) {
-        this.correu = correu;
+    public User withTelefon(String telefon) {
+        this.telefon = telefon;
         return this;
     }
 
-    @JsonProperty("nombreVendes")
-    public Integer getNombreVendes() {
-        return nombreVendes;
+    @JsonProperty("dataNaix")
+    public String getDataNaix() {
+        return dataNaix;
     }
 
-    @JsonProperty("nombreVendes")
-    public void setNombreVendes(Integer nombreVendes) {
-        this.nombreVendes = nombreVendes;
+    @JsonProperty("dataNaix")
+    public void setDataNaix(String dataNaix) {
+        this.dataNaix = dataNaix;
     }
 
-    public User withNombreVendes(Integer nombreVendes) {
-        this.nombreVendes = nombreVendes;
-        return this;
-    }
-
-    @JsonProperty("nombreCompres")
-    public Integer getNombreCompres() {
-        return nombreCompres;
-    }
-
-    @JsonProperty("nombreCompres")
-    public void setNombreCompres(Integer nombreCompres) {
-        this.nombreCompres = nombreCompres;
-    }
-
-    public User withNombreCompres(Integer nombreCompres) {
-        this.nombreCompres = nombreCompres;
-        return this;
-    }
-
-    @JsonProperty("nombreValoracions")
-    public Integer getNombreValoracions() {
-        return nombreValoracions;
-    }
-
-    @JsonProperty("nombreValoracions")
-    public void setNombreValoracions(Integer nombreValoracions) {
-        this.nombreValoracions = nombreValoracions;
-    }
-
-    public User withNombreValoracions(Integer nombreValoracions) {
-        this.nombreValoracions = nombreValoracions;
-        return this;
-    }
-
-    @JsonProperty("mitjanaValoracions")
-    public Double getMitjanaValoracions() {
-        return mitjanaValoracions;
-    }
-
-    @JsonProperty("mitjanaValoracions")
-    public void setMitjanaValoracions(Double mitjanaValoracions) {
-        this.mitjanaValoracions = mitjanaValoracions;
-    }
-
-    public User withMitjanaValoracions(Double mitjanaValoracions) {
-        this.mitjanaValoracions = mitjanaValoracions;
+    public User withDataNaix(String dataNaix) {
+        this.dataNaix = dataNaix;
         return this;
     }
 
@@ -228,21 +161,6 @@ public class User implements Serializable{
         return this;
     }
 
-    @JsonProperty("imatgeURL")
-    public String getImatgeURL() {
-        return imatgeURL;
-    }
-
-    @JsonProperty("imatgeURL")
-    public void setImatgeURL(String imatgeURL) {
-        this.imatgeURL = imatgeURL;
-    }
-
-    public User withImatgeURL(String imatgeURL) {
-        this.imatgeURL = imatgeURL;
-        return this;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -258,48 +176,4 @@ public class User implements Serializable{
         return this;
     }
 
-    @JsonProperty("telefon")
-    public Integer getTelefon() {
-        return telefon;
-    }
-
-    @JsonProperty("telefon")
-    public void setTelefon(Integer telefon) {
-        this.telefon = telefon;
-    }
-
-    public User withTelefon(Integer telefon) {
-        this.telefon = telefon;
-        return this;
-    }
-
-    @JsonProperty("contrasenya")
-    public String getContrasenya() {
-        return contrasenya;
-    }
-
-    @JsonProperty("contrasenya")
-    public void setContrasenya(String contrasenya) {
-        this.contrasenya = contrasenya;
-    }
-
-    public User withContrasenya(String contrasenya) {
-        this.contrasenya = contrasenya;
-        return this;
-    }
-
-    @JsonProperty("sexe")
-    public String getSexe() {
-        return sexe;
-    }
-
-    @JsonProperty("sexe")
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
-    }
-
-    public User withSexe(String sexe) {
-        this.sexe = sexe;
-        return this;
-    }
 }
