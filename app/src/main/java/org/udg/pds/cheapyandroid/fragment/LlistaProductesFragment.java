@@ -72,7 +72,7 @@ public class LlistaProductesFragment extends Fragment {
     private void mostrarProductes(final LlistaProductes llistaProductes) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, (List<Producte>) llistaProductes);
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, llistaProductes.getItems());
 
 
         llistaProductesView.setAdapter(new ListAdapter() {
@@ -99,7 +99,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return ((List<Producte>)llistaProductes).size();
+                return llistaProductes.getItems().size();
             }
 
             @Override
@@ -109,7 +109,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public long getItemId(int i) {
-                return ((List<Producte>)llistaProductes).get(i).getId();
+                return llistaProductes.getItems().get(i).getId();
             }
 
             @Override
@@ -125,7 +125,7 @@ public class LlistaProductesFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = ((List<Producte>)llistaProductes).get(position);
+                Producte producte = llistaProductes.getItems().get(position);
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
@@ -162,7 +162,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public int getViewTypeCount() {
-                return ((List<Producte>)llistaProductes).size();
+                return llistaProductes.getItems().size();
             }
 
             @Override

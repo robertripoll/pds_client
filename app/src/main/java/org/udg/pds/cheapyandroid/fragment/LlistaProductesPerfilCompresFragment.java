@@ -66,7 +66,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
     private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, (List<Producte>) llistaProductesVendaPerfil);
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, llistaProductesVendaPerfil.getItems());
 
         llistaProductesCompraPerfilView.setAdapter(new ListAdapter() {
 
@@ -92,7 +92,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return ((List<Producte>)llistaProductesCompraPerfil).size();
+                return llistaProductesCompraPerfil.getItems().size();
             }
 
             @Override
@@ -102,7 +102,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
             @Override
             public long getItemId(int i) {
-                return ((List<Producte>)llistaProductesCompraPerfil).get(i).getId();
+                return llistaProductesCompraPerfil.getItems().get(i).getId();
             }
 
             @Override
@@ -118,7 +118,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = ((List<Producte>)llistaProductesCompraPerfil).get(position);
+                Producte producte = llistaProductesCompraPerfil.getItems().get(position);
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
@@ -133,7 +133,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
             @Override
             public int getViewTypeCount() {
-                return ((List<Producte>)llistaProductesCompraPerfil).size();
+                return llistaProductesCompraPerfil.getItems().size();
             }
 
             @Override
