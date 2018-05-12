@@ -14,7 +14,7 @@ import java.util.Map;
 public class Categoria {
 
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonIgnore
@@ -26,7 +26,7 @@ public class Categoria {
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

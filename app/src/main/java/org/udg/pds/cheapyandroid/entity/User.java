@@ -18,8 +18,6 @@ import java.util.Map;
 })
 public class User {
 
-    @JsonProperty("id")
-    private long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("cognoms")
@@ -38,12 +36,6 @@ public class User {
     private Ubicacio ubicacio;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("id")
-    public long getId() { return id; }
-
-    @JsonProperty("id")
-    public void setId(long id) { this.id = id; }
 
     @JsonProperty("nom")
     public String getNom() {

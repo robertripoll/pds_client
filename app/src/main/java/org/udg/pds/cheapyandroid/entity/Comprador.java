@@ -1,8 +1,8 @@
-
 package org.udg.pds.cheapyandroid.entity;
 
 
 import com.fasterxml.jackson.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
         "nombreCompres",
         "nombreVendes"
 })
-public class Venedor {
+public class Comprador {
 
     @JsonProperty("id")
     private Long id;
@@ -127,4 +127,5 @@ public class Venedor {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }

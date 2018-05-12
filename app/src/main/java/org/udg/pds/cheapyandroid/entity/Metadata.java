@@ -1,41 +1,30 @@
 
 package org.udg.pds.cheapyandroid.entity;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "totalCount",
-    "limit",
-    "offset"
+        "limit",
+        "currentOffset",
+        "nextOffset",
+        "total"
 })
 public class Metadata {
 
-    @JsonProperty("totalCount")
-    private Integer totalCount;
     @JsonProperty("limit")
     private Integer limit;
-    @JsonProperty("offset")
-    private Integer offset;
+    @JsonProperty("currentOffset")
+    private Integer currentOffset;
+    @JsonProperty("nextOffset")
+    private Integer nextOffset;
+    @JsonProperty("total")
+    private Integer total;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("totalCount")
-    public Integer getTotalCount() {
-        return totalCount;
-    }
-
-    @JsonProperty("totalCount")
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-    }
 
     @JsonProperty("limit")
     public Integer getLimit() {
@@ -47,14 +36,34 @@ public class Metadata {
         this.limit = limit;
     }
 
-    @JsonProperty("offset")
-    public Integer getOffset() {
-        return offset;
+    @JsonProperty("currentOffset")
+    public Integer getCurrentOffset() {
+        return currentOffset;
     }
 
-    @JsonProperty("offset")
-    public void setOffset(Integer offset) {
-        this.offset = offset;
+    @JsonProperty("currentOffset")
+    public void setCurrentOffset(Integer currentOffset) {
+        this.currentOffset = currentOffset;
+    }
+
+    @JsonProperty("nextOffset")
+    public Integer getNextOffset() {
+        return nextOffset;
+    }
+
+    @JsonProperty("nextOffset")
+    public void setNextOffset(Integer nextOffset) {
+        this.nextOffset = nextOffset;
+    }
+
+    @JsonProperty("total")
+    public Integer getTotal() {
+        return total;
+    }
+
+    @JsonProperty("total")
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     @JsonAnyGetter
@@ -66,5 +75,4 @@ public class Metadata {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

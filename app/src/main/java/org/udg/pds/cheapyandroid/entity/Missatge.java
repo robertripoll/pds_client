@@ -17,7 +17,7 @@ import java.util.Map;
 public class Missatge {
 
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("emisor")
     private Emisor emisor;
     @JsonProperty("receptor")
@@ -37,7 +37,7 @@ public class Missatge {
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -100,5 +100,4 @@ public class Missatge {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

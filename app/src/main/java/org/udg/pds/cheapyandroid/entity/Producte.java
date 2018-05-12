@@ -18,18 +18,19 @@ import java.util.Map;
         "numVisites",
         "reservat",
         "venedor",
+        "transaccio",
         "categoria"
 })
 public class Producte {
 
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("preu")
-    private Integer preu;
+    private Double preu;
     @JsonProperty("descripcio")
-    private Object descripcio;
+    private String descripcio;
     @JsonProperty("dataPublicacio")
     private String dataPublicacio;
     @JsonProperty("preuNegociable")
@@ -42,6 +43,8 @@ public class Producte {
     private Boolean reservat;
     @JsonProperty("venedor")
     private Venedor venedor;
+    @JsonProperty("transaccio")
+    private Transaccio transaccio;
     @JsonProperty("categoria")
     private Categoria categoria;
     @JsonIgnore
@@ -53,7 +56,7 @@ public class Producte {
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,22 +71,22 @@ public class Producte {
     }
 
     @JsonProperty("preu")
-    public Integer getPreu() {
+    public Double getPreu() {
         return preu;
     }
 
     @JsonProperty("preu")
-    public void setPreu(Integer preu) {
+    public void setPreu(Double preu) {
         this.preu = preu;
     }
 
     @JsonProperty("descripcio")
-    public Object getDescripcio() {
+    public String getDescripcio() {
         return descripcio;
     }
 
     @JsonProperty("descripcio")
-    public void setDescripcio(Object descripcio) {
+    public void setDescripcio(String descripcio) {
         this.descripcio = descripcio;
     }
 
@@ -147,6 +150,16 @@ public class Producte {
         this.venedor = venedor;
     }
 
+    @JsonProperty("transaccio")
+    public Transaccio getTransaccio() {
+        return transaccio;
+    }
+
+    @JsonProperty("transaccio")
+    public void setTransaccio(Transaccio transaccio) {
+        this.transaccio = transaccio;
+    }
+
     @JsonProperty("categoria")
     public Categoria getCategoria() {
         return categoria;
@@ -166,4 +179,5 @@ public class Producte {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }

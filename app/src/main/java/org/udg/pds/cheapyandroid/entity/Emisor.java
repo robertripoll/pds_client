@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
@@ -15,7 +14,7 @@ import java.util.Map;
 public class Emisor {
 
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
@@ -29,7 +28,7 @@ public class Emisor {
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

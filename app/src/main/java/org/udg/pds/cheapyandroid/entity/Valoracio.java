@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+
 import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,17 +8,17 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
-        "nom",
-        "sexe"
+        "estrelles",
+        "comentaris"
 })
-public class Receptor {
+public class Valoracio {
 
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("nom")
-    private String nom;
-    @JsonProperty("sexe")
-    private String sexe;
+    @JsonProperty("estrelles")
+    private Integer estrelles;
+    @JsonProperty("comentaris")
+    private String comentaris;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -31,24 +32,24 @@ public class Receptor {
         this.id = id;
     }
 
-    @JsonProperty("nom")
-    public String getNom() {
-        return nom;
+    @JsonProperty("estrelles")
+    public Integer getEstrelles() {
+        return estrelles;
     }
 
-    @JsonProperty("nom")
-    public void setNom(String nom) {
-        this.nom = nom;
+    @JsonProperty("estrelles")
+    public void setEstrelles(Integer estrelles) {
+        this.estrelles = estrelles;
     }
 
-    @JsonProperty("sexe")
-    public String getSexe() {
-        return sexe;
+    @JsonProperty("comentaris")
+    public String getComentaris() {
+        return comentaris;
     }
 
-    @JsonProperty("sexe")
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
+    @JsonProperty("comentaris")
+    public void setComentaris(String comentaris) {
+        this.comentaris = comentaris;
     }
 
     @JsonAnyGetter
