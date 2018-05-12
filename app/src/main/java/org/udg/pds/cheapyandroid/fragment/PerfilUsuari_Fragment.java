@@ -17,6 +17,7 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.Login;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
+import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
@@ -104,18 +105,20 @@ public class PerfilUsuari_Fragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle!=null){
             userInformation = (UserLogged) bundle.getSerializable("newUser");
-            //System.out.println("NOM  "+userInformation.getNom());
             updateUserInformation();
 
         }
     }
 
     private void updateUserInformation() {
-        System.out.println("-----------------------"+userInformation.getNom()+userInformation.getCognoms());
-        Call<UserLogged> call = mCheapyService.updateUserInformation(userInformation.getId(), userInformation.getNom(),userInformation.getCognoms(),userInformation.getTelefon());
-        call.enqueue(new Callback<UserLogged>() {
+        UserLoggedUpdate update = new UserLoggedUpdate();
+        update.setNom(userInformation.getNom());
+        update.setCognoms(userInformation.getCognoms());
+        update.setTelefon(userInformation.getTelefon());
+        Call<Void> call = mCheapyService.updateUserInformation(update);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast toast = null;
                 if(response.isSuccessful()){
                     toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
@@ -125,7 +128,7 @@ public class PerfilUsuari_Fragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<UserLogged> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast toast = Toast.makeText(getContext(), "ERROR: No s'ha pogut actualitzar el perfil! Revisa la connexió a Internet.", Toast.LENGTH_LONG);
                 toast.show();
             }

@@ -46,10 +46,7 @@ public interface CheapyApi {
 
     @FormUrlEncoded
     @PUT("/usuaris/{usuari_id}")
-    Call<UserLogged> updateUserInformation(@Path("usuari_id") int userID,
-                                     @Field("nom") String nom,
-                                     @Field("cognoms") String cognoms,
-                                     @Field("telefon") String telefon); //Retorna response 307 :/
+    Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
     @GET("/usuaris/jo/conversacions")
     Call<ItemsConversations> getConversations();
