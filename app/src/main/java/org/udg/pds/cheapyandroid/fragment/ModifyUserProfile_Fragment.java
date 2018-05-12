@@ -125,7 +125,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         Bundle bundle = new Bundle();
         userAct.setNom(String.valueOf(nom.getText()));
         userAct.setCognoms(String.valueOf(cognom.getText()));
-        userAct.setTelefon(telefon.getText().toString());
+        userAct.setTelefon(String.valueOf(telefon.getText()));
         bundle.putSerializable("newUser",userAct);
         fragmentPerf.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fragment_modificarPerfil, fragmentPerf).commit();
