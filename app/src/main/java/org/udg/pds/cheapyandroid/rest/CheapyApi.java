@@ -52,5 +52,5 @@ public interface CheapyApi {
                                      @Field("telefon") String telefon); //Retorna response 307 :/
 
     @GET("/usuaris/jo/conversacions")
-    Call<ConversationList> getConversations();
+    Call<ItemsConversations> getConversations();
 }
