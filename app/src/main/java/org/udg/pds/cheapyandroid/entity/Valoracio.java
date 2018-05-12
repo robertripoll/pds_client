@@ -2,6 +2,8 @@ package org.udg.pds.cheapyandroid.entity;
 
 
 import com.fasterxml.jackson.annotation.*;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +13,7 @@ import java.util.Map;
         "estrelles",
         "comentaris"
 })
-public class Valoracio {
+public class Valoracio implements Serializable{
 
     @JsonProperty("id")
     private Long id;

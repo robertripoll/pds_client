@@ -3,6 +3,7 @@ package org.udg.pds.cheapyandroid.entity;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
         "valoracioComprador",
         "valoracioVenedor"
 })
-public class Transaccio {
+public class Transaccio implements Serializable{
 
     @JsonProperty("id")
     private Long id;

@@ -147,7 +147,7 @@ public class LlistaProductesFragment extends Fragment {
                         //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("Producte", (Serializable) producteMostrar);
+                        intent.putExtra("Producte", producteMostrar);
                         startActivity(intent);
                     }
                 });

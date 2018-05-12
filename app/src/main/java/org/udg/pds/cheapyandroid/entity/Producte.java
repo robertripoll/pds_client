@@ -3,6 +3,7 @@ package org.udg.pds.cheapyandroid.entity;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import java.util.Map;
         "transaccio",
         "categoria"
 })
-public class Producte {
+public class Producte implements Serializable{
 
     @JsonProperty("id")
     private Integer id;
@@ -178,6 +179,18 @@ public class Producte {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+
+        String dadesProducte = "";
+        dadesProducte = dadesProducte + "id = " + id + "\n" + "nom = " + nom + "\n" + "preu = " + preu + "\n" + "descripcio = " + descripcio + "\n";
+        dadesProducte = dadesProducte + "dataPublicacio = " + dataPublicacio + "\n" + "preuNegociable = " + preuNegociable + "\n" + "intercanviAcceptat = " + intercanviAcceptat + "\n";
+        dadesProducte = dadesProducte + "reservat = " + reservat + "\n" + "numeroVisites = " + numVisites + "\n";
+        dadesProducte = dadesProducte + "cateogira = " + categoria.getNom() + "\n" + "venedor = " + venedor.getNom() + "\n";
+
+        return dadesProducte;
     }
 
 }

@@ -64,7 +64,7 @@ public class ProducteInfo extends AppCompatActivity {
         });
 
 
-        //mostrarProducte();
+        mostrarProducte();
     }
 
     private void mostrarProducte() {

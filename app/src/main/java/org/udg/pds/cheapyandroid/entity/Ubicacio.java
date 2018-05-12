@@ -2,6 +2,7 @@ package org.udg.pds.cheapyandroid.entity;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
         "coordLat",
         "coordLng"
 })
-public class Ubicacio {
+public class Ubicacio implements Serializable{
 
     @JsonProperty("pais")
     private String pais;
