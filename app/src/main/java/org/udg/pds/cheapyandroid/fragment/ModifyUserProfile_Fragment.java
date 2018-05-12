@@ -14,6 +14,7 @@ import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
+import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
@@ -35,7 +36,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private EditText telefon;
 
     private boolean fotoActualitzada;
-    private User userAct;
+    private UserLogged userAct;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,7 +147,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         fotoActualitzada = false;
         Bundle bundle = getArguments();
         if(bundle!=null){
-            userAct = (User) bundle.getSerializable("oldUser");
+            userAct = (UserLogged) bundle.getSerializable("oldUser");
             email.setText(userAct.getCorreu());
         }
     }
