@@ -1,6 +1,7 @@
 package org.udg.pds.cheapyandroid.activity;
 
 import android.app.*;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -94,8 +95,9 @@ public class AddUser extends Activity implements Callback<User> {
                         call.enqueue(new Callback<UserLogged>() {
                             @Override
                             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
-                                Toast toast = Toast.makeText(AddUser.this, "Nou usuari enviat correctament.", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddUser.this, "Nou usuari registrat correctament.", Toast.LENGTH_SHORT);
                                 toast.show();
+                                AddUser.this.startActivity(new Intent(AddUser.this, LlistaProductesActivity.class));
                             }
 
                             @Override
