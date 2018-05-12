@@ -26,6 +26,13 @@ public class Ubicacio implements Serializable{
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Ubicacio(String pais_, String ciutat_, Double coordLat_, Double coordLng_) {
+        this.pais = pais_;
+        this.ciutat = ciutat_;
+        this.coordLat = coordLat_;
+        this.coordLng = coordLng_;
+    }
+
     @JsonProperty("pais")
     public String getPais() {
         return pais;

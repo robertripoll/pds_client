@@ -39,7 +39,7 @@ public interface CheapyApi {
     Call<UserLogged> getSpecificUser(@Path("usuari_id") int userID);
 
     @POST("/usuaris")
-    Call<User> addUser(@Body User task);
+    Call<UserLogged> addUser(@Body User user);
 
     @POST("/usuaris/desautenticar")
     Call<Void> diconnect();

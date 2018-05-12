@@ -38,14 +38,15 @@ public class User implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public User(String correu_, String contrasenya_, String sexe_, String nom_, String cognoms_, String telefon_, String dataNaixament_) {
+    public User(String correu_, String contrasenya_, String sexe_, String nom_, String cognoms_, String telefon_, String dataNaixament_, Ubicacio ubicacio_) {
         this.correu = correu_;
         this.contrasenya = contrasenya_;
         this.sexe = sexe_;
         this.nom = nom_;
         this.cognoms = cognoms_;
         this.telefon = telefon_;
-        this.dataNaixement = telefon_;
+        this.dataNaixement = dataNaixament_;
+        this.ubicacio = ubicacio_;
     }
 
     @JsonProperty("nom")
