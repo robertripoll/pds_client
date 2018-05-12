@@ -41,10 +41,10 @@ public class Chats_Fragment extends Fragment {
     }
 
     private void addActualConversations() {
-        Call<ConversationList> call = mCheapyService.getConversations();
-        call.enqueue(new Callback<ConversationList>() {
+        Call<ItemsConversations> call = mCheapyService.getConversations();
+        call.enqueue(new Callback<ItemsConversations>() {
             @Override
-            public void onResponse(Call<ConversationList> call, Response<ConversationList> response) {
+            public void onResponse(Call<ItemsConversations> call, Response<ItemsConversations> response) {
 
                 if (response.isSuccessful()) {
                     mostrarConverses(response.body());
@@ -55,16 +55,16 @@ public class Chats_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ConversationList> call, Throwable t) {
+            public void onFailure(Call<ItemsConversations> call, Throwable t) {
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Check your internet connection", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
 
-    private void mostrarConverses(final ConversationList llistaConverses) {
-        final ArrayAdapter<LlistaConversacion> itemsAdapter =
-                new ArrayAdapter<LlistaConversacion>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getLlistaConversacions());
+    private void mostrarConverses(final ItemsConversations llistaConverses) {
+        final ArrayAdapter<Item> itemsAdapter =
+                new ArrayAdapter<Item>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getItems());
         listChatsView.setAdapter(new ListAdapter() {
             @Override
             public boolean areAllItemsEnabled() {
@@ -80,14 +80,14 @@ public class Chats_Fragment extends Fragment {
             public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {}
             @Override
             public int getCount() {
-                return llistaConverses.getLlistaConversacions().size();
+                return llistaConverses.getItems().size();
             }
             @Override
             public Object getItem(int i) {
                 return null;
             }
             @Override
-            public long getItemId(int i) { return llistaConverses.getLlistaConversacions().get(i).getConversacio().getId();}
+            public long getItemId(int i) { return llistaConverses.getItems().get(i).getId();}
             @Override
             public boolean hasStableIds() {
                 return false;
@@ -101,12 +101,12 @@ public class Chats_Fragment extends Fragment {
                 TextView userName = (TextView) rowView.findViewById(R.id.lastMessageUser);
                 TextView userLastMessage = (TextView) rowView.findViewById(R.id.lastMessage);
 
-                ConversacioChat conv = llistaConverses.getLlistaConversacions().get(position).getConversacio();
+                Item conv = llistaConverses.getItems().get(position);
 
                 userName.setText(conv.getUsuari().getNom());
                 userLastMessage.setText(conv.getUltimMissatge().toString());
 
-                if(llistaConverses.getLlistaConversacions().get(position).getConversacio().getMissatgesPerLlegir()){
+                if(llistaConverses.getItems().get(position).getMissatgesPerLlegir()){
                     TextView userNameTextview = (TextView) rowView.findViewById(R.id.userNameTextview);
                     TextView userMessageTextview = (TextView) rowView.findViewById(R.id.userMessageTextview);
                     userNameTextview.setTypeface(null, Typeface.BOLD);
@@ -124,7 +124,7 @@ public class Chats_Fragment extends Fragment {
             }
             @Override
             public int getViewTypeCount() {
-                return llistaConverses.getLlistaConversacions().size();
+                return llistaConverses.getItems().size();
             }
             @Override
             public boolean isEmpty() {
