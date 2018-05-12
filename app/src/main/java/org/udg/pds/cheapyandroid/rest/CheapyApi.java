@@ -9,7 +9,7 @@ import java.util.List;
 public interface CheapyApi {
 
     @POST("/usuaris/autenticar")
-    Call<User> login(@Body UserLogin login);
+    Call<UserLogged> login(@Body UserLogin login);
 
     @GET("/productes")
     Call<LlistaProductes> getProductes();
@@ -36,7 +36,7 @@ public interface CheapyApi {
     Call<LlistaProductes> getProductesCompraPerfil();
 
     @GET("usuaris/{usuari_id}")
-    Call<User> getSpecificUser(@Path("usuari_id") int userID);
+    Call<UserLogged> getSpecificUser(@Path("usuari_id") int userID);
 
     @POST("/usuaris")
     Call<User> addUser(@Body User task);
@@ -49,10 +49,10 @@ public interface CheapyApi {
 
     @FormUrlEncoded
     @PUT("/usuaris/{usuari_id}")
-    Call<User> updateUserInformation(@Path("usuari_id") int userID,
+    Call<UserLogged> updateUserInformation(@Path("usuari_id") int userID,
                                      @Field("nom") String nom,
                                      @Field("cognoms") String cognoms,
-                                     @Field("telefon") Integer telefon); //Retorna response 307 :/
+                                     @Field("telefon") String telefon); //Retorna response 307 :/
 
     @GET("/usuaris/jo/conversacions")
     Call<ConversationList> getConversations();

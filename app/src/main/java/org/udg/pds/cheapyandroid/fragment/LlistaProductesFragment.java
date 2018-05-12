@@ -19,6 +19,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -69,7 +72,7 @@ public class LlistaProductesFragment extends Fragment {
     private void mostrarProductes(final LlistaProductes llistaProductes) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item,llistaProductes.getProductes());
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, (List<Producte>) llistaProductes);
 
 
         llistaProductesView.setAdapter(new ListAdapter() {
@@ -96,7 +99,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return llistaProductes.getProductes().size();
+                return ((List<Producte>)llistaProductes).size();
             }
 
             @Override
@@ -106,7 +109,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public long getItemId(int i) {
-                return llistaProductes.getProductes().get(i).getId();
+                return ((List<Producte>)llistaProductes).get(i).getId();
             }
 
             @Override
@@ -122,7 +125,7 @@ public class LlistaProductesFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = llistaProductes.getProductes().get(position);
+                Producte producte = ((List<Producte>)llistaProductes).get(position);
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
@@ -144,7 +147,7 @@ public class LlistaProductesFragment extends Fragment {
                         //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("Producte", producteMostrar);
+                        intent.putExtra("Producte", (Serializable) producteMostrar);
                         startActivity(intent);
                     }
                 });
@@ -159,7 +162,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public int getViewTypeCount() {
-                return llistaProductes.getProductes().size();
+                return ((List<Producte>)llistaProductes).size();
             }
 
             @Override

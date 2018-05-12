@@ -1,36 +1,54 @@
-
 package org.udg.pds.cheapyandroid.entity;
 
-
-import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
+        "correu",
+        "contrasenya",
         "nom",
+        "cognoms",
         "sexe",
+        "telefon",
+        "dataNaix",
         "ubicacio",
         "nombreValoracions",
         "mitjanaValoracions",
         "nombreCompres",
         "nombreVendes"
 })
-public class Venedor {
+public class UserLogged {
 
     @JsonProperty("id")
     private Integer id;
+    @JsonProperty("correu")
+    private String correu;
+    @JsonProperty("contrasenya")
+    private String contrasenya;
     @JsonProperty("nom")
     private String nom;
+    @JsonProperty("cognoms")
+    private String cognoms;
     @JsonProperty("sexe")
     private String sexe;
+    @JsonProperty("telefon")
+    private String telefon;
+    @JsonProperty("dataNaix")
+    private String dataNaix;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
     @JsonProperty("nombreValoracions")
     private Integer nombreValoracions;
     @JsonProperty("mitjanaValoracions")
-    private Double mitjanaValoracions;
+    private Object mitjanaValoracions;
     @JsonProperty("nombreCompres")
     private Integer nombreCompres;
     @JsonProperty("nombreVendes")
@@ -48,6 +66,26 @@ public class Venedor {
         this.id = id;
     }
 
+    @JsonProperty("correu")
+    public String getCorreu() {
+        return correu;
+    }
+
+    @JsonProperty("correu")
+    public void setCorreu(String correu) {
+        this.correu = correu;
+    }
+
+    @JsonProperty("contrasenya")
+    public String getContrasenya() {
+        return contrasenya;
+    }
+
+    @JsonProperty("contrasenya")
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
+    }
+
     @JsonProperty("nom")
     public String getNom() {
         return nom;
@@ -58,6 +96,16 @@ public class Venedor {
         this.nom = nom;
     }
 
+    @JsonProperty("cognoms")
+    public String getCognoms() {
+        return cognoms;
+    }
+
+    @JsonProperty("cognoms")
+    public void setCognoms(String cognoms) {
+        this.cognoms = cognoms;
+    }
+
     @JsonProperty("sexe")
     public String getSexe() {
         return sexe;
@@ -66,6 +114,26 @@ public class Venedor {
     @JsonProperty("sexe")
     public void setSexe(String sexe) {
         this.sexe = sexe;
+    }
+
+    @JsonProperty("telefon")
+    public String getTelefon() {
+        return telefon;
+    }
+
+    @JsonProperty("telefon")
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
+    }
+
+    @JsonProperty("dataNaix")
+    public String getDataNaix() {
+        return dataNaix;
+    }
+
+    @JsonProperty("dataNaix")
+    public void setDataNaix(String dataNaix) {
+        this.dataNaix = dataNaix;
     }
 
     @JsonProperty("ubicacio")
@@ -89,12 +157,12 @@ public class Venedor {
     }
 
     @JsonProperty("mitjanaValoracions")
-    public Double getMitjanaValoracions() {
+    public Object getMitjanaValoracions() {
         return mitjanaValoracions;
     }
 
     @JsonProperty("mitjanaValoracions")
-    public void setMitjanaValoracions(Double mitjanaValoracions) {
+    public void setMitjanaValoracions(Object mitjanaValoracions) {
         this.mitjanaValoracions = mitjanaValoracions;
     }
 
@@ -127,4 +195,5 @@ public class Venedor {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }

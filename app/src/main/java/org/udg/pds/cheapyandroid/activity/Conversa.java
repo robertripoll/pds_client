@@ -112,6 +112,7 @@ public class Conversa extends AppCompatActivity  {
 
     private void enviarMissatges() {
 
+        /*
         buttonEnviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText editTextChat = (EditText) findViewById(R.id.textMissatgeChat);
@@ -146,7 +147,7 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-
+*/
     }
 
     private void buscarChat() {

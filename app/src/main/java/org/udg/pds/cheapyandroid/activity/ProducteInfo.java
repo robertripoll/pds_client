@@ -25,6 +25,7 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 
 public class ProducteInfo extends AppCompatActivity {
@@ -56,19 +57,20 @@ public class ProducteInfo extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(ProducteInfo.this, Conversa.class);
-                    intent.putExtra("Producte", producte);
+                    intent.putExtra("Producte", (Serializable) producte);
                     startActivity(intent);
                 }
             }
         });
 
 
-        mostrarProducte();
+        //mostrarProducte();
     }
 
     private void mostrarProducte() {
 
         //Carrega Imatge
+        /*
         ImageView viewProducte = (ImageView)findViewById(R.id.imageViewplaces);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -78,6 +80,7 @@ public class ProducteInfo extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
+        */
 
         //Carrega Info
         TextView viewInfoProducte = (TextView)findViewById(R.id.infoProducte);

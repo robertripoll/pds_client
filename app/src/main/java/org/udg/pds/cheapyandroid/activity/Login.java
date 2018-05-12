@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
+import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
@@ -77,13 +78,13 @@ public class Login extends Activity {
     public void checkCredentials(final String username, final String password) {
         UserLogin ul = new UserLogin(username, password);
 
-        Call<User> call = mCheapyService.login(ul);
-        call.enqueue(new Callback<User>() {
+        Call<UserLogged> call = mCheapyService.login(ul);
+        call.enqueue(new Callback<UserLogged>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
 
                 if (response.isSuccessful()) {
-                    User usuari = response.body();
+                    UserLogged usuari = response.body();
                     userID_connected=usuari.getId();
                     userName_connected=usuari.getNom();
                     String user_name = String.valueOf(usuari.getNom());
@@ -113,7 +114,7 @@ public class Login extends Activity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserLogged> call, Throwable t) {
                 Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
                 toast.show();
             }

@@ -2,6 +2,7 @@ package org.udg.pds.cheapyandroid.entity;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import java.util.Map;
         "dataNaixement",
         "ubicacio"
 })
-public class User {
+public class User implements Serializable {
 
     @JsonProperty("nom")
     private String nom;
@@ -36,6 +37,16 @@ public class User {
     private Ubicacio ubicacio;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public User(String correu_, String contrasenya_, String sexe_, String nom_, String cognoms_, String telefon_, String dataNaixament_) {
+        this.correu = correu_;
+        this.contrasenya = contrasenya_;
+        this.sexe = sexe_;
+        this.nom = nom_;
+        this.cognoms = cognoms_;
+        this.telefon = telefon_;
+        this.dataNaixement = telefon_;
+    }
 
     @JsonProperty("nom")
     public String getNom() {

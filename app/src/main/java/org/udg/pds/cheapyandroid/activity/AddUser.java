@@ -69,17 +69,16 @@ public class AddUser extends Activity implements Callback<User> {
                 final String sexe_ = sexe.getText().toString();
                 final String nom_ = nom.getText().toString();
                 final String cognoms_ = cognoms.getText().toString();
-                final String telefon__ = telefon.getText().toString();
+                final String telefon_ = telefon.getText().toString();
                 final String dataNaixament_ = dataNaixament.getText().toString();
 
-                if (correu_.matches("") || contrasenya_.matches("") || sexe_.matches("") || nom_.matches("") || cognoms_.matches("") || telefon__.toString().matches("") || dataNaixament_.matches("")) {
+                if (correu_.matches("") || contrasenya_.matches("") || sexe_.matches("") || nom_.matches("") || cognoms_.matches("") || telefon_.toString().matches("") || dataNaixament_.matches("")) {
                     Toast.makeText(AddUser.this, "Emplena tots els camps, siusplau", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
                     try {
 
-                        Integer telefon_ = Integer.parseInt(telefon.getText().toString());
                         User u = new User(correu_, contrasenya_, sexe_, nom_, cognoms_, telefon_, dataNaixament_);
                         Call<User> call = mCheapyService.addUser(u);
                         call.enqueue(new Callback<User>() {

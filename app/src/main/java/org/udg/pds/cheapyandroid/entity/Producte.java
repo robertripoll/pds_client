@@ -24,7 +24,7 @@ import java.util.Map;
 public class Producte {
 
     @JsonProperty("id")
-    private Long id;
+    private Integer id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("preu")
@@ -51,12 +51,12 @@ public class Producte {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
