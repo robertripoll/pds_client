@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "id",
         "correu",
-        "contrasenya",
         "nom",
         "cognoms",
         "sexe",
@@ -31,8 +30,6 @@ public class UserLogged {
     private Integer id;
     @JsonProperty("correu")
     private String correu;
-    @JsonProperty("contrasenya")
-    private String contrasenya;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("cognoms")
@@ -74,16 +71,6 @@ public class UserLogged {
     @JsonProperty("correu")
     public void setCorreu(String correu) {
         this.correu = correu;
-    }
-
-    @JsonProperty("contrasenya")
-    public String getContrasenya() {
-        return contrasenya;
-    }
-
-    @JsonProperty("contrasenya")
-    public void setContrasenya(String contrasenya) {
-        this.contrasenya = contrasenya;
     }
 
     @JsonProperty("nom")

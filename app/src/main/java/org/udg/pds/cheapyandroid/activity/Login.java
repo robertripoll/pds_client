@@ -42,6 +42,7 @@ public class Login extends Activity {
 
     public static int userID_connected;
     public static String userName_connected;
+    public static String userCorreu_connected;
     public static Integer NO_REGISTRAT = -1;
     CheapyApi mCheapyService;
 
@@ -87,16 +88,16 @@ public class Login extends Activity {
                     UserLogged usuari = response.body();
                     userID_connected=usuari.getId();
                     userName_connected=usuari.getNom();
-                    String user_name = String.valueOf(usuari.getNom());
-                    String user_pass = String.valueOf(usuari.getContrasenya());
-                    if(user_name.equals(username) && user_pass.equals(password)) {
+                    userCorreu_connected = usuari.getCorreu();
+                    String user_name = String.valueOf(usuari.getCorreu());
+                    if(user_name.equals(username)) {
 
                         //Afegeix noves preferencies per usuari i la seva contrasenya correctes
                         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("usuari_id", usuari.getId().toString());
-                        editor.putString("usuari_nom", username);
-                        editor.putString("contrasenya_nom", password);
+                        editor.putInt("usuari_id", userID_connected);
+                        editor.putString("usuari_nom", userName_connected);
+                        editor.putString("usuari_correo", userCorreu_connected);
                         editor.commit();
 
                         Toast toast = Toast.makeText(Login.this, "Usuari OK", Toast.LENGTH_SHORT);

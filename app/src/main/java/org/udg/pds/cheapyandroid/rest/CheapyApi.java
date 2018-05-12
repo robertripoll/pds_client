@@ -41,10 +41,7 @@ public interface CheapyApi {
     @POST("/usuaris")
     Call<User> addUser(@Body User task);
 
-    @GET("/usuaris/jo")
-    Call<UserLogin> isConnected();
-
-    @POST("/logout")
+    @POST("/usuaris/desautenticar")
     Call<Void> diconnect();
 
     @FormUrlEncoded

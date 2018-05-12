@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
+import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
 import org.udg.pds.cheapyandroid.fragment.PublicarAnunciFragment;
@@ -35,7 +36,10 @@ public class LlistaProductesActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
     CheapyApi mCheapyService;
-    String user_, pass_;
+    String user_;
+    String pass_;
+    String correu_;
+    Integer id_;
 
     public static final String PREFS_NAME = "MisPreferencias";
 
@@ -48,7 +52,10 @@ public class LlistaProductesActivity extends AppCompatActivity {
         //Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)
-        pass_ = prefs.getString("contrasenya_nom", "contrasenya_prova"); //getString(identificador, default)
+        pass_ = prefs.getString("usuari_pass", "pass_prova");
+        id_ = prefs.getInt("usuari_id", -1); //getString(identificador, default)
+        correu_ = prefs.getString("usuari_correo", "prova@mail.com");
+
 
         // Configurem el Toolbar.
         configurarToolbar();
@@ -144,17 +151,18 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
     private void comprovarLoginLogout(final NavigationView navigationView) {
 
-        Call<UserLogin> call = mCheapyService.isConnected();
-        call.enqueue(new Callback<UserLogin>() {
+        Call<UserLogged> call = mCheapyService.login(new UserLogin(Login.userCorreu_connected, "1234"));
+        call.enqueue(new Callback<UserLogged>() {
             @Override
-            public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
 
                 if (response.isSuccessful()) {
 
-                    UserLogin usuari = response.body();
-                    String user_name = String.valueOf(usuari.getUsuari());
-                    String user_pass = String.valueOf(usuari.getContrasenya());
-                    if(user_name.equals(user_) && user_pass.equals(pass_)) {
+                    UserLogged usuari = response.body();
+                    String user_name = String.valueOf(usuari.getNom());
+                    String user_correu = String.valueOf(usuari.getCorreu());
+                    Integer user_id = usuari.getId();
+                    if(user_correu.equals(Login.userCorreu_connected) && id_.equals(user_id)) {
                         navigationView.getMenu().findItem(R.id.nav_item_perfil).setVisible(true);
                         navigationView.getMenu().findItem(R.id.nav_item_nou_producte).setVisible(true);
                         navigationView.getMenu().findItem(R.id.log_out).setVisible(true);
@@ -171,7 +179,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
 
             @Override
-            public void onFailure(Call<UserLogin> call, Throwable t) {
+            public void onFailure(Call<UserLogged> call, Throwable t) {
                 Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -208,7 +216,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout internet", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout internet " +t.toString(), Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
