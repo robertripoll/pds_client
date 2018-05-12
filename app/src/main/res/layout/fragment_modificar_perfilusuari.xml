@@ -84,7 +84,5 @@
                     android:id="@+id/botoActualitzarInformacio"
                     android:text="Confirm Changes"/>
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>
