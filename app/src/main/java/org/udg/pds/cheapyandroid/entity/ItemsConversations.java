@@ -1,7 +1,7 @@
-
 package org.udg.pds.cheapyandroid.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -12,27 +12,45 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "conversacio"
+        "items",
+        "metadata"
 })
-public class LlistaConversacion {
+public class ItemsConversations {
 
-    @JsonProperty("conversacio")
-    private ConversacioChat conversacio;
+    @JsonProperty("items")
+    private List<Item> items = null;
+    @JsonProperty("metadata")
+    private Metadata metadata;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("conversacio")
-    public ConversacioChat getConversacio() {
-        return conversacio;
+    @JsonProperty("items")
+    public List<Item> getItems() {
+        return items;
     }
 
-    @JsonProperty("conversacio")
-    public void setConversacio(ConversacioChat conversacio) {
-        this.conversacio = conversacio;
+    @JsonProperty("items")
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
-    public LlistaConversacion withConversacio(ConversacioChat conversacio) {
-        this.conversacio = conversacio;
+    public ItemsConversations withItems(List<Item> items) {
+        this.items = items;
+        return this;
+    }
+
+    @JsonProperty("metadata")
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    @JsonProperty("metadata")
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
+    }
+
+    public ItemsConversations withMetadata(Metadata metadata) {
+        this.metadata = metadata;
         return this;
     }
 
@@ -46,7 +64,7 @@ public class LlistaConversacion {
         this.additionalProperties.put(name, value);
     }
 
-    public LlistaConversacion withAdditionalProperty(String name, Object value) {
+    public ItemsConversations withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }
