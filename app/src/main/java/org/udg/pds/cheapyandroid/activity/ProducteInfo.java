@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.MyFirebaseMessagingService;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
@@ -51,13 +52,13 @@ public class ProducteInfo extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(Login.userID_connected == Login.NO_REGISTRAT) {
-
                     Toast toast = Toast.makeText(ProducteInfo.this, "Has d'estar registrat " , Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else{
                     Intent intent = new Intent(ProducteInfo.this, Conversa.class);
                     intent.putExtra("Producte", (Serializable) producte);
+
                     startActivity(intent);
                 }
             }

@@ -14,7 +14,7 @@ import java.util.Map;
 public class Emisor {
 
     @JsonProperty("id")
-    private Long id;
+    private Integer id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
@@ -22,13 +22,19 @@ public class Emisor {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Emisor(int i, String pep, String home) {
+        this.id = 2;
+        this.nom = pep;
+        this.sexe = home;
+    }
+
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

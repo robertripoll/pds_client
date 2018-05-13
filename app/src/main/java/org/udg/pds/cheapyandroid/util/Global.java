@@ -12,7 +12,7 @@ public class Global {
     public static final SimpleDateFormat FULL_TIME_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     // Resquest codes for startActivityForResult
-    public static final String BASE_URL = "http://private-5389b3-pdsrest.apiary-mock.com";
+    public static final String BASE_URL = "http://private-875f4-pdsrest.apiary-mock.com";
     public static final String PREFS_NAME = "MisPreferencias";
 
 }
