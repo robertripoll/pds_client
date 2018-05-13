@@ -1,6 +1,8 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.Application;
 import android.content.Context;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.google.firebase.database.*;
+import de.hdodenhof.circleimageview.CircleImageView;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService;
+import org.udg.pds.cheapyandroid.MyFirebaseMessagingService;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.*;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
@@ -27,16 +34,14 @@ public class Conversa extends AppCompatActivity  {
     Producte producte;
     Venedor venedor;
     ConversacioChat conversacio = new ConversacioChat();
-    List<Missatge> listMiss = new ArrayList<>();
 
     private TextView nomProducte;
     private EditText textChat;
     private Button buttonEnviar;
     private MessageListAdapter mMessageAdapter;
     private RecyclerView mMessageRecycler;
+    public static List<Missatge> listMiss = new ArrayList<>();
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +49,24 @@ public class Conversa extends AppCompatActivity  {
         setContentView(R.layout.activity_conversa);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
+        MyFirebaseMessagingService myFireBaseMess = new MyFirebaseMessagingService();
+
+        myFireBaseInsID.onTokenRefresh();
+
 
         producte = (Producte) getIntent().getSerializableExtra("Producte");
-        venedor = producte.getVenedor();
-        conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
+        if(producte != null) {
 
-        nomProducte = (TextView) findViewById(R.id.nomProducteChat);
-        nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+            venedor = producte.getVenedor();
+            conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
+
+            nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+            nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+        }
+
         textChat = (EditText) findViewById(R.id.textMissatgeChat);
         buttonEnviar = (Button) findViewById(R.id.buttonEnviarChat);
-
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("chatCheapy");
 
         mMessageRecycler = (RecyclerView) findViewById(R.id.rvMissatges);
         mMessageAdapter = new MessageListAdapter(this.getApplication());
@@ -66,6 +77,12 @@ public class Conversa extends AppCompatActivity  {
 
         if(listMiss.isEmpty()){
             crearNovaConversa(producte);
+        }
+
+        String missatgeRebut = (String) getIntent().getSerializableExtra("Missatge");
+
+        if(missatgeRebut != null){
+            mMessageAdapter.add(new Missatge(missatgeRebut));
         }
 
         enviarMissatges();
@@ -79,32 +96,24 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                Missatge m = dataSnapshot.getValue(Missatge.class);
-                mMessageAdapter.add(m);
+
+    }
+
+    private void buscarChat() {
+
+        Call<LlistaMissatges> call = mCheapyService.getChatID(conversacio.getId());
+        call.enqueue(new Callback<LlistaMissatges>() {
+            @Override
+            public void onResponse(Call<LlistaMissatges> call, Response<LlistaMissatges> response) {
+                listMiss = response.body().getItems();
+                mMessageAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onFailure(Call<LlistaMissatges> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "Error internet per getChatID -> "+  t.toString()  , Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
@@ -112,7 +121,6 @@ public class Conversa extends AppCompatActivity  {
 
     private void enviarMissatges() {
 
-        /*
         buttonEnviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText editTextChat = (EditText) findViewById(R.id.textMissatgeChat);
@@ -123,22 +131,23 @@ public class Conversa extends AppCompatActivity  {
                 }
                 else{
 
-                    final Missatge m = new Missatge(message, Login.userID_connected, Login.userName_connected);
-                    Call<Void>  call = mCheapyService.sendMessage(m.getId(), m);
-                    call.enqueue(new Callback<Void>() {
+                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    call.enqueue(new Callback<Missatge>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<Missatge> call, Response<Missatge> response) {
 
                             if(response.isSuccessful()){
 
-                                databaseReference.push().setValue(m);
-                                textChat.setText("");
+                                Toast toast = Toast.makeText(Conversa.this, "Missatge enviat correctament" , Toast.LENGTH_SHORT);
+                                toast.show();
+
+                                mMessageAdapter.add(response.body());
                             }
 
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<Missatge> call, Throwable t) {
                             Toast toast = Toast.makeText(Conversa.this, "Error enviar missatge " , Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -147,38 +156,19 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-*/
-    }
-
-    private void buscarChat() {
-
-        Call<List<Missatge>> call = mCheapyService.getChatID(conversacio.getId());
-        call.enqueue(new Callback<List<Missatge>>() {
-            @Override
-            public void onResponse(Call<List<Missatge>> call, Response<List<Missatge>> response) {
-                listMiss = response.body();
-                mMessageAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<Missatge>> call, Throwable t) {
-                Toast toast = Toast.makeText(Conversa.this, "Error internet per getChatID -> "+  t.toString()  , Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
 
     }
 
-    private void crearNovaConversa(final Producte producte) {
 
-        Call<ConversacioChat> call = mCheapyService.addChat(producte);
+    private void crearNovaConversa(Producte producte) {
+
+        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId());
         call.enqueue(new Callback<ConversacioChat>() {
             @Override
             public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
 
                 if (response.isSuccessful()) {
                     conversacio = response.body();
-                    conversacio.setId(Login.userID_connected + producte.getId());
 
                 } else {
                     Toast toast = Toast.makeText(Conversa.this, "Error new chat", Toast.LENGTH_SHORT);
@@ -200,8 +190,6 @@ public class Conversa extends AppCompatActivity  {
         private static final int VIEW_TYPE_MESSAGE_SENT = 1;
         private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
         Context context;
-
-
 
         public MessageListAdapter(Context context) {
             this.context = context;
@@ -253,7 +241,6 @@ public class Conversa extends AppCompatActivity  {
             void bind(Missatge message) {
                 messageText.setText(message.getMissatge());
                 nameText.setText(message.getEmisor().getNom());
-
             }
         }
 
@@ -271,7 +258,6 @@ public class Conversa extends AppCompatActivity  {
             void bind(Missatge message) {
                 messageText.setText(message.getMissatge());
                 nameText.setText(message.getEmisor().getNom());
-
             }
         }
 
@@ -290,7 +276,7 @@ public class Conversa extends AppCompatActivity  {
         public int getItemViewType(int position) {
             Missatge message = (Missatge) listMiss.get(position);
 
-            if (message.getId() == Login.userID_connected) {
+            if (message.getEmisor().getId() == Login.userID_connected) {
                 // If the current user is the sender of the message
                 return VIEW_TYPE_MESSAGE_SENT;
             } else {
@@ -298,6 +284,19 @@ public class Conversa extends AppCompatActivity  {
                 return VIEW_TYPE_MESSAGE_RECEIVED;
             }
         }
+
+        // Insert a new item to the RecyclerView
+        public void insert(int position, Missatge message) {
+            listMiss.add(position, message);
+            notifyItemInserted(position);
+        }
+        // Remove a RecyclerView item containing the Data object
+        public void remove(Missatge message) {
+            int position = listMiss.indexOf(message);
+            listMiss.remove(position);
+            notifyItemRemoved(position);
+        }
+
 
         public void add(Missatge m) {
 
