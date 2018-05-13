@@ -26,6 +26,12 @@ public class UserLoggedUpdate {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public UserLoggedUpdate(String nom, String cognoms, String telefon){
+        this.nom = nom;
+        this.cognoms = cognoms;
+        this.telefon = telefon;
+    }
+
     @JsonProperty("nom")
     public String getNom() {
         return nom;
