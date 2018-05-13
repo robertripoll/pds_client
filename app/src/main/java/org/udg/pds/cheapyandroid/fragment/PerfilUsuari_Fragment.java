@@ -111,10 +111,7 @@ public class PerfilUsuari_Fragment extends Fragment {
     }
 
     private void updateUserInformation() {
-        UserLoggedUpdate update = new UserLoggedUpdate();
-        update.setNom(userInformation.getNom());
-        update.setCognoms(userInformation.getCognoms());
-        update.setTelefon(userInformation.getTelefon());
+        UserLoggedUpdate update = new UserLoggedUpdate(userInformation.getNom(), userInformation.getCognoms(), userInformation.getTelefon());
         Call<Void> call = mCheapyService.updateUserInformation(userInformation.getId(), update);
         call.enqueue(new Callback<Void>() {
             @Override
