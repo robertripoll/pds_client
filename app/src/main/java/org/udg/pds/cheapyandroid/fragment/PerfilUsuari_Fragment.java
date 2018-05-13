@@ -118,14 +118,17 @@ public class PerfilUsuari_Fragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast toast = null;
                 if(response.isSuccessful()){
+                    System.out.println("Call correcte");
                     toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
                 }
                 else{
+                    System.out.println("Call incorrecte 1");
                     toast.makeText(getContext(), "Ha hagut un error!!!",toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("Call incorrecte 2");
                 Toast toast = Toast.makeText(getContext(), "ERROR: No s'ha pogut actualitzar el perfil! Revisa la connexió a Internet.", Toast.LENGTH_LONG);
                 toast.show();
             }
