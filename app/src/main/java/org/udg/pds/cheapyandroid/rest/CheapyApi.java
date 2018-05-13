@@ -21,13 +21,13 @@ public interface CheapyApi {
     Call<LlistaCategories> getCategories();
 
     @POST("/usuaris/jo/conversacions")
-    Call<ConversacioChat> addChat(@Body Producte producte);
+    Call<ConversacioChat> addChat(@Body Integer producte_id);
 
-    @GET("/conversacio/{conversa_id}/missatges")
-    Call<List<Missatge>> getChatID(@Path("conversa_id") Integer id_chat);
+    @GET("/conversacions/{conversa_id}/missatges")
+    Call<LlistaMissatges> getChatID(@Path("conversa_id") Integer id_chat);
 
-    @POST("/conversacio/{conversa_id}/missatges")
-    Call<Void> sendMessage(@Path("conversa_id") int messageID, @Body Missatge message);
+    @POST("/conversacions/{conversa_id}/missatges")
+    Call<Missatge> sendMessage(@Path("conversa_id") int conversaID, @Body String message);
   
     @GET("/usuaris/jo/productes_venda")
     Call<LlistaProductes> getProductesVendaPerfil();

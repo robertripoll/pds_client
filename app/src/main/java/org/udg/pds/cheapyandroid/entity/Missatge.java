@@ -17,7 +17,7 @@ import java.util.Map;
 public class Missatge {
 
     @JsonProperty("id")
-    private Long id;
+    private Integer id;
     @JsonProperty("emisor")
     private Emisor emisor;
     @JsonProperty("receptor")
@@ -31,13 +31,22 @@ public class Missatge {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Missatge(String missatgeRebut) {
+        this.id = 3;
+        this.emisor = new Emisor(1, "pep", "home");
+        this.receptor = new Receptor(2, "benito", "home");
+        this.estat = "rebut";
+        this.missatge = missatgeRebut;
+        this.dataEnviament = "2018-11-10";
+    }
+
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

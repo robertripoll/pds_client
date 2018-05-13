@@ -13,7 +13,7 @@ import java.util.Map;
 public class Receptor {
 
     @JsonProperty("id")
-    private Long id;
+    private Integer id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
@@ -21,13 +21,19 @@ public class Receptor {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Receptor(int i, String benito, String home) {
+        this.id = i;
+        this.nom = benito;
+        this.sexe = home;
+    }
+
     @JsonProperty("id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
