@@ -115,11 +115,14 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 View rowView = inflater.inflate(R.layout.adapter_llista_productes_compra_perfil, null);
 
+                //Seleccionem el nom i preu del producte
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
+                //Obtenim el producte amb nom i preu
                 Producte producte = llistaProductesCompraPerfil.getItems().get(position);
 
+                //Mostrem a pantalla el nom i preu
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
                 
