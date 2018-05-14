@@ -20,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,9 +39,9 @@ public class PublicarAnunciFragment extends Fragment {
     private CheckBox cbPreuNegociable;
     private TextView tvError;
 
-    private List<Category> categories;
+    private List<Categoria> categories;
 
-    private String _user_id;
+    private Integer _user_id;
 
 
     public PublicarAnunciFragment() {
@@ -65,7 +66,7 @@ public class PublicarAnunciFragment extends Fragment {
 
         // Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getActivity().getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
-        _user_id = prefs.getString("usuari_id", "0");
+        _user_id = prefs.getInt("usuari_id", -1);
 
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
@@ -108,12 +109,12 @@ public class PublicarAnunciFragment extends Fragment {
             producte.setNom(nom);
             producte.setDescripcio(desc);
             producte.setPreu(Double.parseDouble(preuTxt));
-            producte.setCategoria(categories.get(iCategoria).getCategoria());
+            producte.setCategoria(categories.get(iCategoria));
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
 
             Venedor venedor = new Venedor();
-            venedor.setId(Integer.parseInt(_user_id));
+            venedor.setId(_user_id);
             producte.setVenedor(venedor);
 
             // Fem el POST.
@@ -156,8 +157,8 @@ public class PublicarAnunciFragment extends Fragment {
         adapterCategories.add("Selecciona una Categoria...");
 
         if (categories != null) {
-            for (Category categoria : categories) {
-                adapterCategories.add(categoria.getCategoria().getNom());
+            for (Categoria categoria : categories) {
+                adapterCategories.add(categoria.getNom());
             }
         }
 
@@ -165,14 +166,14 @@ public class PublicarAnunciFragment extends Fragment {
     }
 
     private void carregarCategories() {
-        Call<LlistaCategories> call = mCheapyService.getCategories();
-        call.enqueue(new Callback<LlistaCategories>() {
+        Call<ArrayList<Categoria>> call = mCheapyService.getCategories();
+        call.enqueue(new Callback<ArrayList<Categoria>>() {
             @Override
-            public void onResponse(Call<LlistaCategories> call, Response<LlistaCategories> response) {
+            public void onResponse(Call<ArrayList<Categoria>> call, Response<ArrayList<Categoria>> response) {
 
                 if (response.isSuccessful()) {
-                    LlistaCategories llista = response.body();
-                    categories = llista.getCategories();
+                    ArrayList<Categoria> llista = response.body();
+                    categories = llista;
                     crearOpcionsSpinnerCategories();
                 } else {
                     Toast toast = Toast.makeText(getActivity(), "ERROR: Les categories no s'han pogut carregar correctament", Toast.LENGTH_SHORT);
@@ -181,7 +182,7 @@ public class PublicarAnunciFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<LlistaCategories> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Categoria>> call, Throwable t) {
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
