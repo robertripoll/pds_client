@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.fragment;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.activity.ProducteInfo;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
@@ -120,8 +122,23 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
+                
+                TextView  clickProducte= (TextView) rowView.findViewById(R.id.nom_producte);
+                // Cache row position inside the button using `setTag`
+                clickProducte.setTag(position);
+                // Attach the click event handler
+                clickProducte.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = (Integer) view.getTag();
+                        // Access the row position here to get the correct data item
 
-//Falta afegir el click
+                        Intent intent = new Intent(getActivity(), ProducteInfo.class);
+                        intent.putExtra("Producte", (itemsAdapter.getItem(position)));
+                        startActivity(intent);
+                    }
+                });
+
                 return rowView;
             }
 
