@@ -16,8 +16,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.List;
-
 public class LlistaProductesPerfilVendesFragment extends Fragment {
 
     private CheapyApi mCheapyService;
@@ -66,7 +64,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
     private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
 
         final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, (List<Producte>) llistaProductesVendaPerfil);
+                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, llistaProductesVendaPerfil.getItems());
 
 
         llistaProductesVendaPerfilView.setAdapter(new ListAdapter() {
@@ -92,9 +90,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
             }
 
             @Override
-            public int getCount() {
-                return ((List<Producte>) llistaProductesVendaPerfil).size();
-            }
+            public int getCount() { return llistaProductesVendaPerfil.getItems().size(); }
 
             @Override
             public Object getItem(int i) {
@@ -102,9 +98,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
             }
 
             @Override
-            public long getItemId(int i) {
-                return ((List<Producte>) llistaProductesVendaPerfil).get(i).getId();
-            }
+            public long getItemId(int i) { return  llistaProductesVendaPerfil.getItems().get(i).getId(); }
 
             @Override
             public boolean hasStableIds() {
@@ -119,12 +113,10 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
                 TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
                 TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
 
-                Producte producte = ((List<Producte>)llistaProductesVendaPerfil).get(position);
+                Producte producte = llistaProductesVendaPerfil.getItems().get(position);
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
-
-
 
 
                 return rowView;
@@ -137,7 +129,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
 
             @Override
             public int getViewTypeCount() {
-                return ((List<Producte>)llistaProductesVendaPerfil).size();
+                return llistaProductesVendaPerfil.getItems().size();
             }
 
             @Override
