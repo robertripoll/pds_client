@@ -185,10 +185,10 @@ public class Producte implements Serializable{
     public String toString() {
 
         String dadesProducte = "";
-        dadesProducte = dadesProducte + "id = " + id + "\n" + "nom = " + nom + "\n" + "preu = " + preu + "\n" + "descripcio = " + descripcio + "\n";
-        dadesProducte = dadesProducte + "dataPublicacio = " + dataPublicacio + "\n" + "preuNegociable = " + preuNegociable + "\n" + "intercanviAcceptat = " + intercanviAcceptat + "\n";
-        dadesProducte = dadesProducte + "reservat = " + reservat + "\n" + "numeroVisites = " + numVisites + "\n";
-        dadesProducte = dadesProducte + "cateogira = " + categoria.getNom() + "\n" + "venedor = " + venedor.getNom() + "\n";
+        dadesProducte = dadesProducte + "Id d'usuari = " + id + "\n" + "Nom = " + nom + "\n" + "Preu = " + preu + "\n" + "Descripció = " + descripcio + "\n";
+        dadesProducte = dadesProducte + "Data de publicació = " + dataPublicacio + "\n" + "Preu negociable? " + preuNegociable + "\n" + "Intercanvi acceptat? " + intercanviAcceptat + "\n";
+        dadesProducte = dadesProducte + "Reservat? " + reservat + "\n" + "Número de visites = " + numVisites + "\n";
+        dadesProducte = dadesProducte + "Categoria = " + categoria.getNom() + "\n" + "Nom del venedor = " + venedor.getNom() + "\n";
 
         return dadesProducte;
     }

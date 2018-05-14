@@ -134,13 +134,8 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                         int position = (Integer) view.getTag();
                         // Access the row position here to get the correct data item
 
-                        //----> LES DUES LINIES SEGUENTS SERVEIXEN PER MOSTRAR QUIN PRODUCTE S'HA FET CLICK <-----//
-                        Producte producteMostrar = itemsAdapter.getItem(position);
-                        Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
-
-                        //Intent s'afegeix un parametre, un valor enter (posició del producte en la llista)
                         Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("key_producte", position);
+                        intent.putExtra("Producte", (itemsAdapter.getItem(position)));
                         startActivity(intent);
                     }
                 });

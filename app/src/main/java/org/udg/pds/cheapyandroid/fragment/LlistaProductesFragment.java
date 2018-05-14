@@ -19,9 +19,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -129,7 +126,6 @@ public class LlistaProductesFragment extends Fragment {
 
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
-
 
                 //Mostra informacio del producte quan fas click al nom del producte
                 //Hauria de mostra imatge del producte i quan es fes click llavors mostrar informacio
