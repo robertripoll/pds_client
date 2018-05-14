@@ -42,8 +42,8 @@ public interface CheapyApi {
     @POST("/usuaris/desautenticar")
     Call<Void> diconnect();
 
-    @PUT("/usuaris/{usuari_id}")
-    Call<Void> updateUserInformation(@Path("usuari_id") int userID, @Body UserLoggedUpdate update);
+    @PUT("/usuaris/jo")
+    Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
     @GET("/usuaris/jo/conversacions")
     Call<ItemsConversations> getConversations();
