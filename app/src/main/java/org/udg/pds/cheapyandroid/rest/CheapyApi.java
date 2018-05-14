@@ -4,6 +4,8 @@ import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.ArrayList;
+
 public interface CheapyApi {
 
     @POST("/usuaris/autenticar")
@@ -16,7 +18,7 @@ public interface CheapyApi {
     Call<Void> crearProducte(@Body Producte producte);
 
     @GET("/categories")
-    Call<LlistaCategories> getCategories();
+    Call<ArrayList<Categoria>> getCategories();
 
     @POST("/usuaris/jo/conversacions")
     Call<ConversacioChat> addChat(@Body Integer producte_id);
