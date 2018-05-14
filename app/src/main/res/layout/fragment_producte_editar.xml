@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_editar_producte">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="5dp" android:weightSum="1">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Editar Producte"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"
+                android:layout_marginBottom="20dp" android:layout_weight="0.16"/>
+
+        <ImageView
+                android:id="@+id/fotoActualitzada"
+                android:layout_width="141dp"
+                android:layout_height="96dp"
+                android:src="@drawable/producte_utensili_cuina"
+                android:layout_gravity="center"
+                android:layout_weight="0.09"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp" android:weightSum="1">
+            <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/preuActualitzat"
+                      android:hint="Preu"
+                      android:gravity="center"
+                      android:textColorHint="@color/colorPrimary"/>
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:hint="Categoria"
+                      android:inputType="number"
+                      android:id="@+id/categoriaActualitzada"
+                      android:textColorHint="@color/colorPrimary"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp">
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/descripcioActualitzada"
+                      android:hint="Descripció"
+                      android:textColorHint="@color/colorPrimary"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp">
+            <CheckBox
+                    android:id="@+id/CheckBoxResponse"
+                    android:layout_height="wrap_content"
+                    android:text="És el preu negociable?"
+                    android:layout_width="match_parent">
+            </CheckBox>/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp">
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@color/colorWhite_UserProfile"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/botoActualitzarInformacio"
+                    android:text="Desa els canvis"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
