@@ -123,7 +123,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
 
-
+                
                 TextView  clickProducte= (TextView) rowView.findViewById(R.id.nom_producte);
                 // Cache row position inside the button using `setTag`
                 clickProducte.setTag(position);
