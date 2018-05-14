@@ -121,7 +121,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
                 nomView.setText(producte.getNom());
                 preuView.setText(producte.getPreu().toString());
 
-
+//Falta afegir el click
                 return rowView;
             }
 
