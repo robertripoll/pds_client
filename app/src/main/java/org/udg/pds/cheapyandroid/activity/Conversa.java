@@ -58,11 +58,10 @@ public class Conversa extends AppCompatActivity  {
         myFireBaseInsID.onTokenRefresh();
 
         conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
-        System.out.println("------------------------"+conversaMostrarID+"---------------------------");
         if(conversaMostrarID!=null){
             conversacio.setId((Integer)conversaMostrarID);
             conversaExistent = true;
-            Toast toast = Toast.makeText(Conversa.this, "ID -> "+  conversaMostrarID , Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(Conversa.this, "conversaID -> "+  conversaMostrarID , Toast.LENGTH_SHORT);
             toast.show();
         }
 
