@@ -11,6 +11,7 @@ import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.ProducteInfo;
+import org.udg.pds.cheapyandroid.adapters.LlistaProductesAdapter;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
@@ -21,22 +22,36 @@ import retrofit2.Response;
 public class LlistaProductesPerfilVendesFragment extends Fragment {
 
     private CheapyApi mCheapyService;
-    private ListView llistaProductesVendaPerfilView;
-    private LlistaProductes llistaProductesVendaPerfil;
+    private ListView llistaProductesView;
+    private LlistaProductesAdapter adapterLlistaProductes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_llista_productes_venda_perfil, container, false);
+        View view = inflater.inflate(R.layout.fragment_llista_productes, container, false);
 
         mCheapyService = ((CheapyApp)getActivity().getApplication()).getAPI();
 
-        llistaProductesVendaPerfilView = (ListView) view.findViewById(R.id.llista_productes);
+        llistaProductesView = (ListView) view.findViewById(R.id.llista_productes);
+        inicialitzaLlista();
 
         carregarProductesVendaPerfil();
 
         return view;
+    }
+
+    private void inicialitzaLlista() {
+        llistaProductesView.setClickable(true);
+        llistaProductesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Producte producte = adapterLlistaProductes.getItem(i);
+                Intent intent = new Intent(getActivity(), ProducteInfo.class);
+                intent.putExtra("Producte", producte);
+                startActivity(intent);
+            }
+        });
     }
 
     private void carregarProductesVendaPerfil() {
@@ -47,8 +62,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
             public void onResponse(Call<LlistaProductes> call, Response<LlistaProductes> response) {
 
                 if (response.isSuccessful()) {
-                    llistaProductesVendaPerfil = response.body();
-                    mostrarProductes(llistaProductesVendaPerfil);
+                    mostrarProductes(response.body());
                 } else {
                     Toast toast = Toast.makeText(getActivity(), "ERROR: No té productes a la venta.", Toast.LENGTH_SHORT);
                     toast.show();
@@ -65,100 +79,8 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
 
     private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
 
-        final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, llistaProductesVendaPerfil.getItems());
-
-
-        llistaProductesVendaPerfilView.setAdapter(new ListAdapter() {
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public boolean isEnabled(int i) {
-                return false;
-            }
-
-            @Override
-            public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public int getCount() { return llistaProductesVendaPerfil.getItems().size(); }
-
-            @Override
-            public Object getItem(int i) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int i) { return  llistaProductesVendaPerfil.getItems().get(i).getId(); }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getView(int position, View view, ViewGroup viewGroup) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View rowView = inflater.inflate(R.layout.adapter_llista_productes_venda_perfil, null);
-
-                //Seleccionem el nom i preu del producte
-                TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
-                TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
-
-                //Obtenim el producte amb nom i preu
-                Producte producte = llistaProductesVendaPerfil.getItems().get(position);
-
-                //Mostrem a pantalla el nom i preu
-                nomView.setText(producte.getNom());
-                preuView.setText(producte.getPreu().toString());
-
-                TextView  clickProducte= (TextView) rowView.findViewById(R.id.nom_producte);
-                // Cache row position inside the button using `setTag`
-                clickProducte.setTag(position);
-                // Attach the click event handler
-                clickProducte.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int position = (Integer) view.getTag();
-                        // Access the row position here to get the correct data item
-
-                        Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("Producte", (itemsAdapter.getItem(position)));
-                        startActivity(intent);
-                    }
-                });
-
-                return rowView;
-            }
-
-            @Override
-            public int getItemViewType(int i) {
-                return 0;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return llistaProductesVendaPerfil.getItems().size();
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-
-        });
+        adapterLlistaProductes = new LlistaProductesAdapter(this.getActivity(), llistaProductesVendaPerfil);
+        llistaProductesView.setAdapter(adapterLlistaProductes);
 
     }
 }
