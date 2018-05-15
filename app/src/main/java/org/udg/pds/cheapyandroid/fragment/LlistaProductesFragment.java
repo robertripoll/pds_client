@@ -12,6 +12,7 @@ import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.ProducteInfo;
+import org.udg.pds.cheapyandroid.adapters.LlistaProductesAdapter;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
@@ -27,6 +28,7 @@ public class LlistaProductesFragment extends Fragment {
 
     private CheapyApi mCheapyService;
     private ListView llistaProductesView;
+    private LlistaProductesAdapter adapterLlistaProductes;
 
 
     @Override
@@ -38,10 +40,24 @@ public class LlistaProductesFragment extends Fragment {
         mCheapyService = ((CheapyApp)getActivity().getApplication()).getAPI();
 
         llistaProductesView = (ListView) view.findViewById(R.id.llista_productes);
+        inicialitzaLlista();
 
         carregarProductes();
 
         return view;
+    }
+
+    private void inicialitzaLlista() {
+        llistaProductesView.setClickable(true);
+        llistaProductesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Producte producte = adapterLlistaProductes.getItem(i);
+                Intent intent = new Intent(getActivity(), ProducteInfo.class);
+                intent.putExtra("Producte", producte);
+                startActivity(intent);
+            }
+        });
     }
 
     private void carregarProductes() {
@@ -67,107 +83,7 @@ public class LlistaProductesFragment extends Fragment {
     }
 
     private void mostrarProductes(final LlistaProductes llistaProductes) {
-
-        final ArrayAdapter<Producte> itemsAdapter =
-                new ArrayAdapter<Producte>(getActivity(), android.R.layout.activity_list_item, llistaProductes.getItems());
-
-
-        llistaProductesView.setAdapter(new ListAdapter() {
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public boolean isEnabled(int i) {
-                return false;
-            }
-
-            @Override
-            public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public int getCount() {
-                return llistaProductes.getItems().size();
-            }
-
-            @Override
-            public Object getItem(int i) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int i) {
-                return llistaProductes.getItems().get(i).getId();
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getView(int position, View view, ViewGroup viewGroup) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View rowView = inflater.inflate(R.layout.adapter_llista_productes, null);
-
-                TextView nomView = (TextView) rowView.findViewById(R.id.nom_producte);
-                TextView preuView = (TextView) rowView.findViewById(R.id.preu_producte);
-
-                Producte producte = llistaProductes.getItems().get(position);
-
-                nomView.setText(producte.getNom());
-                preuView.setText(producte.getPreu().toString());
-
-                //Mostra informacio del producte quan fas click al nom del producte
-                //Hauria de mostra imatge del producte i quan es fes click llavors mostrar informacio
-                TextView  clickProducte= (TextView) rowView.findViewById(R.id.nom_producte);
-                // Cache row position inside the button using `setTag`
-                clickProducte.setTag(position);
-                // Attach the click event handler
-                clickProducte.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int position = (Integer) view.getTag();
-                        // Access the row position here to get the correct data item
-
-                        Producte producteMostrar = itemsAdapter.getItem(position);
-                        //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(getActivity(), ProducteInfo.class);
-                        intent.putExtra("Producte", producteMostrar);
-                        startActivity(intent);
-                    }
-                });
-
-                return rowView;
-            }
-
-            @Override
-            public int getItemViewType(int i) {
-                return 0;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return llistaProductes.getItems().size();
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-
-        });
-
+        adapterLlistaProductes = new LlistaProductesAdapter(this.getActivity(), llistaProductes);
+        llistaProductesView.setAdapter(adapterLlistaProductes);
     }
 }

@@ -1,16 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content"
+              android:padding="10dp">
+
 
     <TextView
             android:id="@+id/nom_producte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Prova Producte"
+            android:textSize="18dip"
+            android:textStyle="bold"/>
+
+    <LinearLayout
+            android:id="@+id/ubicacio_producte_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:layout_below="@id/nom_producte"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:gravity="center">
+
+        <ImageView
+                android:layout_width="17dip"
+                android:layout_height="17dip"
+                android:src="@mipmap/baseline_location_on_black_24dp"/>
+
+        <TextView
+                android:id="@+id/ubicacio_producte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dip"
+                android:layout_below="@id/nom_producte"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Bogota, Colombia" />
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/desc_producte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ubicacio_producte_layout"
+            android:ellipsize="end"
+            android:lines="1"
+            android:layout_marginTop="10dip"
+            android:text="Just gona stand there and ..." />
+
     <TextView
             android:id="@+id/preu_producte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-</LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/nom_producte"
+            android:gravity="right"
+            android:text="180.00 €"
+            android:layout_marginRight="5dip"
+            android:textSize="18dip"
+            android:textStyle="bold"/>
+
+
+</RelativeLayout>
