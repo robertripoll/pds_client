@@ -12,6 +12,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#F44336</color>
+    <color name="colorGrey">#CCC</color>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>

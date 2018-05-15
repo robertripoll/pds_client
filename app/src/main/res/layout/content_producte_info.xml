@@ -9,11 +9,88 @@
         android:layout_height="match_parent"
         tools:context="org.udg.pds.cheapyandroid.activity.ProducteInfo">
 
-    <TextView
-            android:id="@+id/infoProducte"
-            android:layout_width="wrap_content"
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text=" "/>
+            android:padding="16dp">
+
+        <LinearLayout
+                android:id="@+id/ubicacio_producte_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+            <ImageView
+                android:layout_width="17dip"
+                android:layout_height="17dip"
+                android:src="@mipmap/baseline_location_on_black_24dp"/>
+
+            <TextView
+                android:id="@+id/ubicacio_producte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dip"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Bogota, Colombia" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/usuari_producte_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp">
+
+            <ImageView
+                    android:layout_width="17dip"
+                    android:layout_height="17dip"
+                    android:src="@mipmap/baseline_account_circle_black_24"/>
+
+            <TextView
+                    android:id="@+id/usuari_producte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dip"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Usuari Prova" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/desc_producte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Descripción del producto..."/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:text="@string/hint_preu_negociable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cb_preu_negociable"
+                    android:layout_weight="1"/>
+            <TextView
+                    android:text="@string/hint_intercanvi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cb_intercanvi"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
