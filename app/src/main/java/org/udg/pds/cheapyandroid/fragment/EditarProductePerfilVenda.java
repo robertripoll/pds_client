@@ -1,18 +1,11 @@
 package org.udg.pds.cheapyandroid.fragment;
 
-import android.app.AlertDialog;
+
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import org.udg.pds.cheapyandroid.CheapyApp;
-import org.udg.pds.cheapyandroid.R;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 
@@ -55,7 +48,7 @@ public class EditarProductePerfilVenda extends Fragment {
                 if (editText.getText().length()<1)
                     editText.setError("No pots deixar els camps buits!");
             }
-        };
+        });
     }
 
     private void editPreuFocus(final EditText preu) {
