@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public interface CheapyApi {
 
-    @POST("/usuaris/autenticar")
+    @POST("rest/usuaris/autenticar")
     Call<UserLogged> login(@Body UserLogin login);
 
-    @GET("/productes")
+    @GET("rest/productes")
     Call<LlistaProductes> getProductes();
 
     @POST("/productes")

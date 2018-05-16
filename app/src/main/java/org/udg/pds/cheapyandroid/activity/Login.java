@@ -40,9 +40,9 @@ import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_N
 // then a RESTResponder_RF is called to check the authentication
 public class Login extends Activity {
 
-    public static int userID_connected;
-    public static String userName_connected;
-    public static String userCorreu_connected;
+    public static int userID_connected = -1;
+    public static String userName_connected = "prova";
+    public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
     CheapyApi mCheapyService;
 
@@ -109,14 +109,14 @@ public class Login extends Activity {
                         toast.show();
                     }
                 } else {
-                    Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(Login.this, "Error logging in, is not successful, Login", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Login.this, "Error logging in, is failure, Login", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

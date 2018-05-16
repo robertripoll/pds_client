@@ -172,7 +172,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Al intentar comprovar login d'usuari", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Al intentar comprovar login d'usuari, " + response.toString() , Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
@@ -180,7 +180,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet, login LlistaProductesActivity "+t.toString(), Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
