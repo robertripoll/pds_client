@@ -29,6 +29,11 @@
     <string name="button_publicar_anunci">Publicar</string>
     <string name="error_falten_camps_publicar_anunci">Emplena tots els camps per poder publicar un anunci.</string>
 
+    <!-- Strings relacionades amb la pantalla de desar canvis en la venta d'un producte propi -->
+    <string name="button_desar_canvis">Desar Canvis</string>
+    <string name="error_falten_camps_desar_canvis">Emplena tots els camps per poder actualitzar les dades del producte.</string>
+    <string name="seleccionar_categoria">Selecciona una categoria</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="email2">Email:</string>
