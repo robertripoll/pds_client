@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.Serializable;
 import java.util.*;
 
 public class Conversa extends AppCompatActivity  {
@@ -40,6 +41,8 @@ public class Conversa extends AppCompatActivity  {
     private Button buttonEnviar;
     private MessageListAdapter mMessageAdapter;
     private RecyclerView mMessageRecycler;
+    private Serializable conversaMostrarID;
+    private boolean conversaExistent = false;
     public static List<Missatge> listMiss = new ArrayList<>();
 
 
@@ -54,6 +57,13 @@ public class Conversa extends AppCompatActivity  {
 
         myFireBaseInsID.onTokenRefresh();
 
+        conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
+        if(conversaMostrarID!=null){
+            conversacio.setId((Integer)conversaMostrarID);
+            conversaExistent = true;
+            Toast toast = Toast.makeText(Conversa.this, "conversaID -> "+  conversaMostrarID , Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
         producte = (Producte) getIntent().getSerializableExtra("Producte");
         if(producte != null) {
@@ -75,7 +85,7 @@ public class Conversa extends AppCompatActivity  {
 
         buscarChat();
 
-        if(listMiss.isEmpty()){
+        if(listMiss.isEmpty() && !conversaExistent){
             crearNovaConversa(producte);
         }
 

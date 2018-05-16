@@ -63,7 +63,10 @@ public class Usuari_Fragment extends Fragment {
             fragment = new Ubication_Fragment();//canviar-ho pel fragment que toqui
         }
 
-       getFragmentManager().beginTransaction().replace(R.id.fragment_usuari, fragment).commit();
+       getFragmentManager()
+               .beginTransaction()
+               .replace(R.id.fragment_usuari, fragment)
+               .commit();
     }
 
     private void canviarColorMenu(BottomNavigationView bottomNavigation, int i) {

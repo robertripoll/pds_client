@@ -103,6 +103,7 @@ public class Login extends Activity {
                         Toast toast = Toast.makeText(Login.this, "Usuari OK", Toast.LENGTH_SHORT);
                         toast.show();
                         Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+                        finish();
                     }
                     else{
                         Toast toast = Toast.makeText(Login.this, "Usuari o contrasenya no son correctes", Toast.LENGTH_SHORT);

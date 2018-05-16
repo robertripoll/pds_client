@@ -54,7 +54,7 @@ public class Ubication_Fragment extends Fragment implements OnMapReadyCallback{
         MapsInitializer.initialize(getContext());
         mygooglemap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lgn)).title("My position prova").snippet("alualu provant"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lgn)).title("My position").snippet("It's the position I specified when signing up"));
         CameraPosition alu = CameraPosition.builder().target(new LatLng(lat, lgn)).zoom(16).bearing(0).tilt(45).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(alu));
     }

@@ -15,10 +15,12 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
+import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -36,7 +38,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private EditText telefon;
 
     private boolean fotoActualitzada;
-    private UserLogged userAct;
+    private String emailUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,14 +123,36 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void updateInformation() {
-        PerfilUsuari_Fragment fragmentPerf = new PerfilUsuari_Fragment();
-        Bundle bundle = new Bundle();
-        userAct.setNom(String.valueOf(nom.getText()));
-        userAct.setCognoms(String.valueOf(cognom.getText()));
-        userAct.setTelefon(String.valueOf(telefon.getText()));
-        bundle.putSerializable("newUser",userAct);
-        fragmentPerf.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.fragment_modificarPerfil, fragmentPerf).commit();
+
+        updateUserInformation();
+
+}
+
+    private void updateUserInformation() {
+        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString());
+        Call<Void> call = mCheapyService.updateUserInformation(update);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast toast = null;
+                if(response.isSuccessful()){
+                    System.out.println("Call correcte");
+                    toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
+                    PerfilUsuari_Fragment fragmentPerf = new PerfilUsuari_Fragment();
+                    getFragmentManager().popBackStack();
+                }
+                else{
+                    System.out.println("Call incorrecte 1");
+                    toast.makeText(getContext(), "Ha hagut un error!!!",toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("Call incorrecte 2");
+                Toast toast = Toast.makeText(getContext(), "ERROR: No s'ha pogut actualitzar el perfil! Revisa la connexió a Internet.", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
     }
 
     private Boolean comprovarSiInfoPlena() {
@@ -147,8 +171,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
         fotoActualitzada = false;
         Bundle bundle = getArguments();
         if(bundle!=null){
-            userAct = (UserLogged) bundle.getSerializable("oldUser");
-            email.setText(userAct.getCorreu());
+            emailUser = bundle.get("emailUser").toString();
+            email.setText(emailUser);
         }
     }
 
