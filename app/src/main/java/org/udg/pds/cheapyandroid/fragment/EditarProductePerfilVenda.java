@@ -19,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditarProductePerfilVenda extends Fragment {
@@ -34,7 +35,7 @@ public class EditarProductePerfilVenda extends Fragment {
     private CheckBox cbPreuNegociable;
     private TextView tvError;
 
-    private List<Category> categories;
+    private List<Categoria> categories;
 
     private String _user_id;
 
@@ -50,14 +51,14 @@ public class EditarProductePerfilVenda extends Fragment {
         View view = inflater.inflate(R.layout.fragment_producte_editar, container, false);
 
         // Busquem els components de la vista.
-        spinnerCategories = (Spinner)view.findViewById(R.id.spinner_categoria);
-        buttonPublicar = (Button)view.findViewById(R.id.button_publicar);
-        editNomProducte = (EditText)view.findViewById(R.id.et_nom_producte);
-        editDescProducte = (EditText)view.findViewById(R.id.et_desc_producte);
-        editPreuProducte = (EditText)view.findViewById(R.id.et_preu_producte);
-        cbIntercanvi = (CheckBox)view.findViewById(R.id.cb_intercanvi);
-        cbPreuNegociable = (CheckBox)view.findViewById(R.id.cb_preu_negociable);
-        tvError = (TextView)view.findViewById(R.id.tv_error_falten_camps_publicar_anunci);
+        spinnerCategories = (Spinner) view.findViewById(R.id.spinner_categoria);
+        buttonPublicar = (Button) view.findViewById(R.id.button_publicar);
+        editNomProducte = (EditText) view.findViewById(R.id.et_nom_producte);
+        editDescProducte = (EditText) view.findViewById(R.id.et_desc_producte);
+        editPreuProducte = (EditText) view.findViewById(R.id.et_preu_producte);
+        cbIntercanvi = (CheckBox) view.findViewById(R.id.cb_intercanvi);
+        cbPreuNegociable = (CheckBox) view.findViewById(R.id.cb_preu_negociable);
+        tvError = (TextView) view.findViewById(R.id.tv_error_falten_camps_publicar_anunci);
 
         // Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getActivity().getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
@@ -67,7 +68,7 @@ public class EditarProductePerfilVenda extends Fragment {
         tvError.setVisibility(View.GONE);
 
         // Carraguem el servei i les categories.
-        mCheapyService = ((CheapyApp)getActivity().getApplication()).getAPI();
+        mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
         carregarCategories();
 
         // Inicialitzem l'Spinner de categories.
@@ -94,17 +95,16 @@ public class EditarProductePerfilVenda extends Fragment {
 
         if (stringNullOrEmpty(nom) || stringNullOrEmpty(desc) || stringNullOrEmpty(preuTxt) || iCategoria == 0) {
             tvError.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             tvError.setVisibility(View.GONE);
             iCategoria = iCategoria - 1; // A la primera posició hi ha el "Selecciona una categoria...".
 
             // No hi ha error, creem el producte i fem el POST.
-            Producte producte  = new Producte();
+            Producte producte = new Producte();
             producte.setNom(nom);
             producte.setDescripcio(desc);
             producte.setPreu(Double.parseDouble(preuTxt));
-            producte.setCategoria(categories.get(iCategoria).getCategoria());
+            producte.setCategoria(categories.get(iCategoria));
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
 
@@ -126,7 +126,7 @@ public class EditarProductePerfilVenda extends Fragment {
                     Toast toast = Toast.makeText(getActivity(), "Anunci enviat correctament.", Toast.LENGTH_SHORT);
                     toast.show();
 
-                    LlistaProductesActivity activity = (LlistaProductesActivity)getActivity();
+                    LlistaProductesActivity activity = (LlistaProductesActivity) getActivity();
                     activity.carregarProductesALaVenda();
 
                 } else {
@@ -143,6 +143,7 @@ public class EditarProductePerfilVenda extends Fragment {
         });
     }
 
+
     private Boolean stringNullOrEmpty(String s) {
         return s == null || s.isEmpty();
     }
@@ -152,8 +153,8 @@ public class EditarProductePerfilVenda extends Fragment {
         adapterCategories.add("Selecciona una Categoria...");
 
         if (categories != null) {
-            for (Category categoria : categories) {
-                adapterCategories.add(categoria.getCategoria().getNom());
+            for (Categoria categoria : categories) {
+                adapterCategories.add(categoria.getNom());
             }
         }
 
@@ -161,14 +162,14 @@ public class EditarProductePerfilVenda extends Fragment {
     }
 
     private void carregarCategories() {
-        Call<LlistaCategories> call = mCheapyService.getCategories();
-        call.enqueue(new Callback<LlistaCategories>() {
+        Call<ArrayList<Categoria>> call = mCheapyService.getCategories();
+        call.enqueue(new Callback<ArrayList<Categoria>>() {
             @Override
-            public void onResponse(Call<LlistaCategories> call, Response<LlistaCategories> response) {
+            public void onResponse(Call<ArrayList<Categoria>> call, Response<ArrayList<Categoria>> response) {
 
                 if (response.isSuccessful()) {
-                    LlistaCategories llista = response.body();
-                    categories = llista.getCategories();
+                    List<Categoria> llista = response.body();
+                    categories = llista;
                     crearOpcionsSpinnerCategories();
                 } else {
                     Toast toast = Toast.makeText(getActivity(), "ERROR: Les categories no s'han pogut carregar correctament", Toast.LENGTH_SHORT);
@@ -177,7 +178,7 @@ public class EditarProductePerfilVenda extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<LlistaCategories> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Categoria>> call, Throwable t) {
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
