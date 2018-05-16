@@ -1,87 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_editar_producte">
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="org.udg.pds.cheapyandroid.fragment.EditarProductePerfilVenda">
+
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="5dp" android:weightSum="1">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Editar Producte"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:background="@color/colorPrimary"
-                android:layout_marginBottom="20dp" android:layout_weight="0.16"/>
-
-        <ImageView
-                android:id="@+id/fotoActualitzada"
-                android:layout_width="141dp"
-                android:layout_height="96dp"
-                android:src="@drawable/producte_utensili_cuina"
-                android:layout_gravity="center"
-                android:layout_weight="0.09"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp" android:weightSum="1">
-            <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/preuActualitzat"
-                      android:hint="Preu"
-                      android:gravity="center"
-                      android:textColorHint="@color/colorPrimary"/>
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:hint="Categoria"
-                      android:inputType="number"
-                      android:id="@+id/categoriaActualitzada"
-                      android:textColorHint="@color/colorPrimary"/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp">
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/descripcioActualitzada"
-                      android:hint="Descripció"
-                      android:textColorHint="@color/colorPrimary"/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp">
-            <CheckBox
-                    android:id="@+id/CheckBoxResponse"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:layout_below="@+id/layout_boton_desar">
+            <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="És el preu negociable?"
-                    android:layout_width="match_parent">
-            </CheckBox>/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp">
-            <Button android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:textColor="@color/colorWhite_UserProfile"
-                    android:background="@color/colorPrimary"
-                    android:id="@+id/botoActualitzarInformacio"
-                    android:text="Desa els canvis"/>
+                    android:hint="@string/hint_nom_producte"
+                    android:ems="10"
+                    android:id="@+id/et_nom_producte"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_desc_producte"
+                    android:ems="10"
+                    android:id="@+id/et_desc_producte"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_preu_producte"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/et_preu_producte"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_categoria"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:padding="16dp"
+                    android:layout_height="wrap_content">
+                <CheckBox
+                        android:text="@string/hint_preu_negociable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cb_preu_negociable" android:layout_weight="1"/>
+                <CheckBox
+                        android:text="@string/hint_intercanvi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cb_intercanvi" android:layout_weight="1"/>
+            </LinearLayout>
+            <TextView
+                    android:id="@+id/tv_error_falten_camps_desar_canvis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorRed"
+                    android:text="@string/error_falten_camps_desar_canvis"
+                    android:layout_marginTop="32dp"
+                    android:textAlignment="center"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom" android:gravity="bottom">
+                <Button
+                        android:text="@string/button_desar_canvis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/colorWhite"
+                        android:id="@+id/button_publicar"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</FrameLayout>
