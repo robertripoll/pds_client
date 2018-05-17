@@ -88,9 +88,6 @@
                     android:id="@+id/cb_intercanvi"
                     android:layout_weight="1"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

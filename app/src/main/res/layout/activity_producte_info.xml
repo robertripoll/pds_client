@@ -81,5 +81,20 @@
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@android:drawable/ic_dialog_email"
             app:backgroundTint="@color/colorAccent"/>
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/botoEditarProducte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left|end"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:src="@android:drawable/ic_menu_edit"
+            app:layout_anchor="@id/botoMissatge"
+            app:layout_anchorGravity=""
+            app:backgroundTint="@color/colorAccent"/>
 
 </android.support.design.widget.CoordinatorLayout>
