@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.entity.LlistaProductes;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.entity.UserLogin;
@@ -66,6 +68,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         // Configurem el Navigation Menú.
         configurarNavigationView();
 
+
     }
 
 
@@ -77,9 +80,9 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
         Fragment fragment = new LlistaProductesFragment();
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
-        fragmentManager.replace(R.id.frame_layout, fragment);
-        fragmentManager.commit();
         toolbar.setTitle(R.string.navmenu_item_llista_productes);
+        fragmentManager.replace(R.id.frame_layout, fragment).commit();
+
     }
 
 
@@ -116,16 +119,16 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         Fragment fragment = null;
                         switch(menuItem.getItemId()){
                             case R.id.nav_item_nou_producte:
-                                fragment = new PublicarAnunciFragment();
                                 toolbar.setTitle(R.string.navmenu_item_nou_producte);
+                                fragment = new PublicarAnunciFragment();
                                 break;
                             case R.id.nav_item_llista_productes:
-                                fragment = new LlistaProductesFragment();
                                 toolbar.setTitle(R.string.navmenu_item_llista_productes);
+                                fragment = new LlistaProductesFragment();
                                 break;
                             case R.id.nav_item_perfil:
-                                fragment = new Usuari_Fragment();
                                 toolbar.setTitle(R.string.navmenu_item_perfil);
+                                fragment = new Usuari_Fragment();
                                 break;
                             case R.id.log_out:
                                 posarUsuariLogout();
@@ -136,18 +139,16 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         if (fragment != null) {
                             FragmentTransaction fragmentManager = getSupportFragmentManager()
                                     .beginTransaction();
-
-                            fragmentManager.replace(R.id.frame_layout, fragment);
+                            fragmentManager.replace(R.id.frame_layout, fragment).addToBackStack(null);
                             fragmentManager.commit();
                         }
-
-
                         // Closing drawer on item click
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
                 });
     }
+
 
     private void comprovarLoginLogout(final NavigationView navigationView) {
 

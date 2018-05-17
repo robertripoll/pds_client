@@ -76,7 +76,7 @@ public class LlistaProductesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<LlistaProductes> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet. LlistaProductesFragment", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

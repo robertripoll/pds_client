@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.fragment;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.activity.Conversa;
 import org.udg.pds.cheapyandroid.entity.*;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
@@ -113,6 +115,23 @@ public class Chats_Fragment extends Fragment {
                     userMessageTextview.setTypeface(null, Typeface.BOLD);
                     userName.setTypeface(null, Typeface.BOLD);
                     userLastMessage.setTypeface(null, Typeface.BOLD);
+
+                    userLastMessage.setTag(position);
+                    // Attach the click event handler
+                    userLastMessage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            int position = (Integer) view.getTag();
+                            // Access the row position here to get the correct data item
+
+                            Item conversaAmostrar = itemsAdapter.getItem(position);
+                            //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getActivity(), Conversa.class);
+                            intent.putExtra("ConversaAmostrarID", conversaAmostrar.getId());
+                            startActivity(intent);
+                        }
+                    });
                 }
 
                 return rowView;
