@@ -40,10 +40,12 @@ import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_N
 // then a RESTResponder_RF is called to check the authentication
 public class Login extends Activity {
 
-    public static int userID_connected;
-    public static String userName_connected;
-    public static String userCorreu_connected;
+    public static int userID_connected = -1;
+    public static String userName_connected = "prova";
+    public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
+    public static Boolean logged = false;
+
     CheapyApi mCheapyService;
 
 
@@ -72,7 +74,7 @@ public class Login extends Activity {
             public void onClick(View view) {
                 Login.this.startActivity(new Intent(Login.this, AddUser.class));
             }
-         });
+        });
 
     }
     // This method is called when the "Login" button is pressed in the Login fragment
@@ -102,21 +104,23 @@ public class Login extends Activity {
 
                         Toast toast = Toast.makeText(Login.this, "Usuari OK", Toast.LENGTH_SHORT);
                         toast.show();
+                        logged = true;
                         Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+                        finish();
                     }
                     else{
                         Toast toast = Toast.makeText(Login.this, "Usuari o contrasenya no son correctes", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 } else {
-                    Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(Login.this, "Error logging in, is not successful, Login", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Login.this, "Error logging in, is failure, Login", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

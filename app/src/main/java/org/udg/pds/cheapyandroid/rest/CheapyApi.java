@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public interface CheapyApi {
 
-    @POST("/usuaris/autenticar")
+    @POST("rest/usuaris/autenticar")
     Call<UserLogged> login(@Body UserLogin login);
 
-    @GET("/productes")
+    @GET("rest/productes")
     Call<LlistaProductes> getProductes();
 
     @POST("/productes")
@@ -28,7 +28,7 @@ public interface CheapyApi {
 
     @POST("/conversacions/{conversa_id}/missatges")
     Call<Missatge> sendMessage(@Path("conversa_id") int conversaID, @Body String message);
-  
+
     @GET("/usuaris/{usuari_id}p/vendes")
     Call<LlistaProductes> getProductesVendaPerfil();
 
@@ -41,7 +41,7 @@ public interface CheapyApi {
     @POST("/usuaris")
     Call<UserLogged> addUser(@Body User user);
 
-    @POST("/usuaris/desautenticar")
+    @POST("rest/usuaris/desautenticar")
     Call<Void> diconnect();
 
     @PUT("/usuaris/jo")

@@ -7,36 +7,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "usuari",
+        "correu",
         "contrasenya"
 })
 
 public class UserLogin {
 
-    @JsonProperty("usuari")
-    private String usuari;
+    @JsonProperty("correu")
+    private String correu;
 
     @JsonProperty("contrasenya")
     private String contrasenya;
 
-    public UserLogin(String username, String password) {
-        this.usuari = username;
-        this.contrasenya = password;
+    public UserLogin(String correu, String contrasenya) {
+        this.correu = correu;
+        this.contrasenya = contrasenya;
     }
 
 
-    @JsonProperty("usuari")
-    public String getUsuari() {
-        return usuari;
+    @JsonProperty("correu")
+    public String getCorreu() {
+        return correu;
     }
 
-    @JsonProperty("usuari")
-    public void setUsari(String usuari) {
-        this.usuari = usuari;
+    @JsonProperty("correu")
+    public void setCorreu(String correu) {
+        this.correu = correu;
     }
 
-    public UserLogin withUsuari(String usuari) {
-        this.usuari = usuari;
+    public UserLogin withCorreu(String correu) {
+        this.correu = correu;
         return this;
     }
 
