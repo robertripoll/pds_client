@@ -44,6 +44,8 @@ public class Login extends Activity {
     public static String userName_connected = "prova";
     public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
+    public static Boolean logged = false;
+
     CheapyApi mCheapyService;
 
 
@@ -72,7 +74,7 @@ public class Login extends Activity {
             public void onClick(View view) {
                 Login.this.startActivity(new Intent(Login.this, AddUser.class));
             }
-         });
+        });
 
     }
     // This method is called when the "Login" button is pressed in the Login fragment
@@ -102,6 +104,7 @@ public class Login extends Activity {
 
                         Toast toast = Toast.makeText(Login.this, "Usuari OK", Toast.LENGTH_SHORT);
                         toast.show();
+                        logged = true;
                         Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
                         finish();
                     }

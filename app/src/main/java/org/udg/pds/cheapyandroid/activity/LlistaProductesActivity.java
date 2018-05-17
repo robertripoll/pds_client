@@ -152,39 +152,40 @@ public class LlistaProductesActivity extends AppCompatActivity {
 
     private void comprovarLoginLogout(final NavigationView navigationView) {
 
-        Call<UserLogged> call = mCheapyService.login(new UserLogin(Login.userCorreu_connected, "1234"));
-        call.enqueue(new Callback<UserLogged>() {
-            @Override
-            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
+        if(!Login.logged){
+            setLogoutMenu();
+        }
+        else{
+            View header=navigationView.getHeaderView(0);
+            TextView name = (TextView)header.findViewById(R.id.nameTxt);
+            TextView email = (TextView)header.findViewById(R.id.emailTxt);
+            name.setText(Login.userName_connected);
+            email.setText(Login.userCorreu_connected);
+            navigationView.getMenu().findItem(R.id.nav_item_perfil).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_item_nou_producte).setVisible(true);
+            navigationView.getMenu().findItem(R.id.log_out).setVisible(true);
+        }
 
-                if (response.isSuccessful()) {
+    }
 
-                    UserLogged usuari = response.body();
-                    String user_name = String.valueOf(usuari.getNom());
-                    String user_correu = String.valueOf(usuari.getCorreu());
-                    Integer user_id = usuari.getId();
-                    if(user_correu.equals(Login.userCorreu_connected) && id_.equals(user_id)) {
-                        navigationView.getMenu().findItem(R.id.nav_item_perfil).setVisible(true);
-                        navigationView.getMenu().findItem(R.id.nav_item_nou_producte).setVisible(true);
-                        navigationView.getMenu().findItem(R.id.log_out).setVisible(true);
-                    }
-                    else {
-                        posarUsuariLogout();
-                    }
+    private void setLogoutMenu() {
+        //S'eliminen les preferencies que s'han afegit al fer Login
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear().commit();
 
-                } else {
-                    Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Al intentar comprovar login d'usuari, " + response.toString() , Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
+        //S'amaga les opcions de perfil i log out, ja que ara l'estat actual es No registrat
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_perfil).setVisible(false);
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.log_out).setVisible(false);
+        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_nou_producte).setVisible(false);
 
-
-            @Override
-            public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(LlistaProductesActivity.this, "ERROR: Revisa la connexió a Internet, login LlistaProductesActivity "+t.toString(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
+        //Navigation Header Buit
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.nameTxt);
+        TextView email = (TextView)header.findViewById(R.id.emailTxt);
+        name.setText("Nom Cognom");
+        email.setText("nom.cognom@gmail.com");
     }
 
     private void configurarToolbar() {
@@ -209,6 +210,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast toast = Toast.makeText(LlistaProductesActivity.this, "Usuari No registrat", Toast.LENGTH_SHORT);
                     toast.show();
+                    setLogoutMenu();
                 } else {
                     Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout ", Toast.LENGTH_SHORT);
                     toast.show();
@@ -222,24 +224,6 @@ public class LlistaProductesActivity extends AppCompatActivity {
             }
         });
 
-
-        //S'eliminen les preferencies que s'han afegit al fer Login
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear().commit();
-
-        //S'amaga les opcions de perfil i log out, ja que ara l'estat actual es No registrat
-        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_perfil).setVisible(false);
-        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.log_out).setVisible(false);
-        ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_item_nou_producte).setVisible(false);
-
-        //Navigation Header Buit
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
-        TextView name = (TextView)header.findViewById(R.id.nameTxt);
-        TextView email = (TextView)header.findViewById(R.id.emailTxt);
-        name.setText("Nom Cognom");
-        email.setText("nom.cognom@gmail.com");
     }
 
     @Override
