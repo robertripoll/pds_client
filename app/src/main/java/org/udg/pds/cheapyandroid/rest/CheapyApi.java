@@ -8,45 +8,45 @@ import java.util.ArrayList;
 
 public interface CheapyApi {
 
-    @POST("rest/usuaris/autenticar")
+    @POST("usuaris/autenticar")
     Call<UserLogged> login(@Body UserLogin login);
 
-    @GET("rest/productes")
+    @GET("productes")
     Call<LlistaProductes> getProductes();
 
-    @POST("/productes")
+    @POST("productes")
     Call<Void> crearProducte(@Body Producte producte);
 
-    @GET("/categories")
+    @GET("categories")
     Call<ArrayList<Categoria>> getCategories();
 
-    @POST("/usuaris/jo/conversacions")
+    @POST("usuaris/jo/conversacions")
     Call<ConversacioChat> addChat(@Body Integer producte_id);
 
-    @GET("/conversacions/{conversa_id}/missatges")
+    @GET("conversacions/{conversa_id}/missatges")
     Call<LlistaMissatges> getChatID(@Path("conversa_id") Integer id_chat);
 
-    @POST("/conversacions/{conversa_id}/missatges")
+    @POST("conversacions/{conversa_id}/missatges")
     Call<Missatge> sendMessage(@Path("conversa_id") int conversaID, @Body String message);
 
-    @GET("/usuaris/{usuari_id}p/vendes")
+    @GET("usuaris/{usuari_id}/vendes")
     Call<LlistaProductes> getProductesVendaPerfil();
 
-    @GET("/usuaris/{usuari_id}/compres")
+    @GET("usuaris/{usuari_id}/compres")
     Call<LlistaProductes> getProductesCompraPerfil();
 
     @GET("usuaris/{usuari_id}")
     Call<UserLogged> getSpecificUser(@Path("usuari_id") int userID);
 
-    @POST("/usuaris")
+    @POST("usuaris")
     Call<UserLogged> addUser(@Body User user);
 
-    @POST("rest/usuaris/desautenticar")
+    @POST("usuaris/desautenticar")
     Call<Void> diconnect();
 
-    @PUT("/usuaris/jo")
+    @PUT("usuaris/jo")
     Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
-    @GET("/usuaris/jo/conversacions")
+    @GET("usuaris/jo/conversacions")
     Call<ItemsConversations> getConversations();
 }
