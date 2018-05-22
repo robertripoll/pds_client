@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.Login;
+import org.udg.pds.cheapyandroid.entity.Ubicacio;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
@@ -24,11 +25,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Ubication_Fragment extends Fragment implements OnMapReadyCallback{
-    CheapyApi mCheapyService;
     private GoogleMap mygooglemap;
     private MapView mapView;
     private View myView;
-    private UserLogged userAct;
+    private Ubicacio userUbication;
     private double lat, lgn;
 
     @Override
@@ -60,23 +60,13 @@ public class Ubication_Fragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void getActualUbication() {
-        /*Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
-        call.enqueue(new Callback<UserLogged>() {
-            @Override
-            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
-                userAct = response.body();
-                lat = userAct.getUbicacio().getCoordLat();
-                lgn = userAct.getUbicacio().getCoordLng();
-                System.out.println("LATITUD -> "+lat+",  ----- "+ lgn);
-            }
-
-            @Override
-            public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });*/
-        lat = 41.8638;
-        lgn = 3.0726;
+        Bundle bundle = getArguments();
+        if(bundle!=null) {
+            userUbication = (Ubicacio) bundle.getSerializable("ubicationUser");
+            lat = userUbication.getCoordLat();
+            lgn = userUbication.getCoordLng();
+        }
+       /* lat = 41.8638;
+        lgn = 3.0726;*/
     }
 }
