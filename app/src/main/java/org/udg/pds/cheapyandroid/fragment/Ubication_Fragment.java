@@ -60,13 +60,7 @@ public class Ubication_Fragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void getActualUbication() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Global.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mCheapyService = retrofit.create(CheapyApi.class);
-        Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
+        /*Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
         call.enqueue(new Callback<UserLogged>() {
             @Override
             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
@@ -81,6 +75,8 @@ public class Ubication_Fragment extends Fragment implements OnMapReadyCallback{
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
-        });
+        });*/
+        lat = 41.8638;
+        lgn = 3.0726;
     }
 }
