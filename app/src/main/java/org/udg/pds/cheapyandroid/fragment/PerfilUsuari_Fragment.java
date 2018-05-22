@@ -109,32 +109,32 @@ public class PerfilUsuari_Fragment extends Fragment {
 
 
     private void mostrarDadesPerfil() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Global.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mCheapyService = retrofit.create(CheapyApi.class);
         Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
         call.enqueue(new Callback<UserLogged>() {
             @Override
             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
-                userInformation = response.body();
-                String compres = String.valueOf(userInformation.getNombreCompres());
-                String vendes = String.valueOf(userInformation.getNombreVendes());
-                String valoracions = String.valueOf(userInformation.getNombreValoracions());
+                if (response.isSuccessful()) {
+                    userInformation = response.body();
+                    String compres = String.valueOf(userInformation.getNombreCompres());
+                    String vendes = String.valueOf(userInformation.getNombreVendes());
+                    String valoracions = String.valueOf(userInformation.getNombreValoracions());
 
-                textView.append(userInformation.getNom());
-                textView2.append(userInformation.getCognoms());
+                    textView.append(userInformation.getNom());
+                    textView2.append(userInformation.getCognoms());
 
-                textView3.append(vendes);
-                textView4.append(compres);
-                textView5.append(valoracions);
+                    textView3.append(vendes);
+                    textView4.append(compres);
+                    textView5.append(valoracions);
+                }
+                else{
+                    Toast toast = Toast.makeText(getContext(), "ERROR: S'ha rebut una resposta erronia.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
 
             @Override
             public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

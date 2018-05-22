@@ -50,7 +50,7 @@ public class Chats_Fragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     mostrarConverses(response.body());
-                } else {
+                } else if (response==null){
                     Toast toast = Toast.makeText(getActivity(), "ERROR: The conversations couldn't load correctly", Toast.LENGTH_SHORT);
                     toast.show();
                 }
