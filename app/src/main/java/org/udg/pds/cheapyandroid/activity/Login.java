@@ -126,5 +126,17 @@ public class Login extends Activity {
         });
     }
 
+    public static void alreadyConnected(Integer id_user, String name, String email) {
+        userID_connected = id_user;
+        userName_connected = name;
+        userCorreu_connected = email;
+        logged = true;
+        /*SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("usuari_id", userID_connected);
+        editor.putString("usuari_nom", userName_connected);
+        editor.putString("usuari_correo", userCorreu_connected);
+        editor.commit();*/
+    }
 }
 
