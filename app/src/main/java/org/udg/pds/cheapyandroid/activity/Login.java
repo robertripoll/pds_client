@@ -63,6 +63,8 @@ public class Login extends Activity {
         // Link per donar-se d'alta
         TextView link = (TextView) findViewById(R.id.link_signup);
 
+        TextView no_link = (TextView) findViewById(R.id.link_no_signup);
+
         // This is teh listener that will be used when the user presses the "Login" button
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,6 +80,11 @@ public class Login extends Activity {
             }
         });
 
+        no_link.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+            }
+        });
     }
     // This method is called when the "Login" button is pressed in the Login fragment
     public void checkCredentials(final String username, final String password) {
