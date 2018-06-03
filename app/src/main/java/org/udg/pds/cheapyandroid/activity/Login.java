@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
@@ -131,12 +133,6 @@ public class Login extends Activity {
         userName_connected = name;
         userCorreu_connected = email;
         logged = true;
-        /*SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("usuari_id", userID_connected);
-        editor.putString("usuari_nom", userName_connected);
-        editor.putString("usuari_correo", userCorreu_connected);
-        editor.commit();*/
     }
 }
 

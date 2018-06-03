@@ -1,6 +1,8 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -16,12 +18,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
+
 public class SplashScreen extends AppCompatActivity {
     private ImageView imagesplash;
     private TextView textsplash;
     private CheapyApi mCheapyService;
-    private boolean logged;
-    private objecteAmb_ID_NOM_CORREU;
+    private boolean isLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +41,10 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful()) {
-                    objecteAmb_ID_NOM_CORREU = response.body();
-                    logged = (objecteAmb_ID_NOM_CORREU!=null);
+                    isLogged = response.body();
                     nextWindows();
                 }
             }
-
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
                 Toast toast = Toast.makeText(SplashScreen.this, "ERROR: S'ha rebut una resposta erronia.", Toast.LENGTH_SHORT);
@@ -54,8 +55,12 @@ public class SplashScreen extends AppCompatActivity {
 
     private void nextWindows(){
         final Intent i;
-        if (logged){
-           Login.alreadyConnected(ID, NAME, CORREU);
+        if (isLogged){
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            String userName_connected = prefs.getString("usuari_nom", "usuari_prova");
+            int userID_connected = prefs.getInt("usuari_id", -1);
+            String userCorreu_connected = prefs.getString("usuari_correo", "prova@mail.com");
+            Login.alreadyConnected(userID_connected, userName_connected, userCorreu_connected);
             i = new Intent(this, LlistaProductesActivity.class);
         }
         else i = new Intent(this, Login.class);
