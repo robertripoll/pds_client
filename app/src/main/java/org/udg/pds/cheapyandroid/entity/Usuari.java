@@ -13,7 +13,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe"
+        "sexe",
+        "imatge"
 })
 public class Usuari {
 
@@ -23,6 +24,8 @@ public class Usuari {
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
+    @JsonProperty("imatge")
+    private Object imatge;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -36,11 +39,6 @@ public class Usuari {
         this.id = id;
     }
 
-    public Usuari withId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
     @JsonProperty("nom")
     public String getNom() {
         return nom;
@@ -49,11 +47,6 @@ public class Usuari {
     @JsonProperty("nom")
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public Usuari withNom(String nom) {
-        this.nom = nom;
-        return this;
     }
 
     @JsonProperty("sexe")
@@ -66,9 +59,14 @@ public class Usuari {
         this.sexe = sexe;
     }
 
-    public Usuari withSexe(String sexe) {
-        this.sexe = sexe;
-        return this;
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
     }
 
     @JsonAnyGetter
@@ -79,11 +77,6 @@ public class Usuari {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public Usuari withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
     }
 
 }
