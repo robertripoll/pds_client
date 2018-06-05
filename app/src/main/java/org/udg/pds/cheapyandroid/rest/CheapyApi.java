@@ -1,10 +1,15 @@
 package org.udg.pds.cheapyandroid.rest;
 
+import android.graphics.Bitmap;
+import com.fasterxml.jackson.databind.node.BinaryNode;
+import okhttp3.RequestBody;
 import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public interface CheapyApi {
 
@@ -52,4 +57,8 @@ public interface CheapyApi {
 
     @GET("usuaris/comprovar")
     Call<Boolean> checkAuth();
+
+    @Multipart
+    @POST("imatges")
+    Call<List<String>> postImage(@PartMap Map<String, RequestBody> params);
 }

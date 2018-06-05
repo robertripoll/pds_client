@@ -13,19 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okio.BufferedSink;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Imatge;
-import org.udg.pds.cheapyandroid.entity.User;
-import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
-import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.graphics.Bitmap;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ModifyUserProfile_Fragment extends Fragment {
 
@@ -43,6 +49,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private boolean fotoActualitzada;
     private String emailUser;
     private Imatge imageUser;
+    private Bitmap bitmap;
+    private Uri imatgeUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,7 +144,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
         String rutaImatge = null;
         if(fotoActualitzada){
             //Mirar de ficar la imatge de la galeria al server TT
-            rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
+            postTheInternalImage();
+            //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
         }
         UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
@@ -167,6 +176,41 @@ public class ModifyUserProfile_Fragment extends Fragment {
         });
     }
 
+    private void postTheInternalImage() {
+         // use the FileUtils to get the actual file by uri
+        File file = new File(imatgeUri.getPath());
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContext().getContentResolver().getType(imatgeUri)),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("profilePicture", file.getName(), requestFile);
+
+        Map<String, RequestBody> param = new HashMap<>();
+        param.put("file",requestFile);
+        Call<List<String>> call = mCheapyService.postImage(param);
+        call.enqueue(new Callback<List<String>>(){
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+                    imageUser.setRuta(response.body().get(0));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                System.out.println("Call incorrecte 1");
+                Toast toast = null;
+                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!",toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private Boolean comprovarSiInfoPlena() {
         return nom.getText().length()>=3 && cognom.getText().length()>=3
                 && telefon.getText().length()>=9;
@@ -181,6 +225,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         email = (TextView) view.findViewById(R.id.emailActualitzat);
         telefon = (EditText) view.findViewById(R.id.telefonActualitzat);
         fotoActualitzada = false;
+        imatgeUri = null;
         Bundle bundle = getArguments();
         if(bundle!=null){
             emailUser = bundle.get("emailUser").toString();
@@ -223,8 +268,13 @@ public class ModifyUserProfile_Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODI_SELECCIO){
-            Uri elMeuPath = data.getData();
-            foto.setImageURI(elMeuPath);
+            imatgeUri = data.getData();
+            foto.setImageURI(imatgeUri);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imatgeUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             fotoActualitzada = true;
         }
     }
