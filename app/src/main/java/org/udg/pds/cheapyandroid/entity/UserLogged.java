@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -25,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "nombreCompres",
         "nombreVendes"
 })
-public class UserLogged {
+public class UserLogged implements Serializable {
 
     @JsonProperty("id")
     private Integer id;
@@ -44,11 +45,11 @@ public class UserLogged {
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
     @JsonProperty("imatge")
-    private Object imatge;
+    private Imatge imatge;
     @JsonProperty("nombreValoracions")
     private Integer nombreValoracions;
     @JsonProperty("mitjanaValoracions")
-    private Object mitjanaValoracions;
+    private Double mitjanaValoracions;
     @JsonProperty("nombreCompres")
     private Integer nombreCompres;
     @JsonProperty("nombreVendes")
@@ -177,16 +178,16 @@ public class UserLogged {
     }
 
     @JsonProperty("imatge")
-    public Object getImatge() {
+    public Imatge getImatge() {
         return imatge;
     }
 
     @JsonProperty("imatge")
-    public void setImatge(Object imatge) {
+    public void setImatge(Imatge imatge) {
         this.imatge = imatge;
     }
 
-    public UserLogged withImatge(Object imatge) {
+    public UserLogged withImatge(Imatge imatge) {
         this.imatge = imatge;
         return this;
     }
@@ -207,16 +208,16 @@ public class UserLogged {
     }
 
     @JsonProperty("mitjanaValoracions")
-    public Object getMitjanaValoracions() {
+    public Double getMitjanaValoracions() {
         return mitjanaValoracions;
     }
 
     @JsonProperty("mitjanaValoracions")
-    public void setMitjanaValoracions(Object mitjanaValoracions) {
+    public void setMitjanaValoracions(Double mitjanaValoracions) {
         this.mitjanaValoracions = mitjanaValoracions;
     }
 
-    public UserLogged withMitjanaValoracions(Object mitjanaValoracions) {
+    public UserLogged withMitjanaValoracions(Double mitjanaValoracions) {
         this.mitjanaValoracions = mitjanaValoracions;
         return this;
     }

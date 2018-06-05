@@ -19,16 +19,14 @@ public class UserLoggedUpdate {
 
     @JsonProperty("nom")
     private String nom;
-    @JsonProperty("cognoms")
-    private String cognoms;
+    @JsonProperty("cognom")
+    private String cognom;
     @JsonProperty("telefon")
     private String telefon;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public UserLoggedUpdate(String nom, String cognoms, String telefon){
         this.nom = nom;
-        this.cognoms = cognoms;
+        this.cognom = cognoms;
         this.telefon = telefon;
     }
 
@@ -49,16 +47,16 @@ public class UserLoggedUpdate {
 
     @JsonProperty("cognoms")
     public String getCognoms() {
-        return cognoms;
+        return cognom;
     }
 
-    @JsonProperty("cognoms")
+    @JsonProperty("cognom")
     public void setCognoms(String cognoms) {
-        this.cognoms = cognoms;
+        this.cognom = cognoms;
     }
 
     public UserLoggedUpdate withCognoms(String cognoms) {
-        this.cognoms = cognoms;
+        this.cognom = cognoms;
         return this;
     }
 
@@ -76,20 +74,4 @@ public class UserLoggedUpdate {
         this.telefon = telefon;
         return this;
     }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public UserLoggedUpdate withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
-
 }

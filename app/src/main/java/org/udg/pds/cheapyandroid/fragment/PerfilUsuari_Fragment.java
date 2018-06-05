@@ -60,7 +60,7 @@ public class PerfilUsuari_Fragment extends Fragment {
         textView4 = (TextView) view.findViewById(R.id.compres);
         textView5 = (TextView) view.findViewById(R.id.valoracions);
 
-        mostrarDadesPerfil();
+        showUserInformation();
 
         editarPerfil = (Button) view.findViewById(R.id.botoEditarPerfil);
         editarPerfil.setOnClickListener(new OnClickListener() {
@@ -107,36 +107,21 @@ public class PerfilUsuari_Fragment extends Fragment {
         return view;
     }
 
+    public void showUserInformation() {
+        Bundle bundle = getArguments();
+        if(bundle!=null) {
+            userInformation = (UserLogged) bundle.getSerializable("allUserInformation");
 
-    private void mostrarDadesPerfil() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Global.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            String compres = String.valueOf(userInformation.getNombreCompres());
+            String vendes = String.valueOf(userInformation.getNombreVendes());
+            String valoracions = String.valueOf(userInformation.getNombreValoracions());
 
-        mCheapyService = retrofit.create(CheapyApi.class);
-        Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
-        call.enqueue(new Callback<UserLogged>() {
-            @Override
-            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
-                userInformation = response.body();
-                String compres = String.valueOf(userInformation.getNombreCompres());
-                String vendes = String.valueOf(userInformation.getNombreVendes());
-                String valoracions = String.valueOf(userInformation.getNombreValoracions());
+            textView.append(userInformation.getNom());
+            textView2.append(userInformation.getCognoms());
 
-                textView.append(userInformation.getNom());
-                textView2.append(userInformation.getCognoms());
-
-                textView3.append(vendes);
-                textView4.append(compres);
-                textView5.append(valoracions);
-            }
-
-            @Override
-            public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
+            textView3.append(vendes);
+            textView4.append(compres);
+            textView5.append(valoracions);
+        }
     }
 }

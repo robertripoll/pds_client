@@ -1,56 +1,40 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "pais",
-        "ciutat",
         "coordLat",
-        "coordLng"
+        "coordLng",
+        "ciutat",
+        "pais"
 })
-public class Ubicacio implements Serializable{
+public class Ubicacio implements Serializable {
 
-    @JsonProperty("pais")
-    private String pais;
-    @JsonProperty("ciutat")
-    private String ciutat;
     @JsonProperty("coordLat")
     private Double coordLat;
     @JsonProperty("coordLng")
     private Double coordLng;
+    @JsonProperty("ciutat")
+    private String ciutat;
+    @JsonProperty("pais")
+    private String pais;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Ubicacio(String pais_, String ciutat_, Double coordLat_, Double coordLng_) {
-        this.pais = pais_;
-        this.ciutat = ciutat_;
-        this.coordLat = coordLat_;
-        this.coordLng = coordLng_;
-    }
-
-    @JsonProperty("pais")
-    public String getPais() {
-        return pais;
-    }
-
-    @JsonProperty("pais")
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    @JsonProperty("ciutat")
-    public String getCiutat() {
-        return ciutat;
-    }
-
-    @JsonProperty("ciutat")
-    public void setCiutat(String ciutat) {
-        this.ciutat = ciutat;
+        pais = pais_;
+        ciutat =ciutat_;
+        coordLat = coordLat_;
+        coordLng = coordLng_;
     }
 
     @JsonProperty("coordLat")
@@ -63,6 +47,11 @@ public class Ubicacio implements Serializable{
         this.coordLat = coordLat;
     }
 
+    public Ubicacio withCoordLat(Double coordLat) {
+        this.coordLat = coordLat;
+        return this;
+    }
+
     @JsonProperty("coordLng")
     public Double getCoordLng() {
         return coordLng;
@@ -71,6 +60,41 @@ public class Ubicacio implements Serializable{
     @JsonProperty("coordLng")
     public void setCoordLng(Double coordLng) {
         this.coordLng = coordLng;
+    }
+
+    public Ubicacio withCoordLng(Double coordLng) {
+        this.coordLng = coordLng;
+        return this;
+    }
+
+    @JsonProperty("ciutat")
+    public String getCiutat() {
+        return ciutat;
+    }
+
+    @JsonProperty("ciutat")
+    public void setCiutat(String ciutat) {
+        this.ciutat = ciutat;
+    }
+
+    public Ubicacio withCiutat(String ciutat) {
+        this.ciutat = ciutat;
+        return this;
+    }
+
+    @JsonProperty("pais")
+    public String getPais() {
+        return pais;
+    }
+
+    @JsonProperty("pais")
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public Ubicacio withPais(String pais) {
+        this.pais = pais;
+        return this;
     }
 
     @JsonAnyGetter
@@ -82,4 +106,10 @@ public class Ubicacio implements Serializable{
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    public Ubicacio withAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+        return this;
+    }
+
 }

@@ -211,6 +211,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(LlistaProductesActivity.this, "Usuari No registrat", Toast.LENGTH_SHORT);
                     toast.show();
                     setLogoutMenu();
+                    returnToLogin();
                 } else {
                     Toast toast = Toast.makeText(LlistaProductesActivity.this, "Error logout ", Toast.LENGTH_SHORT);
                     toast.show();
@@ -224,6 +225,12 @@ public class LlistaProductesActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void returnToLogin() {
+        Intent i = new Intent(this, Login.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,8 +139,11 @@ public class ModifyUserProfile_Fragment extends Fragment {
                 if(response.isSuccessful()){
                     System.out.println("Call correcte");
                     toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
-                    PerfilUsuari_Fragment fragmentPerf = new PerfilUsuari_Fragment();
-                    getFragmentManager().popBackStack();
+                    Fragment fragmentPerf = new Usuari_Fragment();
+                    FragmentTransaction fragmentManager = getFragmentManager()
+                            .beginTransaction();
+                    fragmentManager.replace(R.id.frame_layout, fragmentPerf).addToBackStack(null);
+                    fragmentManager.commit();
                 }
                 else{
                     System.out.println("Call incorrecte 1");

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
@@ -62,6 +64,8 @@ public class Login extends Activity {
         // Link per donar-se d'alta
         TextView link = (TextView) findViewById(R.id.link_signup);
 
+        TextView no_link = (TextView) findViewById(R.id.link_no_signup);
+
         // This is teh listener that will be used when the user presses the "Login" button
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -77,6 +81,11 @@ public class Login extends Activity {
             }
         });
 
+        no_link.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Login.this.startActivity(new Intent(Login.this, LlistaProductesActivity.class));
+            }
+        });
     }
     // This method is called when the "Login" button is pressed in the Login fragment
     public void checkCredentials(final String username, final String password) {
@@ -128,5 +137,11 @@ public class Login extends Activity {
         });
     }
 
+    public static void alreadyConnected(Integer id_user, String name, String email) {
+        userID_connected = id_user;
+        userName_connected = name;
+        userCorreu_connected = email;
+        logged = true;
+    }
 }
 

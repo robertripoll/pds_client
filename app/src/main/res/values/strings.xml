@@ -31,7 +31,9 @@
 
     <!-- Strings relacionades amb la pantalla de desar canvis en la venta d'un producte propi -->
     <string name="button_desar_canvis">Desar Canvis</string>
-    <string name="error_falten_camps_desar_canvis">Emplena tots els camps per poder actualitzar les dades del producte.</string>
+    <string name="error_falten_camps_desar_canvis">Emplena tots els camps per poder actualitzar les dades del
+        producte.
+    </string>
     <string name="seleccionar_categoria">Selecciona una categoria</string>
 
     <string name="hello_world">Hello world!</string>

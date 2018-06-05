@@ -53,4 +53,6 @@ public interface CheapyApi {
     @GET("/conversacions")
     Call<LlistaConversacions> getConversations();
 
+    @GET("usuaris/comprovar")
+    Call<Boolean> checkAuth();
 }
