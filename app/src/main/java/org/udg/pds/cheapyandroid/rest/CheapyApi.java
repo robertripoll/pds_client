@@ -35,8 +35,8 @@ public interface CheapyApi {
     @GET("usuaris/{usuari_id}/compres")
     Call<LlistaProductes> getProductesCompraPerfil();
 
-    @GET("usuaris/{usuari_id}")
-    Call<UserLogged> getSpecificUser(@Path("usuari_id") int userID);
+    @GET("usuaris/jo")
+    Call<UserLogged> getSpecificUser();
 
     @POST("usuaris")
     Call<UserLogged> addUser(@Body User user);

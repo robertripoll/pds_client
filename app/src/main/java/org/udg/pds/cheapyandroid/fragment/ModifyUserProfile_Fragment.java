@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.squareup.picasso.Picasso;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
+import org.udg.pds.cheapyandroid.entity.Imatge;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
@@ -40,6 +42,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
     private boolean fotoActualitzada;
     private String emailUser;
+    private Imatge imageUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -176,6 +179,14 @@ public class ModifyUserProfile_Fragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle!=null){
             emailUser = bundle.get("emailUser").toString();
+            imageUser = (Imatge) bundle.get("imageUser");
+            if(imageUser!=null){
+                Picasso.get()
+                        .load(imageUser.getRuta())
+                        .resize(50, 50)
+                        .into(foto);
+            }
+
             email.setText(emailUser);
         }
     }

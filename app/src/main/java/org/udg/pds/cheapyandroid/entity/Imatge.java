@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "id",
         "ruta"
 })
-public class Imatge {
+public class Imatge implements Serializable {
 
     @JsonProperty("id")
     private Integer id;

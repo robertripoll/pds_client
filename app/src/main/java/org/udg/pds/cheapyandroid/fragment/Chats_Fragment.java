@@ -36,10 +36,6 @@ public class Chats_Fragment extends Fragment {
     private void iniVariables(View view) {
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
         listChatsView = (ListView) view.findViewById(R.id.llista_converses);
-        //recyclerView = (RecyclerView) view.findViewById(R.id.chats_recyclerview);
-        //mAdapter = new Adapter(view.getContext());
-        //recyclerView.setAdapter(mAdapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 
     private void addActualConversations() {
@@ -122,10 +118,8 @@ public class Chats_Fragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             int position = (Integer) view.getTag();
-                            // Access the row position here to get the correct data item
 
                             Item conversaAmostrar = itemsAdapter.getItem(position);
-                            //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getActivity(), Conversa.class);
                             intent.putExtra("ConversaAmostrarID", conversaAmostrar.getId());

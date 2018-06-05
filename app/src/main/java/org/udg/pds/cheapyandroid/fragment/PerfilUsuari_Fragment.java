@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import com.squareup.picasso.Picasso;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.Login;
@@ -40,6 +38,7 @@ public class PerfilUsuari_Fragment extends Fragment {
     private TextView textView3;
     private TextView textView4;
     private TextView textView5;
+    private ImageView imageProfile;
 
     private Button editarPerfil;
 
@@ -59,6 +58,7 @@ public class PerfilUsuari_Fragment extends Fragment {
         textView3 = (TextView) view.findViewById(R.id.vendes);
         textView4 = (TextView) view.findViewById(R.id.compres);
         textView5 = (TextView) view.findViewById(R.id.valoracions);
+        imageProfile = (ImageView) view.findViewById(R.id.imageViewProfile);
 
         showUserInformation();
 
@@ -69,6 +69,7 @@ public class PerfilUsuari_Fragment extends Fragment {
                 ModifyUserProfile_Fragment fragmentModif = new ModifyUserProfile_Fragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("emailUser", userInformation.getCorreu());
+                bundle.putSerializable("imageUser", userInformation.getImatge());
                 fragmentModif.setArguments(bundle);
                 getFragmentManager()
                         .beginTransaction()
@@ -122,6 +123,17 @@ public class PerfilUsuari_Fragment extends Fragment {
             textView3.append(vendes);
             textView4.append(compres);
             textView5.append(valoracions);
+            /*Picasso.get()
+                    .load("http://i.imgur.com/DvpvklR.png")
+                    //.load(userInformation.getImatge().getRuta())
+                    .resize(50, 50)
+                    .into(imageProfile);*/
+            if(userInformation.getImatge()!=null){
+                Picasso.get()
+                        .load(userInformation.getImatge().getRuta())
+                        .resize(50, 50)
+                        .into(imageProfile);
+            }
         }
     }
 }
