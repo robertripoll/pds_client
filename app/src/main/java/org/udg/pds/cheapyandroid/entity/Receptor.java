@@ -21,10 +21,10 @@ public class Receptor {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Receptor(int i, String benito, String home) {
+    public Receptor(int i, String nom, String sexe) {
         this.id = i;
-        this.nom = benito;
-        this.sexe = home;
+        this.nom = nom;
+        this.sexe = sexe;
     }
 
     @JsonProperty("id")
@@ -65,5 +65,14 @@ public class Receptor {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return "Receptor{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", sexe='" + sexe + '\'' +
+                '}';
     }
 }

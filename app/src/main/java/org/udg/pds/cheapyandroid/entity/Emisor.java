@@ -22,10 +22,10 @@ public class Emisor {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Emisor(int i, String pep, String home) {
-        this.id = 2;
-        this.nom = pep;
-        this.sexe = home;
+    public Emisor(Integer id, String nom, String sexe) {
+        this.id = id;
+        this.nom = nom;
+        this.sexe = sexe;
     }
 
     @JsonProperty("id")
@@ -66,5 +66,14 @@ public class Emisor {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return "Emisor{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", sexe='" + sexe + '\'' +
+                '}';
     }
 }
