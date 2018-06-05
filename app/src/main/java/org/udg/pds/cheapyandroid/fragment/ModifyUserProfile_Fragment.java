@@ -133,7 +133,12 @@ public class ModifyUserProfile_Fragment extends Fragment {
 }
 
     private void updateUserInformation() {
-        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString());
+        String rutaImatge = null;
+        if(fotoActualitzada){
+            //Mirar de ficar la imatge de la galeria al server TT
+            rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
+        }
+        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
         call.enqueue(new Callback<Void>() {
             @Override

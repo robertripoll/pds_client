@@ -89,9 +89,9 @@ public class Usuari_Fragment extends Fragment {
         Bundle bundle = new Bundle();
         if (i == 0) {
             fragment = new PerfilUsuari_Fragment();
-            Imatge imatge = new Imatge();
+            /*Imatge imatge = new Imatge();
             imatge.setRuta("http://i.imgur.com/DvpvklR.png");
-            userInformation.setImatge(imatge);
+            userInformation.setImatge(imatge);*/
             bundle.putSerializable("allUserInformation", userInformation);
             fragment.setArguments(bundle);
         } else if (i == 1) {
