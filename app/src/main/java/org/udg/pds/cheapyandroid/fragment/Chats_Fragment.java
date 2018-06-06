@@ -43,10 +43,10 @@ public class Chats_Fragment extends Fragment {
     }
 
     private void addActualConversations() {
-        Call<ItemsConversations> call = mCheapyService.getConversations();
-        call.enqueue(new Callback<ItemsConversations>() {
+        Call<LlistaConversacions> call = mCheapyService.getConversations();
+        call.enqueue(new Callback<LlistaConversacions>() {
             @Override
-            public void onResponse(Call<ItemsConversations> call, Response<ItemsConversations> response) {
+            public void onResponse(Call<LlistaConversacions> call, Response<LlistaConversacions> response) {
 
                 if (response.isSuccessful()) {
                     mostrarConverses(response.body());
@@ -57,16 +57,16 @@ public class Chats_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ItemsConversations> call, Throwable t) {
+            public void onFailure(Call<LlistaConversacions> call, Throwable t) {
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Check your internet connection", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
 
-    private void mostrarConverses(final ItemsConversations llistaConverses) {
-        final ArrayAdapter<Item> itemsAdapter =
-                new ArrayAdapter<Item>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getItems());
+    private void mostrarConverses(final LlistaConversacions llistaConverses) {
+        final ArrayAdapter<ConversacioChat> itemsAdapter =
+                new ArrayAdapter<ConversacioChat>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getItems());
         listChatsView.setAdapter(new ListAdapter() {
             @Override
             public boolean areAllItemsEnabled() {
@@ -103,7 +103,7 @@ public class Chats_Fragment extends Fragment {
                 TextView userName = (TextView) rowView.findViewById(R.id.lastMessageUser);
                 TextView userLastMessage = (TextView) rowView.findViewById(R.id.lastMessage);
 
-                Item conv = llistaConverses.getItems().get(position);
+                ConversacioChat conv = llistaConverses.getItems().get(position);
 
                 userName.setText(conv.getUsuari().getNom());
                 userLastMessage.setText(conv.getUltimMissatge().toString());
@@ -124,7 +124,7 @@ public class Chats_Fragment extends Fragment {
                             int position = (Integer) view.getTag();
                             // Access the row position here to get the correct data item
 
-                            Item conversaAmostrar = itemsAdapter.getItem(position);
+                            ConversacioChat conversaAmostrar = itemsAdapter.getItem(position);
                             //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getActivity(), Conversa.class);
