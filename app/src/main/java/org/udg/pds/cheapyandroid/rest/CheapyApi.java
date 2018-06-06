@@ -17,10 +17,13 @@ public interface CheapyApi {
     @POST("productes")
     Call<Void> crearProducte(@Body Producte producte);
 
+    @GET("productes/{producte_id}")
+    Call<Producte> getProducte(@Path("producte_id") Integer id_producte);
+
     @GET("categories")
     Call<ArrayList<Categoria>> getCategories();
 
-    @POST("usuaris/jo/conversacions")
+    @POST("conversacions")
     Call<ConversacioChat> addChat(@Body Integer producte_id);
 
     @GET("conversacions/{conversa_id}/missatges")
@@ -47,8 +50,8 @@ public interface CheapyApi {
     @PUT("usuaris/jo")
     Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
-    @GET("usuaris/jo/conversacions")
-    Call<ItemsConversations> getConversations();
+    @GET("/conversacions")
+    Call<LlistaConversacions> getConversations();
 
     @GET("usuaris/comprovar")
     Call<Boolean> checkAuth();

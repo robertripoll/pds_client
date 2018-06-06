@@ -40,6 +40,15 @@ public class Missatge {
         this.dataEnviament = "2018-11-10";
     }
 
+    public Missatge(Integer id, Emisor em, Receptor rec, String estat, String missatge, String dataProva) {
+        this.id = id;
+        this.emisor = em;
+        this.receptor = rec;
+        this.estat = estat;
+        this.missatge = missatge;
+        this.dataEnviament = dataProva;
+    }
+
     @JsonProperty("id")
     public Integer getId() {
         return id;

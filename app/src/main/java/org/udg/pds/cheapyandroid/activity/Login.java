@@ -47,6 +47,7 @@ public class Login extends Activity {
     public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
     public static Boolean logged = false;
+    public static String userSexe_connected;
 
     CheapyApi mCheapyService;
 
@@ -100,6 +101,7 @@ public class Login extends Activity {
                     userID_connected=usuari.getId();
                     userName_connected=usuari.getNom();
                     userCorreu_connected = usuari.getCorreu();
+                    userSexe_connected = usuari.getSexe();
                     String user_name = String.valueOf(usuari.getCorreu());
                     if(user_name.equals(username)) {
 
