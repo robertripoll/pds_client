@@ -1,7 +1,9 @@
 package org.udg.pds.cheapyandroid.activity;
 
 import android.app.*;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +27,10 @@ import java.nio.DoubleBuffer;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
+
 public class AddUser extends Activity implements Callback<User> {
+
 
     CheapyApi mCheapyService;
     
@@ -95,9 +100,38 @@ public class AddUser extends Activity implements Callback<User> {
                         call.enqueue(new Callback<UserLogged>() {
                             @Override
                             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
-                                Toast toast = Toast.makeText(AddUser.this, "Nou usuari registrat correctament.", Toast.LENGTH_SHORT);
-                                toast.show();
-                                AddUser.this.startActivity(new Intent(AddUser.this, LlistaProductesActivity.class));
+
+                                if (response.isSuccessful()) {
+
+                                    Toast toast = Toast.makeText(AddUser.this, "Nou usuari registrat correctament.", Toast.LENGTH_SHORT);
+                                    toast.show();
+
+                                    UserLogged usuari = response.body();
+                                    Login.userID_connected = usuari.getId();
+                                    Login.userName_connected = usuari.getNom();
+                                    Login.userCorreu_connected = usuari.getCorreu();
+                                    Login.userSexe_connected = usuari.getSexe();
+                                    String user_name = String.valueOf(usuari.getCorreu());
+
+                                    //Afegeix noves preferencies per usuari i la seva contrasenya correctes
+                                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("usuari_id", Login.userID_connected);
+                                    editor.putString("usuari_nom", Login.userName_connected);
+                                    editor.putString("usuari_correo", Login.userCorreu_connected);
+                                    editor.commit();
+
+                                    Login.logged = true;
+                                    AddUser.this.startActivity(new Intent(AddUser.this, LlistaProductesActivity.class));
+
+                                    finish();
+
+
+                                }
+                                else{
+                                    Toast toast = Toast.makeText(AddUser.this, "Error al fer una nova compte " + response.toString(), Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
                             }
 
                             @Override
