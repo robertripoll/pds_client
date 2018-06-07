@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -13,14 +12,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
-        "ruta"
+        "nom",
+        "sexe",
+        "imatge"
 })
-public class Imatge implements Serializable {
+public class VenedorConversa {
 
     @JsonProperty("id")
     private Integer id;
-    @JsonProperty("ruta")
-    private String ruta;
+    @JsonProperty("nom")
+    private String nom;
+    @JsonProperty("sexe")
+    private String sexe;
+    @JsonProperty("imatge")
+    private Object imatge;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -34,24 +39,34 @@ public class Imatge implements Serializable {
         this.id = id;
     }
 
-    public Imatge withId(Integer id) {
-        this.id = id;
-        return this;
+    @JsonProperty("nom")
+    public String getNom() {
+        return nom;
     }
 
-    @JsonProperty("ruta")
-    public String getRuta() {
-        return ruta;
+    @JsonProperty("nom")
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    @JsonProperty("ruta")
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
+    @JsonProperty("sexe")
+    public String getSexe() {
+        return sexe;
     }
 
-    public Imatge withRuta(String ruta) {
-        this.ruta = ruta;
-        return this;
+    @JsonProperty("sexe")
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
     }
 
     @JsonAnyGetter
@@ -62,11 +77,6 @@ public class Imatge implements Serializable {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public Imatge withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
     }
 
 }

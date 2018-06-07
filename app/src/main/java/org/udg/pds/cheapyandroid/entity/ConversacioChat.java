@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
-        "usuari",
+        "venedorConversa",
+        "compradorConversa",
         "producte",
         "nombreMissatges",
         "ultimMissatge",
@@ -22,14 +23,16 @@ public class ConversacioChat {
 
     @JsonProperty("id")
     private Integer id;
-    @JsonProperty("usuari")
-    private Usuari usuari;
+    @JsonProperty("venedorConversa")
+    private VenedorConversa venedorConversa;
+    @JsonProperty("compradorConversa")
+    private CompradorConversa compradorConversa;
     @JsonProperty("producte")
     private Producte producte;
     @JsonProperty("nombreMissatges")
     private Integer nombreMissatges;
     @JsonProperty("ultimMissatge")
-    private Object ultimMissatge;
+    private UltimMissatge ultimMissatge;
     @JsonProperty("missatgesPerLlegir")
     private Boolean missatgesPerLlegir;
     @JsonIgnore
@@ -45,14 +48,24 @@ public class ConversacioChat {
         this.id = id;
     }
 
-    @JsonProperty("usuari")
-    public Usuari getUsuari() {
-        return usuari;
+    @JsonProperty("venedorConversa")
+    public VenedorConversa getVenedorConversa() {
+        return venedorConversa;
     }
 
-    @JsonProperty("usuari")
-    public void setUsuari(Usuari usuari) {
-        this.usuari = usuari;
+    @JsonProperty("venedorConversa")
+    public void setVenedorConversa(VenedorConversa venedorConversa) {
+        this.venedorConversa = venedorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public CompradorConversa getCompradorConversa() {
+        return compradorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public void setCompradorConversa(CompradorConversa compradorConversa) {
+        this.compradorConversa = compradorConversa;
     }
 
     @JsonProperty("producte")
@@ -76,12 +89,12 @@ public class ConversacioChat {
     }
 
     @JsonProperty("ultimMissatge")
-    public Object getUltimMissatge() {
+    public UltimMissatge getUltimMissatge() {
         return ultimMissatge;
     }
 
     @JsonProperty("ultimMissatge")
-    public void setUltimMissatge(Object ultimMissatge) {
+    public void setUltimMissatge(UltimMissatge ultimMissatge) {
         this.ultimMissatge = ultimMissatge;
     }
 

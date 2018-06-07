@@ -32,6 +32,8 @@ import retrofit2.Response;
 import java.io.Serializable;
 import java.util.*;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
+
 public class Conversa extends AppCompatActivity  {
 
     private CheapyApi mCheapyService;
@@ -47,7 +49,6 @@ public class Conversa extends AppCompatActivity  {
     private RecyclerView mMessageRecycler;
     private Serializable conversaMostrarID;
     private Serializable producteID;
-    public static boolean conversaExistent = false;
     public static List<Missatge> listMiss = new ArrayList<>();
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -56,19 +57,20 @@ public class Conversa extends AppCompatActivity  {
             try {
                 String missatge = intent.getStringExtra("missatge_rebut");
                 Integer id = Integer.valueOf(intent.getStringExtra("id_rebut"));
-
-                Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
-                Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);
-                String estat = "no llegit";
-                String dataProva = "11/11/1111";
-                Missatge missatgeRebut = new Missatge(id, em, rec, estat, missatge, dataProva);
-
-                mMessageAdapter.add(missatgeRebut);
+                carregarMissatgeRebut(id, missatge);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    };
 
+    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String token = intent.getStringExtra("token");
+            enviarToken(token);
         }
     };
 
@@ -90,9 +92,11 @@ public class Conversa extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversa);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
+                new IntentFilter(TOKEN_RECEIVER));
+
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
         MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
-        MyFirebaseMessagingService myFireBaseMess = new MyFirebaseMessagingService();
 
         myFireBaseInsID.onTokenRefresh();
 
@@ -100,24 +104,17 @@ public class Conversa extends AppCompatActivity  {
         if(conversaMostrarID!=null){
             conversacio.setId((Integer)conversaMostrarID);
             producteID = getIntent().getSerializableExtra("Producte_id");
-            buscarProducte((Integer)producteID);
-            conversaExistent = true;
-
-            Toast toast = Toast.makeText(Conversa.this, "El producte es " + producte.getNom()  , Toast.LENGTH_SHORT);
-            toast.show();
-
+            carregarConversa((Integer)producteID);
         }
         else{
             producte = (Producte) getIntent().getSerializableExtra("Producte");
             mostrarConversa();
 
+            venedor = producte.getVenedor();
+            nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+            nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
         }
-
-        venedor = producte.getVenedor();
-        conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
-
-        nomProducte = (TextView) findViewById(R.id.nomProducteChat);
-        nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
 
         textChat = (EditText) findViewById(R.id.textMissatgeChat);
         buttonEnviar = (Button) findViewById(R.id.buttonEnviarChat);
@@ -137,7 +134,6 @@ public class Conversa extends AppCompatActivity  {
                 mMessageRecycler.scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
         });
-
     }
 
     private void mostrarConversa() {
@@ -182,7 +178,31 @@ public class Conversa extends AppCompatActivity  {
         if(!trobat) crearNovaConversa(producte);
     }
 
-    private void buscarProducte(Integer id_producte) {
+    private void crearNovaConversa(Producte producte) {
+
+        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId().longValue());
+        call.enqueue(new Callback<ConversacioChat>() {
+            @Override
+            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
+
+                if (response.isSuccessful()) {
+                    conversacio = response.body();
+
+                } else {
+                    Toast toast = Toast.makeText(Conversa.this, "Error new chat " + response.errorBody() + " // " + response.toString(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ConversacioChat> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    private void carregarConversa(Integer id_producte) {
 
         Call<Producte> call = mCheapyService.getProducte(id_producte);
         call.enqueue(new Callback<Producte>() {
@@ -191,6 +211,12 @@ public class Conversa extends AppCompatActivity  {
 
                 if(response.isSuccessful()){
                     producte = response.body();
+
+                    venedor = producte.getVenedor();
+                    nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+                    nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
+                    buscarChat();
                 }
                 else{
                     Toast toast = Toast.makeText(Conversa.this, "Error no alhora de buscar un producte per l'id " , Toast.LENGTH_SHORT);
@@ -224,7 +250,6 @@ public class Conversa extends AppCompatActivity  {
         });
     }
 
-
     private void enviarMissatges() {
 
         buttonEnviar.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +274,10 @@ public class Conversa extends AppCompatActivity  {
                                 mMessageAdapter.add(response.body());
                                 editTextChat.setText("");
                             }
+                            else{
+                                Toast toast = Toast.makeText(Conversa.this, "ERROR: " + response.toString() , Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
 
                         }
 
@@ -262,34 +291,46 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-
     }
 
+    private void carregarMissatgeRebut(Integer id, String missatge) {
 
-    private void crearNovaConversa(Producte producte) {
+        Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
+        Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);
+        String estat = "no llegit";
+        String dataProva = "11/11/1111";
+        Missatge missatgeRebut = new Missatge(id, em, rec, estat, missatge, dataProva);
 
-        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId());
-        call.enqueue(new Callback<ConversacioChat>() {
+        mMessageAdapter.add(missatgeRebut);
+    }
+
+    private void enviarToken(String token) {
+
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        Call<Void> call = mCheapyService.sendToken(token);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if (response.isSuccessful()) {
-                    conversacio = response.body();
-
-                } else {
-                    Toast toast = Toast.makeText(Conversa.this, "Error new chat", Toast.LENGTH_SHORT);
+                if(response.isSuccessful()){
+                    Toast toast = Toast.makeText(Conversa.this, "Token enviat OK", Toast.LENGTH_SHORT);
                     toast.show();
                 }
+                else {
+                    Toast toast = Toast.makeText(Conversa.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
             }
 
             @Override
-            public void onFailure(Call<ConversacioChat> call, Throwable t) {
-                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast = Toast.makeText(Conversa.this, "Error, revisa la connexió a internet", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
-
 
     public class MessageListAdapter extends RecyclerView.Adapter{
 

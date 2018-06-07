@@ -11,6 +11,9 @@ public interface CheapyApi {
     @POST("usuaris/autenticar")
     Call<UserLogged> login(@Body UserLogin login);
 
+    @PUT("usuaris/jo/token")
+    Call<Void> sendToken(@Body String token);
+
     @GET("productes")
     Call<LlistaProductes> getProductes();
 
@@ -24,7 +27,10 @@ public interface CheapyApi {
     Call<ArrayList<Categoria>> getCategories();
 
     @POST("conversacions")
-    Call<ConversacioChat> addChat(@Body Integer producte_id);
+    Call<ConversacioChat> addChat(@Body Long producte_id);
+
+    @GET("conversacions")
+    Call<LlistaConversacions> getConversations();
 
     @GET("conversacions/{conversa_id}/missatges")
     Call<LlistaMissatges> getChatID(@Path("conversa_id") Integer id_chat);
@@ -49,9 +55,6 @@ public interface CheapyApi {
 
     @PUT("usuaris/jo")
     Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
-
-    @GET("/conversacions")
-    Call<LlistaConversacions> getConversations();
 
     @GET("usuaris/comprovar")
     Call<Boolean> checkAuth();

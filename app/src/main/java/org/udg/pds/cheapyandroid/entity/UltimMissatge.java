@@ -45,11 +45,6 @@ public class UltimMissatge {
         this.id = id;
     }
 
-    public UltimMissatge withId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
     @JsonProperty("emisor")
     public Emisor getEmisor() {
         return emisor;
@@ -58,11 +53,6 @@ public class UltimMissatge {
     @JsonProperty("emisor")
     public void setEmisor(Emisor emisor) {
         this.emisor = emisor;
-    }
-
-    public UltimMissatge withEmisor(Emisor emisor) {
-        this.emisor = emisor;
-        return this;
     }
 
     @JsonProperty("receptor")
@@ -75,11 +65,6 @@ public class UltimMissatge {
         this.receptor = receptor;
     }
 
-    public UltimMissatge withReceptor(Receptor receptor) {
-        this.receptor = receptor;
-        return this;
-    }
-
     @JsonProperty("estat")
     public String getEstat() {
         return estat;
@@ -88,11 +73,6 @@ public class UltimMissatge {
     @JsonProperty("estat")
     public void setEstat(String estat) {
         this.estat = estat;
-    }
-
-    public UltimMissatge withEstat(String estat) {
-        this.estat = estat;
-        return this;
     }
 
     @JsonProperty("missatge")
@@ -105,11 +85,6 @@ public class UltimMissatge {
         this.missatge = missatge;
     }
 
-    public UltimMissatge withMissatge(String missatge) {
-        this.missatge = missatge;
-        return this;
-    }
-
     @JsonProperty("dataEnviament")
     public String getDataEnviament() {
         return dataEnviament;
@@ -120,11 +95,6 @@ public class UltimMissatge {
         this.dataEnviament = dataEnviament;
     }
 
-    public UltimMissatge withDataEnviament(String dataEnviament) {
-        this.dataEnviament = dataEnviament;
-        return this;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -133,11 +103,6 @@ public class UltimMissatge {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public UltimMissatge withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
     }
 
 }
