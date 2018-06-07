@@ -1,14 +1,20 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe"
+        "sexe",
+        "imatge"
 })
 public class Receptor {
 
@@ -18,6 +24,8 @@ public class Receptor {
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
+    @JsonProperty("imatge")
+    private Object imatge;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -55,6 +63,16 @@ public class Receptor {
     @JsonProperty("sexe")
     public void setSexe(String sexe) {
         this.sexe = sexe;
+    }
+
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
     }
 
     @JsonAnyGetter
