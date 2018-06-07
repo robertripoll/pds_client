@@ -15,7 +15,8 @@ import java.util.Map;
         "sexe",
         "telefon",
         "dataNaixement",
-        "ubicacio"
+        "ubicacio",
+        "imatge"
 })
 public class User implements Serializable {
 
@@ -35,6 +36,8 @@ public class User implements Serializable {
     private String dataNaixement;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
+    @JsonProperty("imatge")
+    private Imatge imatge;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -47,6 +50,7 @@ public class User implements Serializable {
         this.telefon = telefon_;
         this.dataNaixement = dataNaixament_;
         this.ubicacio = ubicacio_;
+        this.imatge = new Imatge();
     }
 
     @JsonProperty("nom")
@@ -127,6 +131,16 @@ public class User implements Serializable {
     @JsonProperty("ubicacio")
     public void setUbicacio(Ubicacio ubicacio) {
         this.ubicacio = ubicacio;
+    }
+
+    @JsonProperty("imatge")
+    public Imatge getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Imatge imatge) {
+        this.imatge = imatge;
     }
 
     @JsonAnyGetter
