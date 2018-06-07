@@ -49,7 +49,7 @@ public class Chats_Fragment extends Fragment {
             public void onResponse(Call<LlistaConversacions> call, Response<LlistaConversacions> response) {
 
                 if (response.isSuccessful()) {
-                    mostrarConverses(response.body());
+                    if(response.body().getItems().size() > 0) mostrarConverses(response.body());
                 } else if (response==null){
                     Toast toast = Toast.makeText(getActivity(), "ERROR: The conversations couldn't load correctly", Toast.LENGTH_SHORT);
                     toast.show();
@@ -105,8 +105,9 @@ public class Chats_Fragment extends Fragment {
 
                 ConversacioChat conv = llistaConverses.getItems().get(position);
 
-                userName.setText(conv.getUsuari().getNom());
-                userLastMessage.setText(conv.getUltimMissatge().toString());
+                userName.setText(conv.getCompradorConversa().getNom());
+                if(conv.getUltimMissatge() == null) userLastMessage.setText("");
+                else userLastMessage.setText(conv.getUltimMissatge().toString());
 
                 if(llistaConverses.getItems().get(position).getMissatgesPerLlegir()){
                     TextView userNameTextview = (TextView) rowView.findViewById(R.id.userNameTextview);
@@ -125,10 +126,11 @@ public class Chats_Fragment extends Fragment {
                             // Access the row position here to get the correct data item
 
                             ConversacioChat conversaAmostrar = itemsAdapter.getItem(position);
-                            //Toast.makeText(getActivity(), producteMostrar.getNom(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), conversaAmostrar.getId() + "//" + conversaAmostrar.getProducte().getId(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getActivity(), Conversa.class);
                             intent.putExtra("ConversaAmostrarID", conversaAmostrar.getId());
+                            intent.putExtra("Producte_id", conversaAmostrar.getProducte().getId());
                             startActivity(intent);
                         }
                     });
