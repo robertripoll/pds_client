@@ -24,6 +24,10 @@ public class Imatge implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public Imatge(){
+        this.ruta = "";
+    }
+
     @JsonProperty("id")
     public Integer getId() {
         return id;
