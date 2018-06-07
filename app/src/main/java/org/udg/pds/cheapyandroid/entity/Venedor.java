@@ -14,6 +14,7 @@ import java.util.Map;
         "nom",
         "sexe",
         "ubicacio",
+        "imatge",
         "nombreValoracions",
         "mitjanaValoracions",
         "nombreCompres",
@@ -29,6 +30,8 @@ public class Venedor implements Serializable{
     private String sexe;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
+    @JsonProperty("imatge")
+    private Imatge imatge;
     @JsonProperty("nombreValoracions")
     private Integer nombreValoracions;
     @JsonProperty("mitjanaValoracions")
@@ -78,6 +81,16 @@ public class Venedor implements Serializable{
     @JsonProperty("ubicacio")
     public void setUbicacio(Ubicacio ubicacio) {
         this.ubicacio = ubicacio;
+    }
+
+    @JsonProperty("imatge")
+    public Imatge getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Imatge imatge) {
+        this.imatge = imatge;
     }
 
     @JsonProperty("nombreValoracions")
