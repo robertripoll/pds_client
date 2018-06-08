@@ -41,7 +41,7 @@ public class PublicarAnunciFragment extends Fragment {
 
     private List<Categoria> categories;
 
-    private Integer _user_id;
+    private Long _user_id;
 
 
     public PublicarAnunciFragment() {
@@ -66,7 +66,7 @@ public class PublicarAnunciFragment extends Fragment {
 
         // Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getActivity().getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
-        _user_id = prefs.getInt("usuari_id", -1);
+        _user_id = prefs.getLong("usuari_id", -1);
 
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
@@ -114,7 +114,7 @@ public class PublicarAnunciFragment extends Fragment {
             producte.setIntercanviAcceptat(intercanvi);
 
             Venedor venedor = new Venedor();
-            venedor.setId(_user_id);
+            venedor.setId(Long.valueOf(_user_id));
             producte.setVenedor(venedor);
 
             // Fem el POST.

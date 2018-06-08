@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class UltimMissatge {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("emisor")
     private Emisor emisor;
     @JsonProperty("receptor")
@@ -32,16 +32,15 @@ public class UltimMissatge {
     private String missatge;
     @JsonProperty("dataEnviament")
     private String dataEnviament;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,14 +94,5 @@ public class UltimMissatge {
         this.dataEnviament = dataEnviament;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

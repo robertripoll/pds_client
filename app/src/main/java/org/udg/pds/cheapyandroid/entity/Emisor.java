@@ -14,27 +14,25 @@ import java.util.Map;
 public class Emisor {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Emisor(Integer id, String nom, String sexe) {
+    public Emisor(Long id, String nom, String sexe) {
         this.id = id;
         this.nom = nom;
         this.sexe = sexe;
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,15 +56,6 @@ public class Emisor {
         this.sexe = sexe;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
     @Override
     public String toString() {

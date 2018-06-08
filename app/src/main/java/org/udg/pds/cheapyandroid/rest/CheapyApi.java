@@ -8,6 +8,27 @@ import java.util.ArrayList;
 
 public interface CheapyApi {
 
+    @GET("usuaris/{usuari_id}/vendes")
+    Call<LlistaProductes> getProductesVendaPerfil();
+
+    @GET("usuaris/{usuari_id}/compres")
+    Call<LlistaProductes> getProductesCompraPerfil();
+
+    @GET("usuaris/{usuari_id}")
+    Call<UserLogged> getSpecificUser(@Path("usuari_id") Long userID);
+
+    @POST("usuaris/registrar")
+    Call<UserLogged> addUser(@Body User user);
+
+    @POST("usuaris/desautenticar")
+    Call<Void> diconnect();
+
+    @PUT("usuaris/jo")
+    Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
+
+    @GET("usuaris/comprovar")
+    Call<Boolean> checkAuth();
+
     @POST("usuaris/autenticar")
     Call<UserLogged> login(@Body UserLogin login);
 
@@ -21,7 +42,7 @@ public interface CheapyApi {
     Call<Void> crearProducte(@Body Producte producte);
 
     @GET("productes/{producte_id}")
-    Call<Producte> getProducte(@Path("producte_id") Integer id_producte);
+    Call<Producte> getProducte(@Path("producte_id") Long id_producte);
 
     @GET("categories")
     Call<ArrayList<Categoria>> getCategories();
@@ -33,29 +54,9 @@ public interface CheapyApi {
     Call<LlistaConversacions> getConversations();
 
     @GET("conversacions/{conversa_id}/missatges")
-    Call<LlistaMissatges> getChatID(@Path("conversa_id") Integer id_chat);
+    Call<LlistaMissatges> getChatID(@Path("conversa_id") Long id_chat);
 
     @POST("conversacions/{conversa_id}/missatges")
-    Call<Missatge> sendMessage(@Path("conversa_id") int conversaID, @Body String message);
+    Call<Missatge> sendMessage(@Path("conversa_id") Long conversaID, @Body String message);
 
-    @GET("usuaris/{usuari_id}/vendes")
-    Call<LlistaProductes> getProductesVendaPerfil();
-
-    @GET("usuaris/{usuari_id}/compres")
-    Call<LlistaProductes> getProductesCompraPerfil();
-
-    @GET("usuaris/{usuari_id}")
-    Call<UserLogged> getSpecificUser(@Path("usuari_id") int userID);
-
-    @POST("usuaris")
-    Call<UserLogged> addUser(@Body User user);
-
-    @POST("usuaris/desautenticar")
-    Call<Void> diconnect();
-
-    @PUT("usuaris/jo")
-    Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
-
-    @GET("usuaris/comprovar")
-    Call<Boolean> checkAuth();
 }
