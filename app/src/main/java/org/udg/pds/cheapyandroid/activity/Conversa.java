@@ -65,15 +65,6 @@ public class Conversa extends AppCompatActivity  {
         }
     };
 
-    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String token = intent.getStringExtra("token");
-            enviarToken(token);
-        }
-    };
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -93,13 +84,6 @@ public class Conversa extends AppCompatActivity  {
         setContentView(R.layout.activity_conversa);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
-                new IntentFilter(TOKEN_RECEIVER));
-
-        MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
-
-        myFireBaseInsID.onTokenRefresh();
 
         conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
         if(conversaMostrarID!=null){
@@ -179,9 +163,33 @@ public class Conversa extends AppCompatActivity  {
         if(!trobat) crearNovaConversa(producte);
     }
 
+
+    public static class R_Conversa {
+
+        public ID producte;
+
+        R_Conversa(ID producte){
+            this.producte = producte;
+        }
+    }
+
+
+    public static class ID {
+
+        public Long id;
+        public ID(Long id)
+        {
+            this.id = id;
+        }
+
+    }
+
     private void crearNovaConversa(Producte producte) {
 
-        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId().longValue());
+        ID id = new ID(producte.getId());
+        R_Conversa conv = new R_Conversa(id);
+
+        Call<ConversacioChat> call = mCheapyService.addChat(conv);
         call.enqueue(new Callback<ConversacioChat>() {
             @Override
             public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
@@ -240,6 +248,13 @@ public class Conversa extends AppCompatActivity  {
             @Override
             public void onResponse(Call<LlistaMissatges> call, Response<LlistaMissatges> response) {
                 listMiss = response.body().getItems();
+
+                List<Missatge> reverseList = new ArrayList<>();
+                for(Integer i = listMiss.size() - 1 ; i >= 0; i--){
+                    reverseList.add(listMiss.get(i));
+                }
+                listMiss.clear();
+                listMiss.addAll(reverseList);
                 mMessageAdapter.notifyDataSetChanged();
             }
 
@@ -250,6 +265,16 @@ public class Conversa extends AppCompatActivity  {
             }
         });
     }
+
+    public static class R_Missatge{
+
+        String text;
+
+        R_Missatge(String text){
+            this.text = text;
+        }
+    }
+
 
     private void enviarMissatges() {
 
@@ -263,7 +288,8 @@ public class Conversa extends AppCompatActivity  {
                 }
                 else{
 
-                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    //Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), new R_Missatge(message));
                     call.enqueue(new Callback<Missatge>() {
                         @Override
                         public void onResponse(Call<Missatge> call, Response<Missatge> response) {
@@ -305,33 +331,6 @@ public class Conversa extends AppCompatActivity  {
         mMessageAdapter.add(missatgeRebut);
     }
 
-    private void enviarToken(String token) {
-
-        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
-        Call<Void> call = mCheapyService.sendToken(token);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-
-                if(response.isSuccessful()){
-                    Toast toast = Toast.makeText(Conversa.this, "Token enviat OK", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
-                    Toast toast = Toast.makeText(Conversa.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-                Toast toast = Toast.makeText(Conversa.this, "Error, revisa la connexió a internet", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-    }
 
     public class MessageListAdapter extends RecyclerView.Adapter{
 

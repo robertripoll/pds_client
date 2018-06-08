@@ -1,11 +1,10 @@
 package org.udg.pds.cheapyandroid.activity;
 
 import android.app.*;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Ubicacio;
 import org.udg.pds.cheapyandroid.entity.User;
@@ -27,12 +27,35 @@ import java.nio.DoubleBuffer;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
 import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
 
 public class AddUser extends Activity implements Callback<User> {
 
 
     CheapyApi mCheapyService;
+
+    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String token = intent.getStringExtra("token");
+            enviarToken(token);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((tokenReceiver),
+                new IntentFilter(MyFirebaseInstanceIDService.TOKEN_RECEIVER));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(tokenReceiver);
+    }
     
     @Override
     public void onResponse(Call<User> call, Response<User> response) {
@@ -56,6 +79,9 @@ public class AddUser extends Activity implements Callback<User> {
         setContentView(R.layout.activity_sign_up);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
+                new IntentFilter(TOKEN_RECEIVER));
 
         final EditText correu = (EditText) AddUser.this.findViewById(R.id.signup_email);
         final EditText contrasenya = (EditText) AddUser.this.findViewById(R.id.signup_password);
@@ -106,6 +132,9 @@ public class AddUser extends Activity implements Callback<User> {
                                     Toast toast = Toast.makeText(AddUser.this, "Nou usuari registrat correctament.", Toast.LENGTH_SHORT);
                                     toast.show();
 
+                                    MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
+                                    myFireBaseInsID.onTokenRefresh();
+
                                     UserLogged usuari = response.body();
                                     Login.userID_connected = usuari.getId();
                                     Login.userName_connected = usuari.getNom();
@@ -151,5 +180,33 @@ public class AddUser extends Activity implements Callback<User> {
             }
         });
 
+    }
+
+    private void enviarToken(String token) {
+
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        Call<Void> call = mCheapyService.sendToken(token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast toast = Toast.makeText(AddUser.this, "Token enviat OK", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(AddUser.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast = Toast.makeText(AddUser.this, "Error, revisa la connexió a internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 }

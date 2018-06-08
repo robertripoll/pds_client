@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.rest;
 
+import org.udg.pds.cheapyandroid.activity.Conversa;
 import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -48,7 +49,7 @@ public interface CheapyApi {
     Call<ArrayList<Categoria>> getCategories();
 
     @POST("conversacions")
-    Call<ConversacioChat> addChat(@Body Long producte_id);
+    Call<ConversacioChat> addChat(@Body Conversa.R_Conversa conv);
 
     @GET("conversacions")
     Call<LlistaConversacions> getConversations();
@@ -57,6 +58,6 @@ public interface CheapyApi {
     Call<LlistaMissatges> getChatID(@Path("conversa_id") Long id_chat);
 
     @POST("conversacions/{conversa_id}/missatges")
-    Call<Missatge> sendMessage(@Path("conversa_id") Long conversaID, @Body String message);
+    Call<Missatge> sendMessage(@Path("conversa_id") Long conversaID, @Body Conversa.R_Missatge message);
 
 }

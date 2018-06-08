@@ -27,13 +27,36 @@ public class SplashScreen extends AppCompatActivity {
     private CheapyApi mCheapyService;
     private boolean isLogged;
 
+    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String token = intent.getStringExtra("token");
+            enviarToken(token);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((tokenReceiver),
+                new IntentFilter(MyFirebaseInstanceIDService.TOKEN_RECEIVER));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(tokenReceiver);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
+                new IntentFilter(TOKEN_RECEIVER));
 
         textsplash = (TextView) findViewById(R.id.textSplashScreen);
         imagesplash = (ImageView) findViewById(R.id.logoSplash);
@@ -60,6 +83,8 @@ public class SplashScreen extends AppCompatActivity {
     private void nextWindows(){
         final Intent i;
         if (isLogged){
+            MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
+            myFireBaseInsID.onTokenRefresh();
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             String userName_connected = prefs.getString("usuari_nom", "usuari_prova");
             int userID_connected = prefs.getInt("usuari_id", -1);
@@ -81,5 +106,33 @@ public class SplashScreen extends AppCompatActivity {
             }
         };
         t.start();
+    }
+
+    private void enviarToken(String token) {
+
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        Call<Void> call = mCheapyService.sendToken(token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast toast = Toast.makeText(SplashScreen.this, "Token enviat OK", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(SplashScreen.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast = Toast.makeText(SplashScreen.this, "Error, revisa la connexió a internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 }
