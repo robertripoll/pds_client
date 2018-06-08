@@ -60,14 +60,7 @@ public class ProducteInfo extends AppCompatActivity {
         tvCategoriaProducte = (TextView) findViewById(R.id.categoria_producte);
         tvPrivacyPolicy = (TextView) findViewById(R.id.privacy_policy);
 
-        tvPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProducteInfo.this, Politica.class);
 
-                Toast.makeText(getApplicationContext(), "Clicked privacy policy!!", Toast.LENGTH_LONG).show();
-            }
-        });
 
         inicialitzaBotoMissatge();
 

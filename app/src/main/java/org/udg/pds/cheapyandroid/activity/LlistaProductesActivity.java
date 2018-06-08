@@ -78,6 +78,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.navmenu_item_llista_productes);
         fragmentManager.replace(R.id.frame_layout, fragment).commit();
 
+
     }
 
 
