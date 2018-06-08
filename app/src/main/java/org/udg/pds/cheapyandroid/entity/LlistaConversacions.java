@@ -21,8 +21,6 @@ public class LlistaConversacions {
     private List<ConversacioChat> items = null;
     @JsonProperty("metadata")
     private Metadata metadata;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("items")
     public List<ConversacioChat> getItems() {
@@ -51,21 +49,6 @@ public class LlistaConversacions {
 
     public LlistaConversacions withMetadata(Metadata metadata) {
         this.metadata = metadata;
-        return this;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public LlistaConversacions withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
         return this;
     }
 

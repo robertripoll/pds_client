@@ -56,7 +56,7 @@ public class Conversa extends AppCompatActivity  {
         public void onReceive(Context context, Intent intent) {
             try {
                 String missatge = intent.getStringExtra("missatge_rebut");
-                Integer id = Integer.valueOf(intent.getStringExtra("id_rebut"));
+                Long id = Long.valueOf(Integer.valueOf(intent.getStringExtra("id_rebut")));
                 carregarMissatgeRebut(id, missatge);
 
             } catch (Exception e) {
@@ -92,19 +92,20 @@ public class Conversa extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversa);
 
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+
         LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
                 new IntentFilter(TOKEN_RECEIVER));
 
-        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
         MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
 
         myFireBaseInsID.onTokenRefresh();
 
         conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
         if(conversaMostrarID!=null){
-            conversacio.setId((Integer)conversaMostrarID);
+            conversacio.setId((Long) conversaMostrarID);
             producteID = getIntent().getSerializableExtra("Producte_id");
-            carregarConversa((Integer)producteID);
+            carregarConversa((Long)producteID);
         }
         else{
             producte = (Producte) getIntent().getSerializableExtra("Producte");
@@ -202,7 +203,7 @@ public class Conversa extends AppCompatActivity  {
         });
     }
 
-    private void carregarConversa(Integer id_producte) {
+    private void carregarConversa(Long id_producte) {
 
         Call<Producte> call = mCheapyService.getProducte(id_producte);
         call.enqueue(new Callback<Producte>() {
@@ -293,7 +294,7 @@ public class Conversa extends AppCompatActivity  {
 
     }
 
-    private void carregarMissatgeRebut(Integer id, String missatge) {
+    private void carregarMissatgeRebut(Long id, String missatge) {
 
         Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
         Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);

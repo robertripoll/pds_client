@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class UserLogged implements Serializable {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("correu")
     private String correu;
     @JsonProperty("nom")
@@ -54,20 +54,19 @@ public class UserLogged implements Serializable {
     private Integer nombreCompres;
     @JsonProperty("nombreVendes")
     private Integer nombreVendes;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UserLogged withId(Integer id) {
+    public UserLogged withId(Long id) {
         this.id = id;
         return this;
     }
@@ -249,21 +248,6 @@ public class UserLogged implements Serializable {
 
     public UserLogged withNombreVendes(Integer nombreVendes) {
         this.nombreVendes = nombreVendes;
-        return this;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public UserLogged withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
         return this;
     }
 

@@ -116,7 +116,7 @@ public class AddUser extends Activity implements Callback<User> {
                                     //Afegeix noves preferencies per usuari i la seva contrasenya correctes
                                     SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putInt("usuari_id", Login.userID_connected);
+                                    editor.putLong("usuari_id", Login.userID_connected);
                                     editor.putString("usuari_nom", Login.userName_connected);
                                     editor.putString("usuari_correo", Login.userCorreu_connected);
                                     editor.commit();

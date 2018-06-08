@@ -36,8 +36,7 @@ public class Comprador implements Serializable{
     private Integer nombreCompres;
     @JsonProperty("nombreVendes")
     private Integer nombreVendes;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
 
     @JsonProperty("id")
     public Long getId() {
@@ -119,14 +118,5 @@ public class Comprador implements Serializable{
         this.nombreVendes = nombreVendes;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

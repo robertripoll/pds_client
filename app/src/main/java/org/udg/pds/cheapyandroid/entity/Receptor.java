@@ -19,29 +19,28 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Receptor {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
     @JsonProperty("imatge")
     private Object imatge;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Receptor(int i, String nom, String sexe) {
+
+    public Receptor(Long i, String nom, String sexe) {
         this.id = i;
         this.nom = nom;
         this.sexe = sexe;
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,16 +72,6 @@ public class Receptor {
     @JsonProperty("imatge")
     public void setImatge(Object imatge) {
         this.imatge = imatge;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
     @Override

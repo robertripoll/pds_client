@@ -37,9 +37,8 @@ public class User implements Serializable {
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
     @JsonProperty("imatge")
-    private Imatge imatge;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private String imatge;
+
 
     public User(String correu_, String contrasenya_, String sexe_, String nom_, String cognoms_, String telefon_, String dataNaixament_, Ubicacio ubicacio_) {
         this.correu = correu_;
@@ -50,7 +49,7 @@ public class User implements Serializable {
         this.telefon = telefon_;
         this.dataNaixement = dataNaixament_;
         this.ubicacio = ubicacio_;
-        this.imatge = new Imatge();
+        this.imatge = "";
     }
 
     @JsonProperty("nom")
@@ -134,22 +133,13 @@ public class User implements Serializable {
     }
 
     @JsonProperty("imatge")
-    public Imatge getImatge() {
+    public String getImatge() {
         return imatge;
     }
 
     @JsonProperty("imatge")
-    public void setImatge(Imatge imatge) {
+    public void setImatge(String imatge) {
         this.imatge = imatge;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }

@@ -1,8 +1,7 @@
 package org.udg.pds.cheapyandroid.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
@@ -18,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
 import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
 
 public class SplashScreen extends AppCompatActivity {
@@ -31,6 +32,9 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+
+
+
         textsplash = (TextView) findViewById(R.id.textSplashScreen);
         imagesplash = (ImageView) findViewById(R.id.logoSplash);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.change_animation);

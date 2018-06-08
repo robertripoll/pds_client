@@ -42,7 +42,7 @@ import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_N
 // then a RESTResponder_RF is called to check the authentication
 public class Login extends Activity {
 
-    public static int userID_connected = -1;
+    public static long userID_connected = -1;
     public static String userName_connected = "prova";
     public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
@@ -108,7 +108,7 @@ public class Login extends Activity {
                         //Afegeix noves preferencies per usuari i la seva contrasenya correctes
                         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt("usuari_id", userID_connected);
+                        editor.putLong("usuari_id", userID_connected);
                         editor.putString("usuari_nom", userName_connected);
                         editor.putString("usuari_correo", userCorreu_connected);
                         editor.commit();
