@@ -54,6 +54,9 @@ public interface CheapyApi {
     @GET("conversacions")
     Call<LlistaConversacions> getConversations();
 
+    @DELETE("conversacions/{conversa_id}")
+    Call<Void> deleteConversa(@Path("conversa_id") Long id_chat);
+
     @GET("conversacions/{conversa_id}/missatges")
     Call<LlistaMissatges> getChatID(@Path("conversa_id") Long id_chat);
 
