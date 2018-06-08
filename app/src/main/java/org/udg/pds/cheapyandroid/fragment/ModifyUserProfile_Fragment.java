@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -178,7 +179,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
     private void postTheInternalImage() {
          // use the FileUtils to get the actual file by uri
-        File file = new File(imatgeUri.getPath());
+        /*File file = new File(imatgeUri.getPath());
 
         // create RequestBody instance from file
         RequestBody requestFile =
@@ -192,7 +193,17 @@ public class ModifyUserProfile_Fragment extends Fragment {
                 MultipartBody.Part.createFormData("profilePicture", file.getName(), requestFile);
 
         Map<String, RequestBody> param = new HashMap<>();
-        param.put("file",requestFile);
+        param.put(imatgeUri.getPath(),requestFile);
+
+
+        //Map<String, Bitmap> param = new HashMap<>();
+        //param.put("file",bitmap);
+
+        */
+        File file = new File(imatgeUri.getPath());
+        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
+        Map<String, RequestBody> param = new HashMap<>();
+        param.put("file",fbody);
         Call<List<String>> call = mCheapyService.postImage(param);
         call.enqueue(new Callback<List<String>>(){
             @Override
@@ -204,7 +215,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
-                System.out.println("Call incorrecte 1");
                 Toast toast = null;
                 toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!",toast.LENGTH_SHORT).show();
             }
