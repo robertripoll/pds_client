@@ -1,6 +1,7 @@
 package org.udg.pds.cheapyandroid.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -41,7 +42,7 @@ public class UserLogged implements Serializable {
     @JsonProperty("telefon")
     private String telefon;
     @JsonProperty("dataNaix")
-    private String dataNaix;
+    private Date dataNaix;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
     @JsonProperty("imatge")
@@ -147,16 +148,16 @@ public class UserLogged implements Serializable {
     }
 
     @JsonProperty("dataNaix")
-    public String getDataNaix() {
+    public Date getDataNaix() {
         return dataNaix;
     }
 
     @JsonProperty("dataNaix")
-    public void setDataNaix(String dataNaix) {
+    public void setDataNaix(Date dataNaix) {
         this.dataNaix = dataNaix;
     }
 
-    public UserLogged withDataNaix(String dataNaix) {
+    public UserLogged withDataNaix(Date dataNaix) {
         this.dataNaix = dataNaix;
         return this;
     }
