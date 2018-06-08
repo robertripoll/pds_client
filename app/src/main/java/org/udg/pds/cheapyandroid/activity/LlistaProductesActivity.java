@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.activity;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,18 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.entity.LlistaProductes;
-import org.udg.pds.cheapyandroid.entity.User;
-import org.udg.pds.cheapyandroid.entity.UserLogged;
-import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.fragment.LlistaProductesFragment;
 import org.udg.pds.cheapyandroid.fragment.PublicarAnunciFragment;
+import org.udg.pds.cheapyandroid.fragment.Usuari_Fragment;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import org.udg.pds.cheapyandroid.fragment.Usuari_Fragment;
 
 
 public class LlistaProductesActivity extends AppCompatActivity {
@@ -51,6 +45,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
+        //TextView politica_privacitat = (TextView) findViewById(R.layout.)
         //Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)

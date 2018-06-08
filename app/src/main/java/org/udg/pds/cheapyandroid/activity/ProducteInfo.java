@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -35,6 +34,7 @@ public class ProducteInfo extends AppCompatActivity {
     private TextView tvIntercanvi;
     private TextView tvPreuNegociable;
     private TextView tvCategoriaProducte;
+    private TextView tvPrivacyPolicy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +58,24 @@ public class ProducteInfo extends AppCompatActivity {
         tvIntercanvi = (TextView) findViewById(R.id.cb_intercanvi);
         tvPreuNegociable = (TextView) findViewById(R.id.cb_preu_negociable);
         tvCategoriaProducte = (TextView) findViewById(R.id.categoria_producte);
+        tvPrivacyPolicy = (TextView) findViewById(R.id.privacy_policy);
+
+        tvPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProducteInfo.this, Politica.class);
+
+                Toast.makeText(getApplicationContext(), "Clicked privacy policy!!", Toast.LENGTH_LONG).show();
+            }
+        });
 
         inicialitzaBotoMissatge();
 
         mostrarProducte();
+
+
     }
+
 
     private void inicialitzaBotoMissatge() {
         btnMissatge.setOnClickListener(new View.OnClickListener() {
