@@ -12,7 +12,7 @@ public class Global {
     public static final SimpleDateFormat FULL_TIME_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     // Resquest codes for startActivityForResult
-    public static final String BASE_URL = "http://localhost:8080/rest/";
+    public static final String BASE_URL = "http://private-amnesiac-5389b3-pdsrest.apiary-proxy.com";
     public static final String PREFS_NAME = "MisPreferencias";
 
 }

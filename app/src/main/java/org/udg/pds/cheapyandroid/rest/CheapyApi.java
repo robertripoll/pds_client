@@ -50,6 +50,9 @@ public interface CheapyApi {
     @PUT("usuaris/jo")
     Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
+    @PUT("productes/producte_id")
+    Call<Void> updateProductInformation(@Path("producte_id") Integer id_producte);
+
     @GET("/conversacions")
     Call<LlistaConversacions> getConversations();
 

@@ -27,7 +27,8 @@ public class EditarProductePerfilVenda extends Fragment {
     private CheapyApi mCheapyService;
 
     private Spinner spinnerCategories;
-    private Button buttonPublicar;
+    private Button botoDesarCanvis;
+    private TextView editIdProducte;
     private EditText editNomProducte;
     private EditText editDescProducte;
     private EditText editPreuProducte;
@@ -44,7 +45,6 @@ public class EditarProductePerfilVenda extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -52,7 +52,7 @@ public class EditarProductePerfilVenda extends Fragment {
 
         // Busquem els components de la vista.
         spinnerCategories = (Spinner) view.findViewById(R.id.spinner_categoria);
-        buttonPublicar = (Button) view.findViewById(R.id.button_publicar);
+        botoDesarCanvis = (Button) view.findViewById(R.id.button_desar_canvis);
         editNomProducte = (EditText) view.findViewById(R.id.et_nom_producte);
         editDescProducte = (EditText) view.findViewById(R.id.et_desc_producte);
         editPreuProducte = (EditText) view.findViewById(R.id.et_preu_producte);
@@ -67,7 +67,7 @@ public class EditarProductePerfilVenda extends Fragment {
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
 
-        // Carraguem el servei i les categories.
+        // Carreguem el servei i les categories.
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
         carregarCategories();
 
@@ -75,17 +75,17 @@ public class EditarProductePerfilVenda extends Fragment {
         crearOpcionsSpinnerCategories();
 
         // Configurem l'acció del botó publicar.
-        buttonPublicar.setOnClickListener(new View.OnClickListener() {
+        botoDesarCanvis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                publicarAnunci();
+                desarCanvis();
             }
         });
 
         return view;
     }
 
-    private void publicarAnunci() {
+    private void desarCanvis() {
         String nom = editNomProducte.getText().toString();
         String desc = editDescProducte.getText().toString();
         String preuTxt = editPreuProducte.getText().toString();
@@ -113,12 +113,12 @@ public class EditarProductePerfilVenda extends Fragment {
             producte.setVenedor(venedor);
 
             // Fem el POST.
-            postAnunciProducte(producte);
+            postProducteEditat(producte);
         }
     }
 
-    private void postAnunciProducte(Producte producte) {
-        Call<Void> call = mCheapyService.crearProducte(producte);
+    private void postProducteEditat(Producte producte) {
+        Call<Void> call = mCheapyService.updateProductInformation(producte.getId());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

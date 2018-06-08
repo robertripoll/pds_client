@@ -43,7 +43,7 @@
                 android:resource="@color/colorAccent"/>
 
         <activity
-                android:name=".activity.SplashScreen"
+                android:name=".activity.LlistaProductesActivity"
                 android:label="Cheapy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".activity.LlistaProductesActivity"
+                android:name=".activity.SplashScreen"
                 android:label="Cheapy">
         </activity>
         <activity
