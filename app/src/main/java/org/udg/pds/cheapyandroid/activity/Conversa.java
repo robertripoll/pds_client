@@ -1,10 +1,8 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.AlertDialog;
 import android.app.Application;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -111,6 +109,14 @@ public class Conversa extends AppCompatActivity  {
 
         enviarMissatges();
 
+        ImageView imgDeleteChat = (ImageView)findViewById(R.id.iconDeleteChat);
+        imgDeleteChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmarBorrarChat();
+            }
+        });
+
         mMessageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -120,6 +126,54 @@ public class Conversa extends AppCompatActivity  {
             }
         });
     }
+
+    private void confirmarBorrarChat() {
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("ALERTA!");
+        dialogo1.setMessage("Vols eliminar aquesta conversacio ?");
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                aceptar();
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.cancel();
+            }
+        });
+        dialogo1.show();
+    }
+
+    public void aceptar() {
+
+        Call<Void> call = mCheapyService.deleteConversa(conversacio.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast t=Toast.makeText(Conversa.this,"Conversa eliminada correctament", Toast.LENGTH_SHORT);
+                    t.show();
+                    finish();
+                }
+                else{
+                    Toast t=Toast.makeText(Conversa.this ,"ERROR: no s'ha pogut eliminar conversacio", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast =Toast.makeText(Conversa.this ,"ERROR: Revisa connexio Internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+    }
+
 
     private void mostrarConversa() {
 
