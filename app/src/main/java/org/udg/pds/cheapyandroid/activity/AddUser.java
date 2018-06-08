@@ -17,6 +17,7 @@ import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Ubicacio;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
+import org.udg.pds.cheapyandroid.entity.UserLogin;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
@@ -24,8 +25,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.nio.DoubleBuffer;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
 import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
@@ -108,34 +111,44 @@ public class AddUser extends Activity implements Callback<User> {
                 final String nom_ = nom.getText().toString();
                 final String cognoms_ = cognoms.getText().toString();
                 final String telefon_ = telefon.getText().toString();
-                final String dataNaixament_ = dataNaixament.getText().toString();
+                final String dataNaixament_string = dataNaixament.getText().toString();
                 final String pais_ = pais.getText().toString();
                 final String ciutat_ = ciutat.getText().toString();
-                final Double coordLat_ = Double.valueOf(coordLat.getText().toString());
-                final Double coordLng_ = Double.valueOf(coordLng.getText().toString());
+                Double coordLat_ = 0.0;
+                Double coordLng_ = 0.0;
+                if(!coordLat.getText().toString().matches("") && !coordLng.getText().toString().matches("")) {
+                    coordLat_ = Double.valueOf(coordLat.getText().toString());
+                    coordLng_ = Double.valueOf(coordLng.getText().toString());
+                }
 
-                if (correu_.matches("") || contrasenya_.matches("") || sexe_.matches("") || nom_.matches("") || cognoms_.matches("") || telefon_.toString().matches("") || dataNaixament_.matches("")) {
-                    Toast.makeText(AddUser.this, "Emplena tots els camps, siusplau", Toast.LENGTH_SHORT).show();
+                if (correu_.matches("") || contrasenya_.matches("") || sexe_.matches("") || nom_.matches("") || cognoms_.matches("") || telefon_.toString().matches("") || !dataValida(dataNaixament_string) || dataNaixament_string.matches("")) {
+                    Toast.makeText(AddUser.this, "Emplena tots els camps correctament, siusplau", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
                     try {
 
-                        User u = new User(correu_, contrasenya_, sexe_, nom_, cognoms_, telefon_, dataNaixament_, new Ubicacio(pais_, ciutat_, coordLat_, coordLng_));
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        Date dataNaixament_ = sdf.parse(dataNaixament_string);
+
+                        User u = new User(correu_, contrasenya_, User.Sexe.create(sexe_), nom_, cognoms_, telefon_, dataNaixament_, new Ubicacio(pais_, ciutat_, coordLat_, coordLng_));
                         Call<UserLogged> call = mCheapyService.addUser(u);
                         call.enqueue(new Callback<UserLogged>() {
                             @Override
                             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
 
                                 if (response.isSuccessful()) {
+                                    UserLogged usuari = response.body();
 
                                     Toast toast = Toast.makeText(AddUser.this, "Nou usuari registrat correctament.", Toast.LENGTH_SHORT);
                                     toast.show();
 
+                                    ferLogin(new UserLogin(usuari.getCorreu(), contrasenya_));
+
                                     MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
                                     myFireBaseInsID.onTokenRefresh();
 
-                                    UserLogged usuari = response.body();
+
                                     Login.userID_connected = usuari.getId();
                                     Login.userName_connected = usuari.getNom();
                                     Login.userCorreu_connected = usuari.getCorreu();
@@ -180,6 +193,42 @@ public class AddUser extends Activity implements Callback<User> {
             }
         });
 
+    }
+
+    private boolean dataValida(String dataNaixament_string) {
+
+        return (dataNaixament_string.length() == 10 &&
+                Character.isDigit(dataNaixament_string.charAt(0)) && Character.isDigit(dataNaixament_string.charAt(1)) &&
+                Character.isDigit(dataNaixament_string.charAt(2)) && Character.isDigit(dataNaixament_string.charAt(3)) &&
+                Character.isDigit(dataNaixament_string.charAt(5)) && Character.isDigit(dataNaixament_string.charAt(6)) &&
+                Character.isDigit(dataNaixament_string.charAt(8)) && Character.isDigit(dataNaixament_string.charAt(9)) &&
+                dataNaixament_string.charAt(4) == '-' && dataNaixament_string.charAt(7) == '-');
+    }
+
+    private void ferLogin(UserLogin userLogin) {
+
+        Call<UserLogged> call = mCheapyService.login(userLogin);
+        call.enqueue(new Callback<UserLogged>() {
+            @Override
+            public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
+
+                if (response.isSuccessful()) {
+
+                    Toast toast = Toast.makeText(AddUser.this, "Nou usuari creat i autenticat", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    Toast toast = Toast.makeText(AddUser.this, "ERROR: al autenticar el nou registre", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLogged> call, Throwable t) {
+                Toast toast = Toast.makeText(AddUser.this, "Error autenticar", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 
     private void enviarToken(String token) {
