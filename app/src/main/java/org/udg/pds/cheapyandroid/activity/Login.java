@@ -169,7 +169,7 @@ public class Login extends Activity {
         });
     }
 
-    public static void alreadyConnected(Integer id_user, String name, String email) {
+    public static void alreadyConnected(Long id_user, String name, String email) {
         userID_connected = id_user;
         userName_connected = name;
         userCorreu_connected = email;

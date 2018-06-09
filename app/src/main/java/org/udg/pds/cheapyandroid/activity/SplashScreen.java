@@ -87,7 +87,7 @@ public class SplashScreen extends AppCompatActivity {
             myFireBaseInsID.onTokenRefresh();
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             String userName_connected = prefs.getString("usuari_nom", "usuari_prova");
-            int userID_connected = prefs.getInt("usuari_id", -1);
+            long userID_connected = prefs.getLong("usuari_id", -1);
             String userCorreu_connected = prefs.getString("usuari_correo", "prova@mail.com");
             Login.alreadyConnected(userID_connected, userName_connected, userCorreu_connected);
             i = new Intent(this, LlistaProductesActivity.class);

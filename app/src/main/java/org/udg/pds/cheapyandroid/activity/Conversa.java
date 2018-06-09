@@ -156,6 +156,7 @@ public class Conversa extends AppCompatActivity  {
                 if(response.isSuccessful()){
                     Toast t=Toast.makeText(Conversa.this,"Conversa eliminada correctament", Toast.LENGTH_SHORT);
                     t.show();
+                    listMiss.clear();
                     finish();
                 }
                 else{
