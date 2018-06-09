@@ -178,7 +178,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private void updateUserInformation() {
         String rutaImatge = null;
         if(fotoActualitzada){
-            //Mirar de ficar la imatge de la galeria al server TT
             postTheInternalImage();
             //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
         }
@@ -189,7 +188,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast toast = null;
                 if(response.isSuccessful()){
-                    System.out.println("Call correcte");
+
                     toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
                     Fragment fragmentPerf = new Usuari_Fragment();
                     FragmentTransaction fragmentManager = getFragmentManager()
@@ -198,13 +197,11 @@ public class ModifyUserProfile_Fragment extends Fragment {
                     fragmentManager.commit();
                 }
                 else{
-                    System.out.println("Call incorrecte 1");
                     toast.makeText(getContext(), "Ha hagut un error!!!",toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("Call incorrecte 2");
                 Toast toast = Toast.makeText(getContext(), "ERROR: No s'ha pogut actualitzar el perfil! Revisa la connexió a Internet.", Toast.LENGTH_LONG);
                 toast.show();
             }
@@ -230,9 +227,9 @@ public class ModifyUserProfile_Fragment extends Fragment {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
 
                 if(response.isSuccessful()){
-                    imageUser.setRuta(response.body().get(0));
                     Toast toast = null;
-                    toast.makeText(getContext(), "Imatge, OK!",toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "Imatge, OK! " ,toast.LENGTH_SHORT).show();
+
                 }
                 else{
                     Toast toast = null;
