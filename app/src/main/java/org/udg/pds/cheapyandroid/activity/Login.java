@@ -2,11 +2,10 @@ package org.udg.pds.cheapyandroid.activity;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService;
+import org.udg.pds.cheapyandroid.MyFirebaseMessagingService;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.User;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
 import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_NAME;
 
 /**
@@ -42,14 +44,37 @@ import static org.udg.pds.cheapyandroid.activity.LlistaProductesActivity.PREFS_N
 // then a RESTResponder_RF is called to check the authentication
 public class Login extends Activity {
 
-    public static int userID_connected = -1;
+    public static long userID_connected = -1;
     public static String userName_connected = "prova";
     public static String userCorreu_connected = "prova@mail.com";
     public static Integer NO_REGISTRAT = -1;
     public static Boolean logged = false;
+    public static String userSexe_connected;
 
     CheapyApi mCheapyService;
 
+
+    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String token = intent.getStringExtra("token");
+            enviarToken(token);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((tokenReceiver),
+                new IntentFilter(MyFirebaseInstanceIDService.TOKEN_RECEIVER));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(tokenReceiver);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +82,11 @@ public class Login extends Activity {
         setContentView(R.layout.login);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
+                new IntentFilter(TOKEN_RECEIVER));
+
 
         Button b = (Button)findViewById(R.id.login_button);
 
@@ -100,13 +130,17 @@ public class Login extends Activity {
                     userID_connected=usuari.getId();
                     userName_connected=usuari.getNom();
                     userCorreu_connected = usuari.getCorreu();
+                    userSexe_connected = usuari.getSexe();
                     String user_name = String.valueOf(usuari.getCorreu());
                     if(user_name.equals(username)) {
+
+                        MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
+                        myFireBaseInsID.onTokenRefresh();
 
                         //Afegeix noves preferencies per usuari i la seva contrasenya correctes
                         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt("usuari_id", userID_connected);
+                        editor.putLong("usuari_id", userID_connected);
                         editor.putString("usuari_nom", userName_connected);
                         editor.putString("usuari_correo", userCorreu_connected);
                         editor.commit();
@@ -140,6 +174,34 @@ public class Login extends Activity {
         userName_connected = name;
         userCorreu_connected = email;
         logged = true;
+    }
+
+    private void enviarToken(String token) {
+
+        mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
+        Call<Void> call = mCheapyService.sendToken(token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast toast = Toast.makeText(Login.this, "Token enviat OK", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(Login.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast = Toast.makeText(Login.this, "Error, revisa la connexió a internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 }
 

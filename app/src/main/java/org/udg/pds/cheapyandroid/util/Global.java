@@ -13,6 +13,7 @@ public class Global {
 
     // Resquest codes for startActivityForResult
     public static final String BASE_URL = "http://localhost:8080/rest/";
+    //public static final String BASE_URL = "http://private-875f4-pdsrest.apiary-mock.com/";
     public static final String PREFS_NAME = "MisPreferencias";
 
 }

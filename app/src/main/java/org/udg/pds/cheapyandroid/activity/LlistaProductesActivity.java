@@ -41,7 +41,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
     String user_;
     String pass_;
     String correu_;
-    Integer id_;
+    Long id_;
 
     public static final String PREFS_NAME = "MisPreferencias";
 
@@ -55,7 +55,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         user_ = prefs.getString("usuari_nom", "usuari_prova"); //getString(identificador, default)
         pass_ = prefs.getString("usuari_pass", "pass_prova");
-        id_ = prefs.getInt("usuari_id", -1); //getString(identificador, default)
+        id_ = prefs.getLong("usuari_id", -1); //getString(identificador, default)
         correu_ = prefs.getString("usuari_correo", "prova@mail.com");
 
 
@@ -186,6 +186,9 @@ public class LlistaProductesActivity extends AppCompatActivity {
         TextView email = (TextView)header.findViewById(R.id.emailTxt);
         name.setText("Nom Cognom");
         email.setText("nom.cognom@gmail.com");
+
+
+
     }
 
     private void configurarToolbar() {
@@ -200,6 +203,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
     private void posarUsuariLogout(){
 
         Login.userID_connected = Login.NO_REGISTRAT;
+        Login.logged = false;
 
         // FA LA CRIDA LOGOUT I RETORNA OK
         Call<Void> call = mCheapyService.diconnect();

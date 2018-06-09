@@ -39,13 +39,13 @@ public class Chats_Fragment extends Fragment {
     }
 
     private void addActualConversations() {
-        Call<ItemsConversations> call = mCheapyService.getConversations();
-        call.enqueue(new Callback<ItemsConversations>() {
+        Call<LlistaConversacions> call = mCheapyService.getConversations();
+        call.enqueue(new Callback<LlistaConversacions>() {
             @Override
-            public void onResponse(Call<ItemsConversations> call, Response<ItemsConversations> response) {
+            public void onResponse(Call<LlistaConversacions> call, Response<LlistaConversacions> response) {
 
                 if (response.isSuccessful()) {
-                    mostrarConverses(response.body());
+                    if(response.body().getItems().size() > 0) mostrarConverses(response.body());
                 } else if (response==null){
                     Toast toast = Toast.makeText(getActivity(), "ERROR: The conversations couldn't load correctly", Toast.LENGTH_SHORT);
                     toast.show();
@@ -53,16 +53,16 @@ public class Chats_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ItemsConversations> call, Throwable t) {
+            public void onFailure(Call<LlistaConversacions> call, Throwable t) {
                 Toast toast = Toast.makeText(getActivity(), "ERROR: Check your internet connection", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
 
-    private void mostrarConverses(final ItemsConversations llistaConverses) {
-        final ArrayAdapter<Item> itemsAdapter =
-                new ArrayAdapter<Item>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getItems());
+    private void mostrarConverses(final LlistaConversacions llistaConverses) {
+        final ArrayAdapter<ConversacioChat> itemsAdapter =
+                new ArrayAdapter<ConversacioChat>(getActivity(), android.R.layout.activity_list_item,llistaConverses.getItems());
         listChatsView.setAdapter(new ListAdapter() {
             @Override
             public boolean areAllItemsEnabled() {
@@ -99,10 +99,11 @@ public class Chats_Fragment extends Fragment {
                 TextView userName = (TextView) rowView.findViewById(R.id.lastMessageUser);
                 TextView userLastMessage = (TextView) rowView.findViewById(R.id.lastMessage);
 
-                Item conv = llistaConverses.getItems().get(position);
+                ConversacioChat conv = llistaConverses.getItems().get(position);
 
-                userName.setText(conv.getUsuari().getNom());
-                userLastMessage.setText(conv.getUltimMissatge().toString());
+                userName.setText(conv.getCompradorConversa().getNom());
+                if(conv.getUltimMissatge() == null) userLastMessage.setText("");
+                else userLastMessage.setText(conv.getUltimMissatge().toString());
 
                 if(llistaConverses.getItems().get(position).getMissatgesPerLlegir()){
                     TextView userNameTextview = (TextView) rowView.findViewById(R.id.userNameTextview);
@@ -119,10 +120,13 @@ public class Chats_Fragment extends Fragment {
                         public void onClick(View view) {
                             int position = (Integer) view.getTag();
 
-                            Item conversaAmostrar = itemsAdapter.getItem(position);
+
+                            ConversacioChat conversaAmostrar = itemsAdapter.getItem(position);
+                            //Toast.makeText(getActivity(), conversaAmostrar.getId() + "//" + conversaAmostrar.getProducte().getId(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getActivity(), Conversa.class);
                             intent.putExtra("ConversaAmostrarID", conversaAmostrar.getId());
+                            intent.putExtra("Producte_id", conversaAmostrar.getProducte().getId());
                             startActivity(intent);
                         }
                     });

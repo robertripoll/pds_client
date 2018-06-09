@@ -1,39 +1,46 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe"
+        "sexe",
+        "imatge"
 })
 public class Receptor {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("imatge")
+    private Object imatge;
 
-    public Receptor(int i, String benito, String home) {
+
+    public Receptor(Long i, String nom, String sexe) {
         this.id = i;
-        this.nom = benito;
-        this.sexe = home;
+        this.nom = nom;
+        this.sexe = sexe;
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,13 +64,22 @@ public class Receptor {
         this.sexe = sexe;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
+    }
+
+    @Override
+    public String toString() {
+        return "Receptor{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", sexe='" + sexe + '\'' +
+                '}';
     }
 }

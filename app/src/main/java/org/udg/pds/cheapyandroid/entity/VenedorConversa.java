@@ -13,32 +13,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe"
+        "sexe",
+        "imatge"
 })
-public class Usuari {
+public class VenedorConversa {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("imatge")
+    private Object imatge;
+
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public Usuari withId(Integer id) {
-        this.id = id;
-        return this;
     }
 
     @JsonProperty("nom")
@@ -51,11 +48,6 @@ public class Usuari {
         this.nom = nom;
     }
 
-    public Usuari withNom(String nom) {
-        this.nom = nom;
-        return this;
-    }
-
     @JsonProperty("sexe")
     public String getSexe() {
         return sexe;
@@ -66,24 +58,15 @@ public class Usuari {
         this.sexe = sexe;
     }
 
-    public Usuari withSexe(String sexe) {
-        this.sexe = sexe;
-        return this;
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public Usuari withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
 
 }

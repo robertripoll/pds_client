@@ -3,7 +3,7 @@
     <color name="colorLogin">#2d6c0b</color>
     <color name="colorPrimary_Login">#089e73</color>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorGrey_UserProfile">#9E9E9E</color>
     <color name="colorWhite_UserProfile">#FFFFFF</color>

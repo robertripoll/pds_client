@@ -14,6 +14,7 @@ import java.util.Map;
         "nom",
         "sexe",
         "ubicacio",
+        "imatge",
         "nombreValoracions",
         "mitjanaValoracions",
         "nombreCompres",
@@ -22,13 +23,15 @@ import java.util.Map;
 public class Venedor implements Serializable{
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("nom")
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
+    @JsonProperty("imatge")
+    private Imatge imatge;
     @JsonProperty("nombreValoracions")
     private Integer nombreValoracions;
     @JsonProperty("mitjanaValoracions")
@@ -37,16 +40,14 @@ public class Venedor implements Serializable{
     private Integer nombreCompres;
     @JsonProperty("nombreVendes")
     private Integer nombreVendes;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -78,6 +79,16 @@ public class Venedor implements Serializable{
     @JsonProperty("ubicacio")
     public void setUbicacio(Ubicacio ubicacio) {
         this.ubicacio = ubicacio;
+    }
+
+    @JsonProperty("imatge")
+    public Imatge getImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(Imatge imatge) {
+        this.imatge = imatge;
     }
 
     @JsonProperty("nombreValoracions")
@@ -120,13 +131,4 @@ public class Venedor implements Serializable{
         this.nombreVendes = nombreVendes;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -18,10 +19,12 @@ import org.udg.pds.cheapyandroid.activity.ProducteInfo;
 import org.udg.pds.cheapyandroid.entity.Producte;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    public static final String REQUEST_ACCEPT = "PETICIO_ACCEPTADA";
 
     public MyFirebaseMessagingService() {
     }
@@ -62,10 +65,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
 
+            LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
 
-            Intent intent = new Intent(MyFirebaseMessagingService.this, Conversa.class);
-            intent.putExtra("Missatge", remoteMessage.getNotification().getBody());
-            startActivity(intent);
+            Intent intent = new Intent(REQUEST_ACCEPT);
+            intent.putExtra("missatge_rebut", remoteMessage.getNotification().getBody());
+            Map<String, String> m = remoteMessage.getData();
+            intent.putExtra("id_rebut", m.get("ID"));
+            broadcaster.sendBroadcast(intent);
+
             //sendNotification(remoteMessage.getNotification().getBody());
 
         }

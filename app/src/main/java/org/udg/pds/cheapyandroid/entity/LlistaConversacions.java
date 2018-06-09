@@ -15,26 +15,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "items",
         "metadata"
 })
-public class ItemsConversations {
+public class LlistaConversacions {
 
     @JsonProperty("items")
-    private List<Item> items = null;
+    private List<ConversacioChat> items = null;
     @JsonProperty("metadata")
     private Metadata metadata;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("items")
-    public List<Item> getItems() {
+    public List<ConversacioChat> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Item> items) {
+    public void setItems(List<ConversacioChat> items) {
         this.items = items;
     }
 
-    public ItemsConversations withItems(List<Item> items) {
+    public LlistaConversacions withItems(List<ConversacioChat> items) {
         this.items = items;
         return this;
     }
@@ -49,23 +47,8 @@ public class ItemsConversations {
         this.metadata = metadata;
     }
 
-    public ItemsConversations withMetadata(Metadata metadata) {
+    public LlistaConversacions withMetadata(Metadata metadata) {
         this.metadata = metadata;
-        return this;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public ItemsConversations withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
         return this;
     }
 

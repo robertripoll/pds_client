@@ -9,135 +9,103 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonPropertyOrder({
-            "id",
-            "nombreMissatges",
-            "missatgesPerLlegir",
-            "ultimMissatge",
-            "producte",
-            "usuari"
-    })
-    public class ConversacioChat {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "id",
+        "venedorConversa",
+        "compradorConversa",
+        "producte",
+        "nombreMissatges",
+        "ultimMissatge",
+        "missatgesPerLlegir"
+})
+public class ConversacioChat {
 
-        @JsonProperty("id")
-        private Integer id;
-        @JsonProperty("nombreMissatges")
-        private Integer nombreMissatges;
-        @JsonProperty("missatgesPerLlegir")
-        private Boolean missatgesPerLlegir;
-        @JsonProperty("ultimMissatge")
-        private String ultimMissatge;
-        @JsonProperty("producte")
-        private Producte producte;
-        @JsonProperty("usuari")
-        private User usuari;
-        @JsonIgnore
-        private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("id")
+    private Long id;
+    @JsonProperty("venedorConversa")
+    private VenedorConversa venedorConversa;
+    @JsonProperty("compradorConversa")
+    private CompradorConversa compradorConversa;
+    @JsonProperty("producte")
+    private Producte producte;
+    @JsonProperty("nombreMissatges")
+    private Integer nombreMissatges;
+    @JsonProperty("ultimMissatge")
+    private UltimMissatge ultimMissatge;
+    @JsonProperty("missatgesPerLlegir")
+    private Boolean missatgesPerLlegir;
 
-        @JsonProperty("id")
-        public Integer getId() {
-            return id;
-        }
 
-        @JsonProperty("id")
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public ConversacioChat withId(Integer id) {
-            this.id = id;
-            return this;
-        }
-
-        @JsonProperty("nombreMissatges")
-        public Integer getNombreMissatges() {
-            return nombreMissatges;
-        }
-
-        @JsonProperty("nombreMissatges")
-        public void setNombreMissatges(Integer nombreMissatges) {
-            this.nombreMissatges = nombreMissatges;
-        }
-
-        public ConversacioChat withNombreMissatges(Integer nombreMissatges) {
-            this.nombreMissatges = nombreMissatges;
-            return this;
-        }
-
-        @JsonProperty("missatgesPerLlegir")
-        public Boolean getMissatgesPerLlegir() {
-            return missatgesPerLlegir;
-        }
-
-        @JsonProperty("missatgesPerLlegir")
-        public void setMissatgesPerLlegir(Boolean missatgesPerLlegir) {
-            this.missatgesPerLlegir = missatgesPerLlegir;
-        }
-
-        public ConversacioChat withMissatgesPerLlegir(Boolean missatgesPerLlegir) {
-            this.missatgesPerLlegir = missatgesPerLlegir;
-            return this;
-        }
-
-        @JsonProperty("ultimMissatge")
-        public String getUltimMissatge() {
-            return ultimMissatge;
-        }
-
-        @JsonProperty("ultimMissatge")
-        public void setUltimMissatge(String ultimMissatge) {
-            this.ultimMissatge = ultimMissatge;
-        }
-
-        public ConversacioChat withUltimMissatge(String ultimMissatge) {
-            this.ultimMissatge = ultimMissatge;
-            return this;
-        }
-
-        @JsonProperty("producte")
-        public Producte getProducte() {
-            return producte;
-        }
-
-        @JsonProperty("producte")
-        public void setProducte(Producte producte) {
-            this.producte = producte;
-        }
-
-        public ConversacioChat withProducte(Producte producte) {
-            this.producte = producte;
-            return this;
-        }
-
-        @JsonProperty("usuari")
-        public User getUsuari() {
-            return usuari;
-        }
-
-        @JsonProperty("usuari")
-        public void setUsuari(User usuari) {
-            this.usuari = usuari;
-        }
-
-        public ConversacioChat withUsuari(User usuari) {
-            this.usuari = usuari;
-            return this;
-        }
-
-        @JsonAnyGetter
-        public Map<String, Object> getAdditionalProperties() {
-            return this.additionalProperties;
-        }
-
-        @JsonAnySetter
-        public void setAdditionalProperty(String name, Object value) {
-            this.additionalProperties.put(name, value);
-        }
-
-        public ConversacioChat withAdditionalProperty(String name, Object value) {
-            this.additionalProperties.put(name, value);
-            return this;
-        }
-
+    @JsonProperty("id")
+    public Long getId() {
+        return id;
     }
+
+    @JsonProperty("id")
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonProperty("venedorConversa")
+    public VenedorConversa getVenedorConversa() {
+        return venedorConversa;
+    }
+
+    @JsonProperty("venedorConversa")
+    public void setVenedorConversa(VenedorConversa venedorConversa) {
+        this.venedorConversa = venedorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public CompradorConversa getCompradorConversa() {
+        return compradorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public void setCompradorConversa(CompradorConversa compradorConversa) {
+        this.compradorConversa = compradorConversa;
+    }
+
+    @JsonProperty("producte")
+    public Producte getProducte() {
+        return producte;
+    }
+
+    @JsonProperty("producte")
+    public void setProducte(Producte producte) {
+        this.producte = producte;
+    }
+
+    @JsonProperty("nombreMissatges")
+    public Integer getNombreMissatges() {
+        return nombreMissatges;
+    }
+
+    @JsonProperty("nombreMissatges")
+    public void setNombreMissatges(Integer nombreMissatges) {
+        this.nombreMissatges = nombreMissatges;
+    }
+
+    @JsonProperty("ultimMissatge")
+    public UltimMissatge getUltimMissatge() {
+        return ultimMissatge;
+    }
+
+    @JsonProperty("ultimMissatge")
+    public void setUltimMissatge(UltimMissatge ultimMissatge) {
+        this.ultimMissatge = ultimMissatge;
+    }
+
+    @JsonProperty("missatgesPerLlegir")
+    public Boolean getMissatgesPerLlegir() {
+        return missatgesPerLlegir;
+    }
+
+    @JsonProperty("missatgesPerLlegir")
+    public void setMissatgesPerLlegir(Boolean missatgesPerLlegir) {
+        this.missatgesPerLlegir = missatgesPerLlegir;
+    }
+
+
+}

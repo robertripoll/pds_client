@@ -1,8 +1,10 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.AlertDialog;
 import android.app.Application;
-import android.content.Context;
+import android.content.*;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,13 +30,15 @@ import retrofit2.Response;
 import java.io.Serializable;
 import java.util.*;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
+
 public class Conversa extends AppCompatActivity  {
 
     private CheapyApi mCheapyService;
 
-    Producte producte;
+    public static Producte producte;
     Venedor venedor;
-    ConversacioChat conversacio = new ConversacioChat();
+    public static ConversacioChat conversacio = new ConversacioChat();
 
     private TextView nomProducte;
     private EditText textChat;
@@ -42,9 +46,35 @@ public class Conversa extends AppCompatActivity  {
     private MessageListAdapter mMessageAdapter;
     private RecyclerView mMessageRecycler;
     private Serializable conversaMostrarID;
-    private boolean conversaExistent = false;
+    private Serializable producteID;
     public static List<Missatge> listMiss = new ArrayList<>();
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                String missatge = intent.getStringExtra("missatge_rebut");
+                Long id = Long.valueOf(Integer.valueOf(intent.getStringExtra("id_rebut")));
+                carregarMissatgeRebut(id, missatge);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter(MyFirebaseMessagingService.REQUEST_ACCEPT));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,27 +82,21 @@ public class Conversa extends AppCompatActivity  {
         setContentView(R.layout.activity_conversa);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
-        MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
-        MyFirebaseMessagingService myFireBaseMess = new MyFirebaseMessagingService();
-
-        myFireBaseInsID.onTokenRefresh();
 
         conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
         if(conversaMostrarID!=null){
-            conversacio.setId((Integer)conversaMostrarID);
-            conversaExistent = true;
-            Toast toast = Toast.makeText(Conversa.this, "conversaID -> "+  conversaMostrarID , Toast.LENGTH_SHORT);
-            toast.show();
+            conversacio.setId((Long) conversaMostrarID);
+            producteID = getIntent().getSerializableExtra("Producte_id");
+            carregarConversa((Long)producteID);
         }
-
-        producte = (Producte) getIntent().getSerializableExtra("Producte");
-        if(producte != null) {
+        else{
+            producte = (Producte) getIntent().getSerializableExtra("Producte");
+            mostrarConversa();
 
             venedor = producte.getVenedor();
-            conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
-
             nomProducte = (TextView) findViewById(R.id.nomProducteChat);
             nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
         }
 
         textChat = (EditText) findViewById(R.id.textMissatgeChat);
@@ -83,19 +107,15 @@ public class Conversa extends AppCompatActivity  {
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
         mMessageRecycler.setAdapter(mMessageAdapter);
 
-        buscarChat();
-
-        if(listMiss.isEmpty() && !conversaExistent){
-            crearNovaConversa(producte);
-        }
-
-        String missatgeRebut = (String) getIntent().getSerializableExtra("Missatge");
-
-        if(missatgeRebut != null){
-            mMessageAdapter.add(new Missatge(missatgeRebut));
-        }
-
         enviarMissatges();
+
+        ImageView imgDeleteChat = (ImageView)findViewById(R.id.iconDeleteChat);
+        imgDeleteChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmarBorrarChat();
+            }
+        });
 
         mMessageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -105,9 +125,174 @@ public class Conversa extends AppCompatActivity  {
                 mMessageRecycler.scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
         });
+    }
+
+    private void confirmarBorrarChat() {
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("ALERTA!");
+        dialogo1.setMessage("Vols eliminar aquesta conversacio ?");
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                aceptar();
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.cancel();
+            }
+        });
+        dialogo1.show();
+    }
+
+    public void aceptar() {
+
+        Call<Void> call = mCheapyService.deleteConversa(conversacio.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast t=Toast.makeText(Conversa.this,"Conversa eliminada correctament", Toast.LENGTH_SHORT);
+                    t.show();
+                    finish();
+                }
+                else{
+                    Toast t=Toast.makeText(Conversa.this ,"ERROR: no s'ha pogut eliminar conversacio", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast =Toast.makeText(Conversa.this ,"ERROR: Revisa connexio Internet", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+    }
 
 
+    private void mostrarConversa() {
 
+        Call<LlistaConversacions> call = mCheapyService.getConversations();
+        call.enqueue(new Callback<LlistaConversacions>() {
+            @Override
+            public void onResponse(Call<LlistaConversacions> call, Response<LlistaConversacions> response) {
+
+                if (response.isSuccessful()) {
+                    recorregutConversa(response.body());
+                } else {
+                    Toast toast = Toast.makeText(Conversa.this, "ERROR: The conversations couldn't load correctly", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LlistaConversacions> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "ERROR: Check your internet connection", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    private void recorregutConversa(LlistaConversacions llistaConversacions) {
+
+        List<ConversacioChat> conversacionsItems = llistaConversacions.getItems();
+
+        boolean trobat = false;
+        Iterator it_conChat = conversacionsItems.iterator();
+        while(!trobat && it_conChat.hasNext()){
+
+            ConversacioChat con_chat = (ConversacioChat) it_conChat.next();
+            trobat = con_chat.getProducte().getId().equals(producte.getId());
+
+            if(trobat){
+                conversacio.setId(con_chat.getId());
+                buscarChat();
+            }
+        }
+        if(!trobat) crearNovaConversa(producte);
+    }
+
+
+    public static class R_Conversa {
+
+        public ID producte;
+
+        R_Conversa(ID producte){
+            this.producte = producte;
+        }
+    }
+
+
+    public static class ID {
+
+        public Long id;
+        public ID(Long id)
+        {
+            this.id = id;
+        }
+
+    }
+
+    private void crearNovaConversa(Producte producte) {
+
+        ID id = new ID(producte.getId());
+        R_Conversa conv = new R_Conversa(id);
+
+        Call<ConversacioChat> call = mCheapyService.addChat(conv);
+        call.enqueue(new Callback<ConversacioChat>() {
+            @Override
+            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
+
+                if (response.isSuccessful()) {
+                    conversacio = response.body();
+
+                } else {
+                    Toast toast = Toast.makeText(Conversa.this, "Error new chat " + response.errorBody() + " // " + response.toString(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ConversacioChat> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    private void carregarConversa(Long id_producte) {
+
+        Call<Producte> call = mCheapyService.getProducte(id_producte);
+        call.enqueue(new Callback<Producte>() {
+            @Override
+            public void onResponse(Call<Producte> call, Response<Producte> response) {
+
+                if(response.isSuccessful()){
+                    producte = response.body();
+
+                    venedor = producte.getVenedor();
+                    nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+                    nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
+                    buscarChat();
+                }
+                else{
+                    Toast toast = Toast.makeText(Conversa.this, "Error no alhora de buscar un producte per l'id " , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Producte> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "Error internet per getChatID -> "+  t.toString()  , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 
     private void buscarChat() {
@@ -117,6 +302,13 @@ public class Conversa extends AppCompatActivity  {
             @Override
             public void onResponse(Call<LlistaMissatges> call, Response<LlistaMissatges> response) {
                 listMiss = response.body().getItems();
+
+                List<Missatge> reverseList = new ArrayList<>();
+                for(Integer i = listMiss.size() - 1 ; i >= 0; i--){
+                    reverseList.add(listMiss.get(i));
+                }
+                listMiss.clear();
+                listMiss.addAll(reverseList);
                 mMessageAdapter.notifyDataSetChanged();
             }
 
@@ -128,12 +320,21 @@ public class Conversa extends AppCompatActivity  {
         });
     }
 
+    public static class R_Missatge{
+
+        String text;
+
+        R_Missatge(String text){
+            this.text = text;
+        }
+    }
+
 
     private void enviarMissatges() {
 
         buttonEnviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText editTextChat = (EditText) findViewById(R.id.textMissatgeChat);
+                final EditText editTextChat = (EditText) findViewById(R.id.textMissatgeChat);
                 String message = editTextChat.getText().toString();
                 if (message.matches("")) {
                     Toast.makeText(Conversa.this, "You did not enter a message", Toast.LENGTH_SHORT).show();
@@ -141,7 +342,8 @@ public class Conversa extends AppCompatActivity  {
                 }
                 else{
 
-                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    //Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), new R_Missatge(message));
                     call.enqueue(new Callback<Missatge>() {
                         @Override
                         public void onResponse(Call<Missatge> call, Response<Missatge> response) {
@@ -150,8 +352,12 @@ public class Conversa extends AppCompatActivity  {
 
                                 Toast toast = Toast.makeText(Conversa.this, "Missatge enviat correctament" , Toast.LENGTH_SHORT);
                                 toast.show();
-
                                 mMessageAdapter.add(response.body());
+                                editTextChat.setText("");
+                            }
+                            else{
+                                Toast toast = Toast.makeText(Conversa.this, "ERROR: " + response.toString() , Toast.LENGTH_SHORT);
+                                toast.show();
                             }
 
                         }
@@ -166,32 +372,17 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-
     }
 
+    private void carregarMissatgeRebut(Long id, String missatge) {
 
-    private void crearNovaConversa(Producte producte) {
+        Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
+        Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);
+        String estat = "no llegit";
+        String dataProva = "11/11/1111";
+        Missatge missatgeRebut = new Missatge(id, em, rec, estat, missatge, dataProva);
 
-        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId());
-        call.enqueue(new Callback<ConversacioChat>() {
-            @Override
-            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
-
-                if (response.isSuccessful()) {
-                    conversacio = response.body();
-
-                } else {
-                    Toast toast = Toast.makeText(Conversa.this, "Error new chat", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ConversacioChat> call, Throwable t) {
-                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
+        mMessageAdapter.add(missatgeRebut);
     }
 
 
