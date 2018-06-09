@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import android.graphics.Bitmap;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,34 +176,18 @@ public class ModifyUserProfile_Fragment extends Fragment {
         });
     }
 
+
+
+
+
     private void postTheInternalImage() {
-         // use the FileUtils to get the actual file by uri
-        /*File file = new File(imatgeUri.getPath());
-
-        // create RequestBody instance from file
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse(getContext().getContentResolver().getType(imatgeUri)),
-                        file
-                );
-
-        // MultipartBody.Part is used to send also the actual file name
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("profilePicture", file.getName(), requestFile);
-
-        Map<String, RequestBody> param = new HashMap<>();
-        param.put(imatgeUri.getPath(),requestFile);
-
-
-        //Map<String, Bitmap> param = new HashMap<>();
-        //param.put("file",bitmap);
-
-        */
         File file = new File(imatgeUri.getPath());
-        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
-        Map<String, RequestBody> param = new HashMap<>();
-        param.put("file",fbody);
-        Call<List<String>> call = mCheapyService.postImage(param);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+
+        Call<List<String>> call = mCheapyService.postImage(fileToUpload, filename);
         call.enqueue(new Callback<List<String>>(){
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -220,6 +203,29 @@ public class ModifyUserProfile_Fragment extends Fragment {
             }
         });
     }
+        /*
+        Call<List<String>> call = mCheapyService.postImage(param);
+        call.enqueue(new Callback<List<String>>(){
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+                    imageUser.setRuta(response.body().get(0));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast toast = null;
+                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!",toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }*/
+
+
+
+
+
 
     private Boolean comprovarSiInfoPlena() {
         return nom.getText().length()>=3 && cognom.getText().length()>=3
