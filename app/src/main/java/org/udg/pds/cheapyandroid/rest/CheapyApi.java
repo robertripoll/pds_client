@@ -62,5 +62,5 @@ public interface CheapyApi {
 
     @Multipart
     @POST("imatges")
-    Call<List<String>> postImage(@Part MultipartBody.Part file, @Part("file") RequestBody image);
+    Call<List<String>> postImage(@Body Map<String,RequestBody> image);
 }

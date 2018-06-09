@@ -71,10 +71,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void editNumberFocus() {
-        telefon.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        telefon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(telefon.getText().length()<9){
+                if (telefon.getText().length() < 9) {
                     telefon.setError("The number must contain 9 digits");
                 }
             }
@@ -82,10 +82,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void editTextFocus(final EditText editText) {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(editText.getText().length()<3){
+                if (editText.getText().length() < 3) {
                     editText.setError("It's too short");
                 }
             }
@@ -93,14 +93,13 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void eventOnButtons() {
-        btnActualitzar.setOnClickListener(new View.OnClickListener(){
+        btnActualitzar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(comprovarSiInfoPlena()){
+                if (comprovarSiInfoPlena()) {
                     mostrarMenuConfirmacio();
-                }
-                else{
-                    Toast.makeText(getContext(),"ERROR: Missing Required Fields",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "ERROR: Missing Required Fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -138,35 +137,35 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
         updateUserInformation();
 
-}
+    }
 
     private void updateUserInformation() {
         String rutaImatge = null;
-        if(fotoActualitzada){
+        if (fotoActualitzada) {
             //Mirar de ficar la imatge de la galeria al server TT
             postTheInternalImage();
             //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
         }
-        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
+        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(), cognom.getText().toString(), telefon.getText().toString(), rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast toast = null;
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     System.out.println("Call correcte");
-                    toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!", toast.LENGTH_SHORT).show();
                     Fragment fragmentPerf = new Usuari_Fragment();
                     FragmentTransaction fragmentManager = getFragmentManager()
                             .beginTransaction();
                     fragmentManager.replace(R.id.frame_layout, fragmentPerf).addToBackStack(null);
                     fragmentManager.commit();
-                }
-                else{
+                } else {
                     System.out.println("Call incorrecte 1");
-                    toast.makeText(getContext(), "Ha hagut un error!!!",toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "Ha hagut un error!!!", toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println("Call incorrecte 2");
@@ -177,21 +176,17 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
 
-
-
-
     private void postTheInternalImage() {
         File file = new File(imatgeUri.getPath());
+        RequestBody requestBody = RequestBody.create(MediaType.parse(getContext().getContentResolver().getType(imatgeUri)), file);
+        Map<String,RequestBody> param = new HashMap<>();
+        param.put(file.getName(),requestBody);
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-
-        Call<List<String>> call = mCheapyService.postImage(fileToUpload, filename);
-        call.enqueue(new Callback<List<String>>(){
+        Call<List<String>> call = mCheapyService.postImage(param);
+        call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) { //El servidor retorna codi 500, no funciona aquest post d'imatges
                     imageUser.setRuta(response.body().get(0));
                 }
             }
@@ -199,31 +194,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
                 Toast toast = null;
-                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!",toast.LENGTH_SHORT).show();
+                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!", toast.LENGTH_SHORT).show();
             }
         });
     }
-        /*
-        Call<List<String>> call = mCheapyService.postImage(param);
-        call.enqueue(new Callback<List<String>>(){
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()){
-                    imageUser.setRuta(response.body().get(0));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast toast = null;
-                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!",toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }*/
-
-
-
 
 
 
