@@ -47,6 +47,7 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
     }
 
     private void inicialitzaLlista() {
+
         llistaProductesView.setClickable(true);
         llistaProductesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -57,12 +58,13 @@ public class LlistaProductesPerfilVendesFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         politica_privacitat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Politica.class);
 
-                Toast.makeText(getActivity(), "Clicked privacy policy!!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(llistaProductesView.getContext(), Politica.class);
+                startActivity(intent);
             }
         });
     }

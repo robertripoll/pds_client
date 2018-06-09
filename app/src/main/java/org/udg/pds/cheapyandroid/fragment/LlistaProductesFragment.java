@@ -1,6 +1,5 @@
 package org.udg.pds.cheapyandroid.fragment;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,17 +22,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LlistaProductesFragment extends Fragment {
-
 
     private CheapyApi mCheapyService;
     private ListView llistaProductesView;
     private TextView politica_privacitat;
     private LlistaProductesAdapter adapterLlistaProductes;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +47,7 @@ public class LlistaProductesFragment extends Fragment {
     }
 
     private void inicialitzaLlista() {
+
         llistaProductesView.setClickable(true);
         llistaProductesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,12 +58,13 @@ public class LlistaProductesFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         politica_privacitat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Politica.class);
 
-                Toast.makeText(getActivity(), "Clicked privacy policy!!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(llistaProductesView.getContext(), Politica.class);
+                startActivity(intent);
             }
         });
     }
