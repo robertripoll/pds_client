@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import com.fasterxml.jackson.databind.node.BinaryNode;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -62,5 +63,5 @@ public interface CheapyApi {
 
     @Multipart
     @POST("imatges")
-    Call<List<String>> postImage(@Body Map<String,RequestBody> image);
+    Call<List<String>> postImage(@Part("description") RequestBody description, @Part MultipartBody.Part image);
 }

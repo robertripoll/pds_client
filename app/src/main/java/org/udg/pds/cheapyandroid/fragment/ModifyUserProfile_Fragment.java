@@ -1,24 +1,36 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.Manifest;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Imatge;
 import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
@@ -36,6 +48,7 @@ import java.util.Map;
 public class ModifyUserProfile_Fragment extends Fragment {
 
     private static final int CODI_SELECCIO = 2;
+    private static final int REQUEST_STORAGE = 0 ;
     private CheapyApi mCheapyService;
 
     private Button btnFoto;
@@ -52,12 +65,18 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private Bitmap bitmap;
     private Uri imatgeUri;
 
+    private Context mContext = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_modificar_perfilusuari, container, false);
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
+
+        mContext = getActivity();
+
+        comprovaPermisos();
 
         inicialitzarVariables(view);
 
@@ -70,11 +89,27 @@ public class ModifyUserProfile_Fragment extends Fragment {
         return view;
     }
 
+    private void comprovaPermisos() {
+
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_STORAGE);
+        }
+        else {
+            Log.e("DB", "PERMISSION GRANTED");
+        }
+    }
+
     private void editNumberFocus() {
-        telefon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        telefon.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (telefon.getText().length() < 9) {
+                if(telefon.getText().length()<9){
                     telefon.setError("The number must contain 9 digits");
                 }
             }
@@ -82,10 +117,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void editTextFocus(final EditText editText) {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (editText.getText().length() < 3) {
+                if(editText.getText().length()<3){
                     editText.setError("It's too short");
                 }
             }
@@ -93,13 +128,14 @@ public class ModifyUserProfile_Fragment extends Fragment {
     }
 
     private void eventOnButtons() {
-        btnActualitzar.setOnClickListener(new View.OnClickListener() {
+        btnActualitzar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (comprovarSiInfoPlena()) {
+                if(comprovarSiInfoPlena()){
                     mostrarMenuConfirmacio();
-                } else {
-                    Toast.makeText(getContext(), "ERROR: Missing Required Fields", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(),"ERROR: Missing Required Fields",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -141,31 +177,31 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
     private void updateUserInformation() {
         String rutaImatge = null;
-        if (fotoActualitzada) {
+        if(fotoActualitzada){
             //Mirar de ficar la imatge de la galeria al server TT
             postTheInternalImage();
             //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
         }
-        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(), cognom.getText().toString(), telefon.getText().toString(), rutaImatge);
+        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast toast = null;
-                if (response.isSuccessful()) {
+                if(response.isSuccessful()){
                     System.out.println("Call correcte");
-                    toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!", toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
                     Fragment fragmentPerf = new Usuari_Fragment();
                     FragmentTransaction fragmentManager = getFragmentManager()
                             .beginTransaction();
                     fragmentManager.replace(R.id.frame_layout, fragmentPerf).addToBackStack(null);
                     fragmentManager.commit();
-                } else {
+                }
+                else{
                     System.out.println("Call incorrecte 1");
-                    toast.makeText(getContext(), "Ha hagut un error!!!", toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "Ha hagut un error!!!",toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println("Call incorrecte 2");
@@ -177,28 +213,41 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
 
     private void postTheInternalImage() {
-        File file = new File(imatgeUri.getPath());
-        RequestBody requestBody = RequestBody.create(MediaType.parse(getContext().getContentResolver().getType(imatgeUri)), file);
-        Map<String,RequestBody> param = new HashMap<>();
-        param.put(file.getName(),requestBody);
 
-        Call<List<String>> call = mCheapyService.postImage(param);
+        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, "Sample description");
+
+        File originalFile = FileUtils.getFile(mContext, imatgeUri);
+
+        RequestBody filePart = RequestBody.create(
+                MediaType.parse(mContext.getContentResolver().getType(imatgeUri)),
+                originalFile);
+
+        MultipartBody.Part file = MultipartBody.Part.createFormData("image", originalFile.getName(), filePart);
+
+        Call<List<String>> call = mCheapyService.postImage(descriptionPart, file);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) { //El servidor retorna codi 500, no funciona aquest post d'imatges
+
+                if(response.isSuccessful()){
                     imageUser.setRuta(response.body().get(0));
+                    Toast toast = null;
+                    toast.makeText(getContext(), "Imatge, OK!",toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast toast = null;
+                    toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge " + response.toString() ,toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
                 Toast toast = null;
-                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!!", toast.LENGTH_SHORT).show();
+                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!! " + t.toString(),toast.LENGTH_SHORT).show();
             }
         });
-    }
 
+    }
 
 
     private Boolean comprovarSiInfoPlena() {
