@@ -42,7 +42,7 @@ public class Usuari_Fragment extends Fragment {
     }
 
     private void obtenirDadesPerfil() {
-        Call<UserLogged> call = mCheapyService.getSpecificUser();
+        Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
         call.enqueue(new Callback<UserLogged>() {
             @Override
             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
