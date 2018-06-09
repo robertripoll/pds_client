@@ -39,6 +39,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
         llistaProductesView = (ListView) view.findViewById(R.id.llista_productes);
         politica_privacitat = (TextView) view.findViewById(R.id.privacy_policy);
+
         inicialitzaLlista();
 
         carregarProductesCompraPerfil();

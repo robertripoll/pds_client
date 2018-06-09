@@ -19,10 +19,6 @@ public class Politica extends AppCompatActivity{
         setContentView(R.layout.politica_privacitat);
 
         WebView webView = (WebView) findViewById(R.id.webView);
-
         webView.loadUrl("file:///android_asset/privacy_policy.html");
-
-
     }
-
 }

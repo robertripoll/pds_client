@@ -34,7 +34,6 @@ public class ProducteInfo extends AppCompatActivity {
     private TextView tvIntercanvi;
     private TextView tvPreuNegociable;
     private TextView tvCategoriaProducte;
-    private TextView tvPrivacyPolicy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +57,10 @@ public class ProducteInfo extends AppCompatActivity {
         tvIntercanvi = (TextView) findViewById(R.id.cb_intercanvi);
         tvPreuNegociable = (TextView) findViewById(R.id.cb_preu_negociable);
         tvCategoriaProducte = (TextView) findViewById(R.id.categoria_producte);
-        tvPrivacyPolicy = (TextView) findViewById(R.id.privacy_policy);
-
-
 
         inicialitzaBotoMissatge();
 
         mostrarProducte();
-
 
     }
 
