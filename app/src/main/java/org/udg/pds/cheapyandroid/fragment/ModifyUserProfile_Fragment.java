@@ -1,33 +1,54 @@
 package org.udg.pds.cheapyandroid.fragment;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.squareup.picasso.Picasso;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
 import org.udg.pds.cheapyandroid.CheapyApp;
+import org.udg.pds.cheapyandroid.Manifest;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.entity.User;
-import org.udg.pds.cheapyandroid.entity.UserLogged;
+import org.udg.pds.cheapyandroid.entity.Imatge;
 import org.udg.pds.cheapyandroid.entity.UserLoggedUpdate;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
-import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.graphics.Bitmap;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ModifyUserProfile_Fragment extends Fragment {
 
     private static final int CODI_SELECCIO = 2;
+    private static final int REQUEST_STORAGE = 0 ;
     private CheapyApi mCheapyService;
 
     private Button btnFoto;
@@ -40,6 +61,11 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
     private boolean fotoActualitzada;
     private String emailUser;
+    private Imatge imageUser;
+    private Bitmap bitmap;
+    private Uri imatgeUri;
+
+    private Context mContext = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +73,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_modificar_perfilusuari, container, false);
         mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
+
+        mContext = getActivity();
+
+        comprovaPermisos();
 
         inicialitzarVariables(view);
 
@@ -57,6 +87,22 @@ public class ModifyUserProfile_Fragment extends Fragment {
         editNumberFocus();
 
         return view;
+    }
+
+    private void comprovaPermisos() {
+
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_STORAGE);
+        }
+        else {
+            Log.e("DB", "PERMISSION GRANTED");
+        }
     }
 
     private void editNumberFocus() {
@@ -127,10 +173,16 @@ public class ModifyUserProfile_Fragment extends Fragment {
 
         updateUserInformation();
 
-}
+    }
 
     private void updateUserInformation() {
-        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString());
+        String rutaImatge = null;
+        if(fotoActualitzada){
+            //Mirar de ficar la imatge de la galeria al server TT
+            postTheInternalImage();
+            //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
+        }
+        UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -159,6 +211,45 @@ public class ModifyUserProfile_Fragment extends Fragment {
         });
     }
 
+
+    private void postTheInternalImage() {
+
+        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, "Sample description");
+
+        File originalFile = FileUtils.getFile(mContext, imatgeUri);
+
+        RequestBody filePart = RequestBody.create(
+                MediaType.parse(mContext.getContentResolver().getType(imatgeUri)),
+                originalFile);
+
+        MultipartBody.Part file = MultipartBody.Part.createFormData("image", originalFile.getName(), filePart);
+
+        Call<List<String>> call = mCheapyService.postImage(descriptionPart, file);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+
+                if(response.isSuccessful()){
+                    imageUser.setRuta(response.body().get(0));
+                    Toast toast = null;
+                    toast.makeText(getContext(), "Imatge, OK!",toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast toast = null;
+                    toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge " + response.toString() ,toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast toast = null;
+                toast.makeText(getContext(), "Ha hagut un error al guardar l'imatge al servidor!! " + t.toString(),toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
     private Boolean comprovarSiInfoPlena() {
         return nom.getText().length()>=3 && cognom.getText().length()>=3
                 && telefon.getText().length()>=9;
@@ -173,9 +264,18 @@ public class ModifyUserProfile_Fragment extends Fragment {
         email = (TextView) view.findViewById(R.id.emailActualitzat);
         telefon = (EditText) view.findViewById(R.id.telefonActualitzat);
         fotoActualitzada = false;
+        imatgeUri = null;
         Bundle bundle = getArguments();
         if(bundle!=null){
             emailUser = bundle.get("emailUser").toString();
+            imageUser = (Imatge) bundle.get("imageUser");
+            if(imageUser!=null){
+                Picasso.get()
+                        .load(imageUser.getRuta())
+                        .resize(50, 50)
+                        .into(foto);
+            }
+
             email.setText(emailUser);
         }
     }
@@ -207,8 +307,13 @@ public class ModifyUserProfile_Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODI_SELECCIO){
-            Uri elMeuPath = data.getData();
-            foto.setImageURI(elMeuPath);
+            imatgeUri = data.getData();
+            foto.setImageURI(imatgeUri);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imatgeUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             fotoActualitzada = true;
         }
     }

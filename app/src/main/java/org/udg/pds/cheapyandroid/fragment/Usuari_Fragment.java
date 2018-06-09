@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.activity.Login;
+import org.udg.pds.cheapyandroid.entity.Imatge;
 import org.udg.pds.cheapyandroid.entity.UserLogged;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import retrofit2.Call;
@@ -41,7 +42,7 @@ public class Usuari_Fragment extends Fragment {
     }
 
     private void obtenirDadesPerfil() {
-        Call<UserLogged> call = mCheapyService.getSpecificUser(Login.userID_connected);
+        Call<UserLogged> call = mCheapyService.getSpecificUser();
         call.enqueue(new Callback<UserLogged>() {
             @Override
             public void onResponse(Call<UserLogged> call, Response<UserLogged> response) {
@@ -88,6 +89,9 @@ public class Usuari_Fragment extends Fragment {
         Bundle bundle = new Bundle();
         if (i == 0) {
             fragment = new PerfilUsuari_Fragment();
+            /*Imatge imatge = new Imatge();
+            imatge.setRuta("http://i.imgur.com/DvpvklR.png");
+            userInformation.setImatge(imatge);*/
             bundle.putSerializable("allUserInformation", userInformation);
             fragment.setArguments(bundle);
         } else if (i == 1) {

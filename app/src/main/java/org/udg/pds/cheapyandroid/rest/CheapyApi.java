@@ -1,13 +1,41 @@
 package org.udg.pds.cheapyandroid.rest;
 
-import org.udg.pds.cheapyandroid.activity.Conversa;
+import android.graphics.Bitmap;
+import com.fasterxml.jackson.databind.node.BinaryNode;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import org.udg.pds.cheapyandroid.entity.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public interface CheapyApi {
+
+    @POST("usuaris/autenticar")
+    Call<UserLogged> login(@Body UserLogin login);
+
+    @GET("productes")
+    Call<LlistaProductes> getProductes();
+
+    @POST("productes")
+    Call<Void> crearProducte(@Body Producte producte);
+
+    @GET("categories")
+    Call<ArrayList<Categoria>> getCategories();
+
+    @POST("usuaris/jo/conversacions")
+    Call<ConversacioChat> addChat(@Body Integer producte_id);
+
+    @GET("conversacions/{conversa_id}/missatges")
+    Call<LlistaMissatges> getChatID(@Path("conversa_id") Integer id_chat);
+
+    @POST("conversacions/{conversa_id}/missatges")
+    Call<Missatge> sendMessage(@Path("conversa_id") int conversaID, @Body String message);
 
     @GET("usuaris/{usuari_id}/vendes")
     Call<LlistaProductes> getProductesVendaPerfil();
@@ -15,10 +43,10 @@ public interface CheapyApi {
     @GET("usuaris/{usuari_id}/compres")
     Call<LlistaProductes> getProductesCompraPerfil();
 
-    @GET("usuaris/{usuari_id}")
-    Call<UserLogged> getSpecificUser(@Path("usuari_id") Long userID);
+    @GET("usuaris/jo")
+    Call<UserLogged> getSpecificUser();
 
-    @POST("usuaris/registrar")
+    @POST("usuaris")
     Call<UserLogged> addUser(@Body User user);
 
     @POST("usuaris/desautenticar")
@@ -27,40 +55,13 @@ public interface CheapyApi {
     @PUT("usuaris/jo")
     Call<Void> updateUserInformation(@Body UserLoggedUpdate update);
 
+    @GET("usuaris/jo/conversacions")
+    Call<ItemsConversations> getConversations();
+
     @GET("usuaris/comprovar")
     Call<Boolean> checkAuth();
 
-    @POST("usuaris/autenticar")
-    Call<UserLogged> login(@Body UserLogin login);
-
-    @PUT("usuaris/jo/token")
-    Call<Void> sendToken(@Body String token);
-
-    @GET("productes")
-    Call<LlistaProductes> getProductes();
-
-    @POST("productes")
-    Call<Void> crearProducte(@Body Producte producte);
-
-    @GET("productes/{producte_id}")
-    Call<Producte> getProducte(@Path("producte_id") Long id_producte);
-
-    @GET("categories")
-    Call<ArrayList<Categoria>> getCategories();
-
-    @POST("conversacions")
-    Call<ConversacioChat> addChat(@Body Conversa.R_Conversa conv);
-
-    @GET("conversacions")
-    Call<LlistaConversacions> getConversations();
-
-    @DELETE("conversacions/{conversa_id}")
-    Call<Void> deleteConversa(@Path("conversa_id") Long id_chat);
-
-    @GET("conversacions/{conversa_id}/missatges")
-    Call<LlistaMissatges> getChatID(@Path("conversa_id") Long id_chat);
-
-    @POST("conversacions/{conversa_id}/missatges")
-    Call<Missatge> sendMessage(@Path("conversa_id") Long conversaID, @Body Conversa.R_Missatge message);
-
+    @Multipart
+    @POST("imatges")
+    Call<List<String>> postImage(@Part("description") RequestBody description, @Part MultipartBody.Part image);
 }
