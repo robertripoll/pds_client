@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +13,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
@@ -42,6 +44,8 @@ public class LlistaProductesActivity extends AppCompatActivity {
     String pass_;
     String correu_;
     Long id_;
+
+    private Fragment fragment;
 
     public static final String PREFS_NAME = "MisPreferencias";
 
@@ -78,7 +82,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         MenuItem menuItem = menuNav.findItem(R.id.nav_item_llista_productes);
         menuItem.setChecked(true);
 
-        Fragment fragment = new LlistaProductesFragment();
+        fragment = new LlistaProductesFragment();
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
         toolbar.setTitle(R.string.navmenu_item_llista_productes);
         fragmentManager.replace(R.id.frame_layout, fragment).commit();
@@ -116,7 +120,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
 
                         // Handle Navigation
-                        Fragment fragment = null;
+                        fragment = null;
                         switch(menuItem.getItemId()){
                             case R.id.nav_item_nou_producte:
                                 toolbar.setTitle(R.string.navmenu_item_nou_producte);
@@ -251,12 +255,64 @@ public class LlistaProductesActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == 1) {
-            return true;
+        if (id == R.id.action_search) {
+            obrirDialogFiltresCerca();
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void obrirDialogFiltresCerca() {
+        final Dialog dialog = new Dialog(LlistaProductesActivity.this);
+        dialog.setContentView(R.layout.dialog_filtres_cerca);
+        dialog.setTitle("Title...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        final EditText etNom = (EditText)dialog.findViewById(R.id.et_filtre_nom_producte);
+        final EditText etPreuMin = (EditText)dialog.findViewById(R.id.et_filtre_preu_minim);
+        final EditText etPreuMax = (EditText)dialog.findViewById(R.id.et_filtre_preu_maxim);
+        final RadioButton rbPreuSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_si);
+        final RadioButton rbPreuNo = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_no);
+        final RadioButton rbInterSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_inter_si);
+        final RadioButton rbInterNo = (RadioButton) dialog.findViewById(R.id.rb_filtre_inter_no);
+
+        Button btnFiltrar = (Button)dialog.findViewById(R.id.button_filtrar);
+        btnFiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fragment != null) {
+                    if (fragment instanceof LlistaProductesFragment) {
+                        LlistaProductesFragment f = (LlistaProductesFragment) fragment;
+                        Boolean preuNegociable = null;
+                        Boolean intercanvi = null;
+                        if (rbPreuSi.isChecked()) preuNegociable = true;
+                        else if (rbPreuNo.isChecked()) preuNegociable = false;
+                        if (rbInterSi.isChecked()) intercanvi = true;
+                        else if (rbInterNo.isChecked()) intercanvi = false;
+
+                        String etPreuMinStr = etPreuMin.getText().toString();
+                        String etPreuMaxStr = etPreuMax.getText().toString();
+                        String preuStr = "{";
+                        if (etPreuMinStr != null && !etPreuMinStr.isEmpty())
+                            preuStr += "\"gt\" : " + Double.parseDouble(etPreuMinStr) + ", ";
+                        else preuStr += "\"gt\" : -999999.0, ";
+                        if (etPreuMaxStr != null && !etPreuMaxStr.isEmpty())
+                            preuStr += "\"lt\" : " + Double.parseDouble(etPreuMaxStr) + " }";
+                        else preuStr += "\"lt\" : 999999.0 }";
+
+                        f.carregarProdcutesAmbFiltre(etNom.getText().toString(),
+                                preuNegociable,
+                                intercanvi,
+                                preuStr);
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
 }

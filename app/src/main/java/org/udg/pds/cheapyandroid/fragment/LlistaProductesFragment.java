@@ -60,8 +60,12 @@ public class LlistaProductesFragment extends Fragment {
         });
     }
 
-    private void carregarProductes() {
-        Call<LlistaProductes> call = mCheapyService.getProductes();
+    public void carregarProdcutesAmbFiltre(String nom, Boolean preuNegociable, Boolean intercanviAcceptat, String preu) {
+        Call<LlistaProductes> call = mCheapyService.getProductes(nom, preuNegociable, intercanviAcceptat, preu);
+        getProductes(call);
+    }
+
+    private void getProductes(Call<LlistaProductes> call) {
         call.enqueue(new Callback<LlistaProductes>() {
             @Override
             public void onResponse(Call<LlistaProductes> call, Response<LlistaProductes> response) {
@@ -80,6 +84,11 @@ public class LlistaProductesFragment extends Fragment {
                 toast.show();
             }
         });
+    }
+
+    private void carregarProductes() {
+        Call<LlistaProductes> call = mCheapyService.getProductes(null, null, null, null);
+        getProductes(call);
     }
 
     private void mostrarProductes(final LlistaProductes llistaProductes) {
