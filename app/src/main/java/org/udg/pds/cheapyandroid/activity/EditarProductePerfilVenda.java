@@ -12,6 +12,7 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Categoria;
 import org.udg.pds.cheapyandroid.entity.Producte;
+import org.udg.pds.cheapyandroid.entity.ProducteCrear;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
@@ -77,9 +78,6 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
         mCheapyService = ((CheapyApp) getApplication()).getAPI();
         carregarCategories();
 
-        // Inicialitzem l'Spinner de categories.
-        crearOpcionsSpinnerCategories();
-
         // Configurem l'acció del botó publicar.
         botoDesarCanvis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,16 +86,32 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
             }
         });
 
-        // Mostrem les dades com estaven abans d'editar
-        mostrarDades();
     }
 
     private void mostrarDades() {
 
         // Carrega Info
         editNomProducte.setText(producte.getNom());
-        editPreuProducte.setText(df2.format(producte.getPreu()) + " €");
+        editPreuProducte.setText(df2.format(producte.getPreu()));
         editDescProducte.setText(producte.getDescripcio());
+        cbIntercanvi.setChecked(producte.getIntercanviAcceptat());
+        cbPreuNegociable.setChecked(producte.getPreuNegociable());
+
+        if (categories != null) {
+            int iCategoria = -1;
+            int i = 0;
+            boolean trobat = false;
+            while (i < categories.size() && !trobat) {
+                if (categories.get(i).getId().equals(producte.getCategoria().getId())) {
+                    trobat = true;
+                    iCategoria = i;
+                }
+                i++;
+            }
+
+            if (iCategoria != -1)
+                spinnerCategories.setSelection(iCategoria);
+        }
     }
 
     private void desarCanvis() {
@@ -115,11 +129,12 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
             iCategoria = iCategoria - 1; // A la primera posició hi ha el "Selecciona una categoria...".
 
             // No hi ha error, creem el producte i fem el POST.
-            Producte producte = new Producte();
+            ProducteCrear producte = new ProducteCrear();
             producte.setNom(nom);
             producte.setDescripcio(desc);
             producte.setPreu(Double.parseDouble(preuTxt));
-            producte.setCategoria(categories.get(iCategoria));
+            Integer categoria = Integer.parseInt(categories.get(iCategoria).getId().toString());
+            producte.setCategoria(categoria);
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
 
@@ -128,9 +143,9 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
         }
     }
 
-    private void postProducteEditat(Producte producte) {
-        Integer producteId = editIdProducte.intValue();
-        Call<Void> call = mCheapyService.updateProductInformation(producteId);
+    private void postProducteEditat(ProducteCrear producteEditar) {
+        Long producteId = producte.getId();
+        Call<Void> call = mCheapyService.updateProductInformation(producteId, producteEditar);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -172,6 +187,7 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
         }
 
         spinnerCategories.setAdapter(adapterCategories);
+        mostrarDades();
     }
 
     private void carregarCategories() {
