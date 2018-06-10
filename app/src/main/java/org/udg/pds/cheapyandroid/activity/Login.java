@@ -156,14 +156,14 @@ public class Login extends Activity {
                         toast.show();
                     }
                 } else {
-                    Toast toast = Toast.makeText(Login.this, "Error logging in, is not successful, Login", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(Login.this, "Usuari o contrasenya no son correctes", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserLogged> call, Throwable t) {
-                Toast toast = Toast.makeText(Login.this, "Error logging in, is failure, Login", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Login.this, "Error logging in, is failure", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
@@ -184,11 +184,7 @@ public class Login extends Activity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if(response.isSuccessful()){
-                    Toast toast = Toast.makeText(Login.this, "Token enviat OK", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
+                if(!response.isSuccessful()){
                     Toast toast = Toast.makeText(Login.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
                     toast.show();
                 }

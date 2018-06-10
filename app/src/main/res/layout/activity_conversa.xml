@@ -20,11 +20,25 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="Producte"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"
                 android:layout_gravity="center"
                 android:paddingTop="0dp"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="10dp"
+                android:layout_alignEnd="@+id/infoChat"
+                android:layout_alignParentStart="true"/>
+
+        <TextView
+                android:id="@+id/infoChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="click each message few seconds to delete"
+                android:textSize="10sp"
+                android:textColor="@color/colorRed"
+                android:layout_gravity="center"
+                android:paddingTop="40dp"
+                android:paddingBottom="0dp"/>
 
         <ImageView
                 android:id="@+id/iconDeleteChat"
@@ -34,10 +48,9 @@
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/deletechat" >
+                android:src="@drawable/deletechat">
         </ImageView>
     </RelativeLayout>
-
 
 
     <android.support.v7.widget.RecyclerView
