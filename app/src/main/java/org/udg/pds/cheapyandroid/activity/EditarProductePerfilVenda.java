@@ -1,7 +1,6 @@
 package org.udg.pds.cheapyandroid.activity;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,13 +12,13 @@ import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.Categoria;
 import org.udg.pds.cheapyandroid.entity.Producte;
-import org.udg.pds.cheapyandroid.entity.Venedor;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
 
     private CheapyApi mCheapyService;
     Producte producte;
+
+    private final static String TAG = "ProducteInfo";
+    private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     private Spinner spinnerCategories;
     private Button botoDesarCanvis;
@@ -86,6 +88,16 @@ public class EditarProductePerfilVenda extends AppCompatActivity {
             }
         });
 
+        // Mostrem les dades com estaven abans d'editar
+        mostrarDades();
+    }
+
+    private void mostrarDades() {
+
+        // Carrega Info
+        editNomProducte.setText(producte.getNom());
+        editPreuProducte.setText(df2.format(producte.getPreu()) + " €");
+        editDescProducte.setText(producte.getDescripcio());
     }
 
     private void desarCanvis() {
