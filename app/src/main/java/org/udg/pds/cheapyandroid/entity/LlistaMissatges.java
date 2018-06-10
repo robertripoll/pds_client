@@ -19,8 +19,7 @@ public class LlistaMissatges {
     private List<Missatge> items = null;
     @JsonProperty("metadata")
     private Metadata metadata;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
 
     @JsonProperty("items")
     public List<Missatge> getItems() {
@@ -42,13 +41,4 @@ public class LlistaMissatges {
         this.metadata = metadata;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }

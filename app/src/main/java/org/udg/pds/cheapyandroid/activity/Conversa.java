@@ -1,10 +1,8 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.AlertDialog;
 import android.app.Application;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +30,8 @@ import retrofit2.Response;
 import java.io.Serializable;
 import java.util.*;
 
+import static org.udg.pds.cheapyandroid.MyFirebaseInstanceIDService.TOKEN_RECEIVER;
+
 public class Conversa extends AppCompatActivity  {
 
     private CheapyApi mCheapyService;
@@ -47,7 +47,6 @@ public class Conversa extends AppCompatActivity  {
     private RecyclerView mMessageRecycler;
     private Serializable conversaMostrarID;
     private Serializable producteID;
-    public static boolean conversaExistent = false;
     public static List<Missatge> listMiss = new ArrayList<>();
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -55,20 +54,12 @@ public class Conversa extends AppCompatActivity  {
         public void onReceive(Context context, Intent intent) {
             try {
                 String missatge = intent.getStringExtra("missatge_rebut");
-                Integer id = Integer.valueOf(intent.getStringExtra("id_rebut"));
-
-                Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
-                Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);
-                String estat = "no llegit";
-                String dataProva = "11/11/1111";
-                Missatge missatgeRebut = new Missatge(id, em, rec, estat, missatge, dataProva);
-
-                mMessageAdapter.add(missatgeRebut);
+                Long id = Long.valueOf(Integer.valueOf(intent.getStringExtra("id_rebut")));
+                carregarMissatgeRebut(id, missatge);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -91,33 +82,22 @@ public class Conversa extends AppCompatActivity  {
         setContentView(R.layout.activity_conversa);
 
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
-        MyFirebaseInstanceIDService myFireBaseInsID = new MyFirebaseInstanceIDService();
-        MyFirebaseMessagingService myFireBaseMess = new MyFirebaseMessagingService();
-
-        myFireBaseInsID.onTokenRefresh();
 
         conversaMostrarID = getIntent().getSerializableExtra("ConversaAmostrarID");
         if(conversaMostrarID!=null){
-            conversacio.setId((Integer)conversaMostrarID);
+            conversacio.setId((Long) conversaMostrarID);
             producteID = getIntent().getSerializableExtra("Producte_id");
-            buscarProducte((Integer)producteID);
-            conversaExistent = true;
-
-            Toast toast = Toast.makeText(Conversa.this, "El producte es " + producte.getNom()  , Toast.LENGTH_SHORT);
-            toast.show();
-
+            carregarConversa((Long)producteID);
         }
         else{
             producte = (Producte) getIntent().getSerializableExtra("Producte");
             mostrarConversa();
 
+            venedor = producte.getVenedor();
+            nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+            nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
         }
-
-        venedor = producte.getVenedor();
-        conversacio.setId(Login.userID_connected + producte.getId()); //"algoritme" per definir quien id li toca -> id_login + id_producte
-
-        nomProducte = (TextView) findViewById(R.id.nomProducteChat);
-        nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
 
         textChat = (EditText) findViewById(R.id.textMissatgeChat);
         buttonEnviar = (Button) findViewById(R.id.buttonEnviarChat);
@@ -129,12 +109,67 @@ public class Conversa extends AppCompatActivity  {
 
         enviarMissatges();
 
+        ImageView imgDeleteChat = (ImageView)findViewById(R.id.iconDeleteChat);
+        imgDeleteChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmarBorrarChat();
+            }
+        });
+
         mMessageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
 
                 mMessageRecycler.scrollToPosition(mMessageAdapter.getItemCount() - 1);
+            }
+        });
+    }
+
+    private void confirmarBorrarChat() {
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("ALERTA!");
+        dialogo1.setMessage("Vols eliminar aquesta conversacio ?");
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                aceptar();
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.cancel();
+            }
+        });
+        dialogo1.show();
+    }
+
+    public void aceptar() {
+
+        Call<Void> call = mCheapyService.deleteConversa(conversacio.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    Toast t=Toast.makeText(Conversa.this,"Conversa eliminada correctament", Toast.LENGTH_SHORT);
+                    t.show();
+                    mMessageAdapter.clear();
+                    finish();
+                }
+                else{
+                    Toast t=Toast.makeText(Conversa.this ,"ERROR: no s'ha pogut eliminar conversacio", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast toast =Toast.makeText(Conversa.this ,"ERROR: Revisa connexio Internet", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
@@ -182,7 +217,53 @@ public class Conversa extends AppCompatActivity  {
         if(!trobat) crearNovaConversa(producte);
     }
 
-    private void buscarProducte(Integer id_producte) {
+    public static class R_Conversa {
+
+        public ID producte;
+
+        R_Conversa(ID producte){
+            this.producte = producte;
+        }
+    }
+
+    public static class ID {
+
+        public Long id;
+        public ID(Long id)
+        {
+            this.id = id;
+        }
+
+    }
+
+    private void crearNovaConversa(Producte producte) {
+
+        ID id = new ID(producte.getId());
+        R_Conversa conv = new R_Conversa(id);
+
+        Call<ConversacioChat> call = mCheapyService.addChat(conv);
+        call.enqueue(new Callback<ConversacioChat>() {
+            @Override
+            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
+
+                if (response.isSuccessful()) {
+                    conversacio = response.body();
+
+                } else {
+                    Toast toast = Toast.makeText(Conversa.this, "Error new chat " + response.errorBody() + " // " + response.toString(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ConversacioChat> call, Throwable t) {
+                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    private void carregarConversa(Long id_producte) {
 
         Call<Producte> call = mCheapyService.getProducte(id_producte);
         call.enqueue(new Callback<Producte>() {
@@ -191,6 +272,12 @@ public class Conversa extends AppCompatActivity  {
 
                 if(response.isSuccessful()){
                     producte = response.body();
+
+                    venedor = producte.getVenedor();
+                    nomProducte = (TextView) findViewById(R.id.nomProducteChat);
+                    nomProducte.setText(producte.getNom() + "\n" + producte.getPreu() + "€");
+
+                    buscarChat();
                 }
                 else{
                     Toast toast = Toast.makeText(Conversa.this, "Error no alhora de buscar un producte per l'id " , Toast.LENGTH_SHORT);
@@ -213,6 +300,13 @@ public class Conversa extends AppCompatActivity  {
             @Override
             public void onResponse(Call<LlistaMissatges> call, Response<LlistaMissatges> response) {
                 listMiss = response.body().getItems();
+
+                List<Missatge> reverseList = new ArrayList<>();
+                for(Integer i = listMiss.size() - 1 ; i >= 0; i--){
+                    reverseList.add(listMiss.get(i));
+                }
+                listMiss.clear();
+                listMiss.addAll(reverseList);
                 mMessageAdapter.notifyDataSetChanged();
             }
 
@@ -224,6 +318,14 @@ public class Conversa extends AppCompatActivity  {
         });
     }
 
+    public static class R_Missatge{
+
+        String text;
+
+        R_Missatge(String text){
+            this.text = text;
+        }
+    }
 
     private void enviarMissatges() {
 
@@ -236,20 +338,20 @@ public class Conversa extends AppCompatActivity  {
                     return;
                 }
                 else{
-
-                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
+                    Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), new R_Missatge(message));
                     call.enqueue(new Callback<Missatge>() {
                         @Override
                         public void onResponse(Call<Missatge> call, Response<Missatge> response) {
 
                             if(response.isSuccessful()){
 
-                                Toast toast = Toast.makeText(Conversa.this, "Missatge enviat correctament" , Toast.LENGTH_SHORT);
-                                toast.show();
                                 mMessageAdapter.add(response.body());
                                 editTextChat.setText("");
                             }
-
+                            else{
+                                Toast toast = Toast.makeText(Conversa.this, "ERROR: " + response.toString() , Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
                         }
 
                         @Override
@@ -262,40 +364,68 @@ public class Conversa extends AppCompatActivity  {
             }
         });
 
-
     }
 
+    private void carregarMissatgeRebut(Long id, String missatge) {
 
-    private void crearNovaConversa(Producte producte) {
+        Emisor em = new Emisor(venedor.getId(), venedor.getNom(), venedor.getSexe());
+        Receptor rec = new Receptor(Login.userID_connected, Login.userName_connected, Login.userSexe_connected);
+        String estat = "no llegit";
+        String dataProva = "11/11/1111";
+        Missatge missatgeRebut = new Missatge(id, em, rec, estat, missatge, dataProva);
 
-        Call<ConversacioChat> call = mCheapyService.addChat(producte.getId());
-        call.enqueue(new Callback<ConversacioChat>() {
+        mMessageAdapter.add(missatgeRebut);
+    }
+
+    private void volsEliminarMissatge(final int position) {
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("SEGUR QUE VOLS ELIMINAR EL MISSATGE?");
+        dialogo1.setMessage(listMiss.get(position).getMissatge());
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                eliminarMissatge(position);
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.cancel();
+            }
+        });
+        dialogo1.show();
+    }
+
+    private void eliminarMissatge(final int position) {
+
+        Call<Void> call = mCheapyService.deleteMissatge(conversacio.getId(), listMiss.get(position).getId());
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ConversacioChat> call, Response<ConversacioChat> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if (response.isSuccessful()) {
-                    conversacio = response.body();
-
-                } else {
-                    Toast toast = Toast.makeText(Conversa.this, "Error new chat", Toast.LENGTH_SHORT);
-                    toast.show();
+                if(response.isSuccessful()){
+                    mMessageAdapter.remove(listMiss.get(position));
+                }
+                else{
+                    Toast t=Toast.makeText(Conversa.this ,"No volguis borrar els missatges d'altres :)", Toast.LENGTH_SHORT);
+                    t.show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ConversacioChat> call, Throwable t) {
-                Toast toast = Toast.makeText(Conversa.this, "Error new chat - web" + t.toString()  , Toast.LENGTH_SHORT);
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast toast =Toast.makeText(Conversa.this ,"ERROR: Revisa la part de server", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
-
 
     public class MessageListAdapter extends RecyclerView.Adapter{
 
         private static final int VIEW_TYPE_MESSAGE_SENT = 1;
         private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
         Context context;
+
 
         public MessageListAdapter(Context context) {
             this.context = context;
@@ -331,6 +461,14 @@ public class Conversa extends AppCompatActivity  {
                 case VIEW_TYPE_MESSAGE_RECEIVED:
                     ((ReceivedMessageHolder) holder).bind(message);
             }
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    volsEliminarMissatge(position);
+                    return true;
+                }
+            });
 
         }
 
@@ -391,18 +529,11 @@ public class Conversa extends AppCompatActivity  {
             }
         }
 
-        // Insert a new item to the RecyclerView
-        public void insert(int position, Missatge message) {
-            listMiss.add(position, message);
-            notifyItemInserted(position);
-        }
-        // Remove a RecyclerView item containing the Data object
         public void remove(Missatge message) {
             int position = listMiss.indexOf(message);
             listMiss.remove(position);
             notifyItemRemoved(position);
         }
-
 
         public void add(Missatge m) {
 

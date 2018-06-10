@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
-        "usuari",
+        "venedorConversa",
+        "compradorConversa",
         "producte",
         "nombreMissatges",
         "ultimMissatge",
@@ -21,38 +22,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class ConversacioChat {
 
     @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("usuari")
-    private Usuari usuari;
+    private Long id;
+    @JsonProperty("venedorConversa")
+    private VenedorConversa venedorConversa;
+    @JsonProperty("compradorConversa")
+    private CompradorConversa compradorConversa;
     @JsonProperty("producte")
     private Producte producte;
     @JsonProperty("nombreMissatges")
     private Integer nombreMissatges;
     @JsonProperty("ultimMissatge")
-    private Object ultimMissatge;
+    private UltimMissatge ultimMissatge;
     @JsonProperty("missatgesPerLlegir")
     private Boolean missatgesPerLlegir;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @JsonProperty("usuari")
-    public Usuari getUsuari() {
-        return usuari;
+    @JsonProperty("venedorConversa")
+    public VenedorConversa getVenedorConversa() {
+        return venedorConversa;
     }
 
-    @JsonProperty("usuari")
-    public void setUsuari(Usuari usuari) {
-        this.usuari = usuari;
+    @JsonProperty("venedorConversa")
+    public void setVenedorConversa(VenedorConversa venedorConversa) {
+        this.venedorConversa = venedorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public CompradorConversa getCompradorConversa() {
+        return compradorConversa;
+    }
+
+    @JsonProperty("compradorConversa")
+    public void setCompradorConversa(CompradorConversa compradorConversa) {
+        this.compradorConversa = compradorConversa;
     }
 
     @JsonProperty("producte")
@@ -76,12 +88,12 @@ public class ConversacioChat {
     }
 
     @JsonProperty("ultimMissatge")
-    public Object getUltimMissatge() {
+    public UltimMissatge getUltimMissatge() {
         return ultimMissatge;
     }
 
     @JsonProperty("ultimMissatge")
-    public void setUltimMissatge(Object ultimMissatge) {
+    public void setUltimMissatge(UltimMissatge ultimMissatge) {
         this.ultimMissatge = ultimMissatge;
     }
 
@@ -95,14 +107,5 @@ public class ConversacioChat {
         this.missatgesPerLlegir = missatgesPerLlegir;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

@@ -27,8 +27,6 @@ public class Transaccio implements Serializable{
     private Valoracio valoracioComprador;
     @JsonProperty("valoracioVenedor")
     private Valoracio valoracioVenedor;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Long getId() {
@@ -80,13 +78,4 @@ public class Transaccio implements Serializable{
         this.valoracioVenedor = valoracioVenedor;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }

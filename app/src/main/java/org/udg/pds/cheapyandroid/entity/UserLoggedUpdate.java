@@ -23,11 +23,14 @@ public class UserLoggedUpdate {
     private String cognom;
     @JsonProperty("telefon")
     private String telefon;
+    @JsonProperty("imatge")
+    private String imatge;
 
-    public UserLoggedUpdate(String nom, String cognoms, String telefon){
+    public UserLoggedUpdate(String nom, String cognoms, String telefon, String imatge){
         this.nom = nom;
         this.cognom = cognoms;
         this.telefon = telefon;
+        this.imatge = imatge;
     }
 
     @JsonProperty("nom")
@@ -72,6 +75,21 @@ public class UserLoggedUpdate {
 
     public UserLoggedUpdate withTelefon(String telefon) {
         this.telefon = telefon;
+        return this;
+    }
+
+    @JsonProperty("imatge")
+    public String getRutaImatge() {
+        return imatge;
+    }
+
+    @JsonProperty("imatge")
+    public void setImatge(String imatge) {
+        this.imatge = imatge;
+    }
+
+    public UserLoggedUpdate withImatge(String imatge) {
+        this.imatge = imatge;
         return this;
     }
 }

@@ -109,7 +109,7 @@ public class EditarProductePerfilVenda extends Fragment {
             producte.setIntercanviAcceptat(intercanvi);
 
             Venedor venedor = new Venedor();
-            venedor.setId(Integer.parseInt(_user_id));
+            venedor.setId((long) Integer.parseInt(_user_id));
             producte.setVenedor(venedor);
 
             // Fem el POST.

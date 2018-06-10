@@ -3,6 +3,7 @@ package org.udg.pds.cheapyandroid.entity;
 import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +16,41 @@ import java.util.Map;
         "sexe",
         "telefon",
         "dataNaixement",
-        "ubicacio"
+        "ubicacio",
+        "imatge"
 })
 public class User implements Serializable {
+
+    public enum Sexe {
+        HOME("home"), DONA("dona"), ALTRES("altres");
+
+        private String value;
+
+        private Sexe(String value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public String getValue() {
+            return this.value;
+        }
+
+        public void setValue(String value) {this.value = value;}
+
+        @JsonCreator
+        public static Sexe create(String val)
+        {
+            Sexe[] sexes = Sexe.values();
+
+            for (Sexe sexe : sexes)
+            {
+                if (sexe.getValue().equalsIgnoreCase(val))
+                    return sexe;
+            }
+
+            return ALTRES;
+        }
+    }
 
     @JsonProperty("nom")
     private String nom;
@@ -28,17 +61,18 @@ public class User implements Serializable {
     @JsonProperty("contrasenya")
     private String contrasenya;
     @JsonProperty("sexe")
-    private String sexe;
+    private Sexe sexe;
     @JsonProperty("telefon")
     private String telefon;
     @JsonProperty("dataNaixement")
-    private String dataNaixement;
+    private Date dataNaixement;
     @JsonProperty("ubicacio")
     private Ubicacio ubicacio;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("imatge")
+    private String imatge;
 
-    public User(String correu_, String contrasenya_, String sexe_, String nom_, String cognoms_, String telefon_, String dataNaixament_, Ubicacio ubicacio_) {
+
+    public User(String correu_, String contrasenya_, Sexe sexe_, String nom_, String cognoms_, String telefon_, Date dataNaixament_, Ubicacio ubicacio_) {
         this.correu = correu_;
         this.contrasenya = contrasenya_;
         this.sexe = sexe_;
@@ -47,6 +81,7 @@ public class User implements Serializable {
         this.telefon = telefon_;
         this.dataNaixement = dataNaixament_;
         this.ubicacio = ubicacio_;
+        this.imatge = "";
     }
 
     @JsonProperty("nom")
@@ -90,12 +125,12 @@ public class User implements Serializable {
     }
 
     @JsonProperty("sexe")
-    public String getSexe() {
+    public Sexe getSexe() {
         return sexe;
     }
 
     @JsonProperty("sexe")
-    public void setSexe(String sexe) {
+    public void setSexe(Sexe sexe) {
         this.sexe = sexe;
     }
 
@@ -110,12 +145,12 @@ public class User implements Serializable {
     }
 
     @JsonProperty("dataNaixement")
-    public String getDataNaixement() {
+    public Date getDataNaixement() {
         return dataNaixement;
     }
 
     @JsonProperty("dataNaixement")
-    public void setDataNaixement(String dataNaixement) {
+    public void setDataNaixement(Date dataNaixement) {
         this.dataNaixement = dataNaixement;
     }
 
@@ -129,13 +164,14 @@ public class User implements Serializable {
         this.ubicacio = ubicacio;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("imatge")
+    public String getImatge() {
+        return imatge;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("imatge")
+    public void setImatge(String imatge) {
+        this.imatge = imatge;
     }
+
 }

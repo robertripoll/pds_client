@@ -41,7 +41,7 @@ public class PublicarAnunciFragment extends Fragment {
 
     private List<Categoria> categories;
 
-    private Integer _user_id;
+    private Long _user_id;
 
 
     public PublicarAnunciFragment() {
@@ -66,7 +66,7 @@ public class PublicarAnunciFragment extends Fragment {
 
         // Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getActivity().getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
-        _user_id = prefs.getInt("usuari_id", -1);
+        _user_id = prefs.getLong("usuari_id", -1);
 
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
@@ -105,24 +105,21 @@ public class PublicarAnunciFragment extends Fragment {
             iCategoria = iCategoria - 1; // A la primera posició hi ha el "Selecciona una categoria...".
 
             // No hi ha error, creem el producte i fem el POST.
-            Producte producte  = new Producte();
+            ProducteCrear producte  = new ProducteCrear();
             producte.setNom(nom);
             producte.setDescripcio(desc);
             producte.setPreu(Double.parseDouble(preuTxt));
-            producte.setCategoria(categories.get(iCategoria));
+            Integer categoria = Integer.parseInt(categories.get(iCategoria).getId().toString());
+            producte.setCategoria(categoria);
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
-
-            Venedor venedor = new Venedor();
-            venedor.setId(_user_id);
-            producte.setVenedor(venedor);
 
             // Fem el POST.
             postAnunciProducte(producte);
         }
     }
 
-    private void postAnunciProducte(Producte producte) {
+    private void postAnunciProducte(ProducteCrear producte) {
         Call<Void> call = mCheapyService.crearProducte(producte);
         call.enqueue(new Callback<Void>() {
             @Override

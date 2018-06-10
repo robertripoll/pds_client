@@ -1,17 +1,22 @@
 package org.udg.pds.cheapyandroid.entity;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
         "nom",
-        "sexe"
+        "sexe",
+        "imatge"
 })
-public class Emisor {
+public class CompradorConversa {
 
     @JsonProperty("id")
     private Long id;
@@ -19,12 +24,9 @@ public class Emisor {
     private String nom;
     @JsonProperty("sexe")
     private String sexe;
+    @JsonProperty("imatge")
+    private Object imatge;
 
-    public Emisor(Long id, String nom, String sexe) {
-        this.id = id;
-        this.nom = nom;
-        this.sexe = sexe;
-    }
 
     @JsonProperty("id")
     public Long getId() {
@@ -56,13 +58,14 @@ public class Emisor {
         this.sexe = sexe;
     }
 
-
-    @Override
-    public String toString() {
-        return "Emisor{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", sexe='" + sexe + '\'' +
-                '}';
+    @JsonProperty("imatge")
+    public Object getImatge() {
+        return imatge;
     }
+
+    @JsonProperty("imatge")
+    public void setImatge(Object imatge) {
+        this.imatge = imatge;
+    }
+
 }

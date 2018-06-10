@@ -17,7 +17,7 @@ import java.util.Map;
 public class Missatge {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("emisor")
     private Emisor emisor;
     @JsonProperty("receptor")
@@ -28,19 +28,8 @@ public class Missatge {
     private String missatge;
     @JsonProperty("dataEnviament")
     private String dataEnviament;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Missatge(String missatgeRebut) {
-        this.id = 3;
-        this.emisor = new Emisor(1, "pep", "home");
-        this.receptor = new Receptor(2, "benito", "home");
-        this.estat = "rebut";
-        this.missatge = missatgeRebut;
-        this.dataEnviament = "2018-11-10";
-    }
-
-    public Missatge(Integer id, Emisor em, Receptor rec, String estat, String missatge, String dataProva) {
+    public Missatge(Long id, Emisor em, Receptor rec, String estat, String missatge, String dataProva) {
         this.id = id;
         this.emisor = em;
         this.receptor = rec;
@@ -50,12 +39,12 @@ public class Missatge {
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -109,13 +98,4 @@ public class Missatge {
         this.dataEnviament = dataEnviament;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }
