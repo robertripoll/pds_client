@@ -75,6 +75,22 @@ public class ProducteInfo extends AppCompatActivity {
         mostrarProducte();
 
         revisarVisibilitatBotons();
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Login.userID_connected == Login.NO_REGISTRAT) {
+                    Toast toast = Toast.makeText(ProducteInfo.this, "Has d'estar registrat." , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Intent intent = new Intent(ProducteInfo.this, EditarProductePerfilVenda.class);
+                    intent.putExtra("Producte", (Serializable) producte);
+
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void revisarVisibilitatBotons() {
