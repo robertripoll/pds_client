@@ -17,6 +17,8 @@
 
     <!-- Strings relacionades amb el filtre de llista de productes -->
     <string name="btn_filtrar_text">Buscar</string>
+    <string name="filtre_preu_minim">Preu Mínim</string>
+    <string name="filtre_preu_maxim">Preu Màxim</string>
 
     <!-- Strings relacionades amb el menú de navegació -->
     <string name="navmenu_item_llista_productes">Productes</string>

@@ -47,7 +47,8 @@ public interface CheapyApi {
     @GET("productes?")
     Call<LlistaProductes> getProductes(@Query("nom") String nom,
                                        @Query("preuNegociable") Boolean preuNegociable,
-                                       @Query("intercanviAcceptat") Boolean intercanviAcceptat);
+                                       @Query("intercanviAcceptat") Boolean intercanviAcceptat,
+                                        @Query("preu") String preu);
 
     @POST("productes")
     Call<Void> crearProducte(@Body ProducteCrear producte);

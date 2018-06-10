@@ -271,6 +271,8 @@ public class LlistaProductesActivity extends AppCompatActivity {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         final EditText etNom = (EditText)dialog.findViewById(R.id.et_filtre_nom_producte);
+        final EditText etPreuMin = (EditText)dialog.findViewById(R.id.et_filtre_preu_minim);
+        final EditText etPreuMax = (EditText)dialog.findViewById(R.id.et_filtre_preu_maxim);
         final RadioButton rbPreuSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_si);
         final RadioButton rbPreuNo = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_no);
         final RadioButton rbInterSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_inter_si);
@@ -290,9 +292,20 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         if (rbInterSi.isChecked()) intercanvi = true;
                         else if (rbInterNo.isChecked()) intercanvi = false;
 
+                        String etPreuMinStr = etPreuMin.getText().toString();
+                        String etPreuMaxStr = etPreuMax.getText().toString();
+                        String preuStr = "{";
+                        if (etPreuMinStr != null && !etPreuMinStr.isEmpty())
+                            preuStr += "\"gt\" : " + Double.parseDouble(etPreuMinStr) + ", ";
+                        else preuStr += "\"gt\" : -999999.0, ";
+                        if (etPreuMaxStr != null && !etPreuMaxStr.isEmpty())
+                            preuStr += "\"lt\" : " + Double.parseDouble(etPreuMaxStr) + " }";
+                        else preuStr += "\"lt\" : 999999.0 }";
+
                         f.carregarProdcutesAmbFiltre(etNom.getText().toString(),
                                 preuNegociable,
-                                intercanvi);
+                                intercanvi,
+                                preuStr);
                     }
                 }
                 dialog.dismiss();

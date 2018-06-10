@@ -60,8 +60,8 @@ public class LlistaProductesFragment extends Fragment {
         });
     }
 
-    public void carregarProdcutesAmbFiltre(String nom, Boolean preuNegociable, Boolean intercanviAcceptat) {
-        Call<LlistaProductes> call = mCheapyService.getProductes(nom, preuNegociable, intercanviAcceptat);
+    public void carregarProdcutesAmbFiltre(String nom, Boolean preuNegociable, Boolean intercanviAcceptat, String preu) {
+        Call<LlistaProductes> call = mCheapyService.getProductes(nom, preuNegociable, intercanviAcceptat, preu);
         getProductes(call);
     }
 
@@ -87,7 +87,7 @@ public class LlistaProductesFragment extends Fragment {
     }
 
     private void carregarProductes() {
-        Call<LlistaProductes> call = mCheapyService.getProductes(null, null, null);
+        Call<LlistaProductes> call = mCheapyService.getProductes(null, null, null, null);
         getProductes(call);
     }
 
