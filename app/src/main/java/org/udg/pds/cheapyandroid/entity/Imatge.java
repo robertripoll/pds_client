@@ -26,6 +26,10 @@ public class Imatge implements Serializable {
         this.ruta = "";
     }
 
+    public Imatge(String rutaImatge) {
+        this.ruta = rutaImatge;
+    }
+
     @JsonProperty("id")
     public Long getId() {
         return id;
