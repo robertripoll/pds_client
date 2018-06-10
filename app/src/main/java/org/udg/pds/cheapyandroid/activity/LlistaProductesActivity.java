@@ -1,5 +1,6 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +13,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -251,12 +256,22 @@ public class LlistaProductesActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == 1) {
-            return true;
+        if (id == R.id.action_search) {
+            obrirDialogFiltresCerca();
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void obrirDialogFiltresCerca() {
+        final Dialog dialog = new Dialog(LlistaProductesActivity.this);
+        dialog.setContentView(R.layout.dialog_filtres_cerca);
+        dialog.setTitle("Title...");
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialog.show();
     }
 
 }
