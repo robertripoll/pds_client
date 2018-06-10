@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditarProductePerfilVenda extends Activity {
+public class EditarProductePerfilVenda extends AppCompatActivity {
 
     private CheapyApi mCheapyService;
     Producte producte;
@@ -40,7 +41,7 @@ public class EditarProductePerfilVenda extends Activity {
 
     private List<Categoria> categories;
 
-    private String _user_id;
+    private Long _user_id;
 
     @Override
     protected void  onCreate(Bundle savedInstanceState) {
@@ -61,11 +62,11 @@ public class EditarProductePerfilVenda extends Activity {
         editPreuProducte = (EditText) findViewById(R.id.et_preu_producte);
         cbIntercanvi = (CheckBox) findViewById(R.id.cb_intercanvi);
         cbPreuNegociable = (CheckBox) findViewById(R.id.cb_preu_negociable);
-        tvError = (TextView) findViewById(R.id.tv_error_falten_camps_publicar_anunci);
+        tvError = (TextView) findViewById(R.id.tv_error_falten_camps_desar_canvis);
 
         // Llegeix l'usuari actual que hi ha a l'app
         SharedPreferences prefs = getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
-        _user_id = prefs.getString("usuari_id", "0");
+        _user_id = prefs.getLong("usuari_id", -1);
 
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
@@ -109,10 +110,6 @@ public class EditarProductePerfilVenda extends Activity {
             producte.setCategoria(categories.get(iCategoria));
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
-
-            Venedor venedor = new Venedor();
-            venedor.setId((long) Integer.parseInt(_user_id));
-            producte.setVenedor(venedor);
 
             // Fem el POST.
             postProducteEditat(producte);
