@@ -113,11 +113,11 @@ public class EditarProductePerfilVenda extends Fragment {
             producte.setVenedor(venedor);
 
             // Fem el POST.
-            postAnunciProducte(producte);
+            //postAnunciProducte(producte);
         }
     }
 
-    private void postAnunciProducte(Producte producte) {
+    private void postAnunciProducte(ProducteCrear producte) {
         Call<Void> call = mCheapyService.crearProducte(producte);
         call.enqueue(new Callback<Void>() {
             @Override

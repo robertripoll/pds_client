@@ -105,24 +105,21 @@ public class PublicarAnunciFragment extends Fragment {
             iCategoria = iCategoria - 1; // A la primera posició hi ha el "Selecciona una categoria...".
 
             // No hi ha error, creem el producte i fem el POST.
-            Producte producte  = new Producte();
+            ProducteCrear producte  = new ProducteCrear();
             producte.setNom(nom);
             producte.setDescripcio(desc);
             producte.setPreu(Double.parseDouble(preuTxt));
-            producte.setCategoria(categories.get(iCategoria));
+            Integer categoria = Integer.parseInt(categories.get(iCategoria).getId().toString());
+            producte.setCategoria(categoria);
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
-
-            Venedor venedor = new Venedor();
-            venedor.setId(Long.valueOf(_user_id));
-            producte.setVenedor(venedor);
 
             // Fem el POST.
             postAnunciProducte(producte);
         }
     }
 
-    private void postAnunciProducte(Producte producte) {
+    private void postAnunciProducte(ProducteCrear producte) {
         Call<Void> call = mCheapyService.crearProducte(producte);
         call.enqueue(new Callback<Void>() {
             @Override
