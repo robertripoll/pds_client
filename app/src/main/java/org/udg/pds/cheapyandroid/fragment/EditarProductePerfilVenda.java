@@ -118,7 +118,8 @@ public class EditarProductePerfilVenda extends Fragment {
     }
 
     private void postProducteEditat(Producte producte) {
-        Call<Void> call = mCheapyService.updateProductInformation(producte.getId());
+        Integer producteId = Integer.parseInt(producte.getId().toString());
+        Call<Void> call = mCheapyService.updateProductInformation(producteId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
