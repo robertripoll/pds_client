@@ -1,6 +1,9 @@
 package org.udg.pds.cheapyandroid.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,12 +24,14 @@ public class ProducteInfo extends AppCompatActivity {
 
     CheapyApi mCheapyService;
     Producte producte;
+    private Long _user_id;
 
     private final static String TAG = "ProducteInfo";
     private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     // Components visuals
     private FloatingActionButton btnMissatge;
+    private FloatingActionButton btnEditar;
     private TextView tvNomProducte;
     private TextView tvPreuProducte;
     private TextView tvDescProducte;
@@ -36,6 +41,8 @@ public class ProducteInfo extends AppCompatActivity {
     private TextView tvPreuNegociable;
     private TextView tvCategoriaProducte;
 
+    private static final String PREFS_NAME = "MisPreferencias";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,12 +51,17 @@ public class ProducteInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producte_info);
 
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        _user_id = prefs.getLong("usuari_id", -1);
+
         mCheapyService = ((CheapyApp)this.getApplication()).getAPI();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         btnMissatge = (FloatingActionButton) findViewById(R.id.botoMissatge);
+        btnEditar = (FloatingActionButton) findViewById(R.id.botoEditarProducte);
+
         tvNomProducte = (TextView) findViewById(R.id.nom_producte);
         tvPreuProducte = (TextView) findViewById(R.id.preu_producte);
         tvUbicacioProducte = (TextView) findViewById(R.id.ubicacio_producte);
@@ -62,6 +74,19 @@ public class ProducteInfo extends AppCompatActivity {
         inicialitzaBotoMissatge();
 
         mostrarProducte();
+
+        revisarVisibilitatBotons();
+    }
+
+    private void revisarVisibilitatBotons() {
+        Long venedor = producte.getVenedor().getId();
+        boolean mateixUsuari = venedor.equals(_user_id);
+        if (mateixUsuari) {
+            btnMissatge.setVisibility(View.INVISIBLE);
+        }
+        else {
+            btnEditar.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void inicialitzaBotoMissatge() {
