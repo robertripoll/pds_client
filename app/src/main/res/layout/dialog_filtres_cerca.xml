@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:padding="8dp">
 
     <TextView
-            android:text="Nom del producte:"
+            android:text="@string/hint_nom_producte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"/>
@@ -14,4 +15,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/et_filtre_nom_producte"/>
+
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <TextView
+                    android:text="@string/hint_preu_negociable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"/>
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                <RadioButton android:id="@+id/rb_filtre_preu_si"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Si"/>
+                <RadioButton android:id="@+id/rb_filtre_preu_no"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="No"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <TextView
+                    android:text="@string/hint_intercanvi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView6"/>
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                <RadioButton android:id="@+id/rb_filtre_inter_si"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Si"/>
+                <RadioButton android:id="@+id/rb_filtre_inter_no"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="No"/>
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+            android:layout_marginTop="32dp"
+            android:text="@string/btn_filtrar_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/button_filtrar"/>
 </LinearLayout>

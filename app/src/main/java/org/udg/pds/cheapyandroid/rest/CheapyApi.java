@@ -44,8 +44,10 @@ public interface CheapyApi {
     @PUT("usuaris/jo/token")
     Call<Void> sendToken(@Body String token);
 
-    @GET("productes")
-    Call<LlistaProductes> getProductes();
+    @GET("productes?")
+    Call<LlistaProductes> getProductes(@Query("nom") String nom,
+                                       @Query("preuNegociable") Boolean preuNegociable,
+                                       @Query("intercanviAcceptat") Boolean intercanviAcceptat);
 
     @POST("productes")
     Call<Void> crearProducte(@Body ProducteCrear producte);

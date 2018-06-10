@@ -18,10 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
 import org.udg.pds.cheapyandroid.entity.LlistaProductes;
@@ -47,6 +44,8 @@ public class LlistaProductesActivity extends AppCompatActivity {
     String pass_;
     String correu_;
     Long id_;
+
+    private Fragment fragment;
 
     public static final String PREFS_NAME = "MisPreferencias";
 
@@ -83,7 +82,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
         MenuItem menuItem = menuNav.findItem(R.id.nav_item_llista_productes);
         menuItem.setChecked(true);
 
-        Fragment fragment = new LlistaProductesFragment();
+        fragment = new LlistaProductesFragment();
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
         toolbar.setTitle(R.string.navmenu_item_llista_productes);
         fragmentManager.replace(R.id.frame_layout, fragment).commit();
@@ -121,7 +120,7 @@ public class LlistaProductesActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
 
                         // Handle Navigation
-                        Fragment fragment = null;
+                        fragment = null;
                         switch(menuItem.getItemId()){
                             case R.id.nav_item_nou_producte:
                                 toolbar.setTitle(R.string.navmenu_item_nou_producte);
@@ -268,8 +267,37 @@ public class LlistaProductesActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(LlistaProductesActivity.this);
         dialog.setContentView(R.layout.dialog_filtres_cerca);
         dialog.setTitle("Title...");
-
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        final EditText etNom = (EditText)dialog.findViewById(R.id.et_filtre_nom_producte);
+        final RadioButton rbPreuSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_si);
+        final RadioButton rbPreuNo = (RadioButton) dialog.findViewById(R.id.rb_filtre_preu_no);
+        final RadioButton rbInterSi = (RadioButton) dialog.findViewById(R.id.rb_filtre_inter_si);
+        final RadioButton rbInterNo = (RadioButton) dialog.findViewById(R.id.rb_filtre_inter_no);
+
+        Button btnFiltrar = (Button)dialog.findViewById(R.id.button_filtrar);
+        btnFiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fragment != null) {
+                    if (fragment instanceof LlistaProductesFragment) {
+                        LlistaProductesFragment f = (LlistaProductesFragment) fragment;
+                        Boolean preuNegociable = null;
+                        Boolean intercanvi = null;
+                        if (rbPreuSi.isChecked()) preuNegociable = true;
+                        else if (rbPreuNo.isChecked()) preuNegociable = false;
+                        if (rbInterSi.isChecked()) intercanvi = true;
+                        else if (rbInterNo.isChecked()) intercanvi = false;
+
+                        f.carregarProdcutesAmbFiltre(etNom.getText().toString(),
+                                preuNegociable,
+                                intercanvi);
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }
