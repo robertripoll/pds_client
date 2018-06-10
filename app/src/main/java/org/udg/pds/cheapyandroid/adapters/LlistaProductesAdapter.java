@@ -29,6 +29,7 @@ public class LlistaProductesAdapter extends ArrayAdapter<Producte> {
         _dades = productes;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
         View element = convertView;
 

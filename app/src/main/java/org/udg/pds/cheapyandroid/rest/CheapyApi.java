@@ -77,6 +77,9 @@ public interface CheapyApi {
     @POST("conversacions/{conversa_id}/missatges")
     Call<Missatge> sendMessage(@Path("conversa_id") Long conversaID, @Body Conversa.R_Missatge message);
 
+    @PUT("productes/producte_id")
+    Call<Void> updateProductInformation(@Path("producte_id") Integer id_producte);
+
     @Multipart
     @POST("imatges")
     Call<List<String>> postImage(@Part("description") RequestBody description, @Part MultipartBody.Part image);

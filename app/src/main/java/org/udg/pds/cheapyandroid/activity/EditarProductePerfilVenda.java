@@ -1,33 +1,37 @@
-package org.udg.pds.cheapyandroid.fragment;
+package org.udg.pds.cheapyandroid.activity;
 
 
-import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 import org.udg.pds.cheapyandroid.CheapyApp;
 import org.udg.pds.cheapyandroid.R;
-import org.udg.pds.cheapyandroid.activity.LlistaProductesActivity;
-import org.udg.pds.cheapyandroid.entity.*;
+import org.udg.pds.cheapyandroid.entity.Categoria;
+import org.udg.pds.cheapyandroid.entity.Producte;
 import org.udg.pds.cheapyandroid.rest.CheapyApi;
 import org.udg.pds.cheapyandroid.util.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditarProductePerfilVenda extends Fragment {
+public class EditarProductePerfilVenda extends AppCompatActivity {
 
     private CheapyApi mCheapyService;
+    Producte producte;
+
+    private final static String TAG = "ProducteInfo";
+    private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     private Spinner spinnerCategories;
-    private Button buttonPublicar;
+    private Button botoDesarCanvis;
     private EditText editNomProducte;
     private EditText editDescProducte;
     private EditText editPreuProducte;
@@ -35,57 +39,68 @@ public class EditarProductePerfilVenda extends Fragment {
     private CheckBox cbPreuNegociable;
     private TextView tvError;
 
+    private Long editIdProducte;
+
     private List<Categoria> categories;
 
-    private String _user_id;
-
-
-    public EditarProductePerfilVenda() {
-        // Required empty public constructor
-    }
-
+    private Long _user_id;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void  onCreate(Bundle savedInstanceState) {
+
+        //Obtenir producte clicat per saber l'id del producte que modificarem
+        producte = (Producte) getIntent().getSerializableExtra("Producte");
+        editIdProducte = producte.getId();
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_producte_editar, container, false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_producte_editar);
 
         // Busquem els components de la vista.
-        spinnerCategories = (Spinner) view.findViewById(R.id.spinner_categoria);
-        buttonPublicar = (Button) view.findViewById(R.id.button_publicar);
-        editNomProducte = (EditText) view.findViewById(R.id.et_nom_producte);
-        editDescProducte = (EditText) view.findViewById(R.id.et_desc_producte);
-        editPreuProducte = (EditText) view.findViewById(R.id.et_preu_producte);
-        cbIntercanvi = (CheckBox) view.findViewById(R.id.cb_intercanvi);
-        cbPreuNegociable = (CheckBox) view.findViewById(R.id.cb_preu_negociable);
-        tvError = (TextView) view.findViewById(R.id.tv_error_falten_camps_publicar_anunci);
+        spinnerCategories = (Spinner) findViewById(R.id.spinner_categoria);
+        botoDesarCanvis = (Button) findViewById(R.id.button_desar_canvis);
+        editNomProducte = (EditText) findViewById(R.id.et_nom_producte);
+        editDescProducte = (EditText) findViewById(R.id.et_desc_producte);
+        editPreuProducte = (EditText) findViewById(R.id.et_preu_producte);
+        cbIntercanvi = (CheckBox) findViewById(R.id.cb_intercanvi);
+        cbPreuNegociable = (CheckBox) findViewById(R.id.cb_preu_negociable);
+        tvError = (TextView) findViewById(R.id.tv_error_falten_camps_desar_canvis);
 
         // Llegeix l'usuari actual que hi ha a l'app
-        SharedPreferences prefs = getActivity().getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
-        _user_id = prefs.getString("usuari_id", "0");
+        SharedPreferences prefs = getSharedPreferences(Global.PREFS_NAME, Context.MODE_PRIVATE);
+        _user_id = prefs.getLong("usuari_id", -1);
 
         // Posem l'error com a no visible.
         tvError.setVisibility(View.GONE);
 
-        // Carraguem el servei i les categories.
-        mCheapyService = ((CheapyApp) getActivity().getApplication()).getAPI();
+        // Carreguem el servei i les categories.
+        mCheapyService = ((CheapyApp) getApplication()).getAPI();
         carregarCategories();
 
         // Inicialitzem l'Spinner de categories.
         crearOpcionsSpinnerCategories();
 
         // Configurem l'acció del botó publicar.
-        buttonPublicar.setOnClickListener(new View.OnClickListener() {
+        botoDesarCanvis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                publicarAnunci();
+                desarCanvis();
             }
         });
 
-        return view;
+        // Mostrem les dades com estaven abans d'editar
+        mostrarDades();
     }
 
-    private void publicarAnunci() {
+    private void mostrarDades() {
+
+        // Carrega Info
+        editNomProducte.setText(producte.getNom());
+        editPreuProducte.setText(df2.format(producte.getPreu()) + " €");
+        editDescProducte.setText(producte.getDescripcio());
+    }
+
+    private void desarCanvis() {
         String nom = editNomProducte.getText().toString();
         String desc = editDescProducte.getText().toString();
         String preuTxt = editPreuProducte.getText().toString();
@@ -108,36 +123,34 @@ public class EditarProductePerfilVenda extends Fragment {
             producte.setPreuNegociable(negociable);
             producte.setIntercanviAcceptat(intercanvi);
 
-            Venedor venedor = new Venedor();
-            venedor.setId((long) Integer.parseInt(_user_id));
-            producte.setVenedor(venedor);
-
             // Fem el POST.
-            //postAnunciProducte(producte);
+            postProducteEditat(producte);
         }
     }
 
-    private void postAnunciProducte(ProducteCrear producte) {
-        Call<Void> call = mCheapyService.crearProducte(producte);
+    private void postProducteEditat(Producte producte) {
+        Integer producteId = editIdProducte.intValue();
+        Call<Void> call = mCheapyService.updateProductInformation(producteId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast toast = Toast.makeText(getActivity(), "Anunci enviat correctament.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(EditarProductePerfilVenda.this, "Producte editat correctament.", Toast.LENGTH_SHORT);
                     toast.show();
 
-                    LlistaProductesActivity activity = (LlistaProductesActivity) getActivity();
-                    activity.carregarProductesALaVenda();
+                    Intent intent = new Intent(EditarProductePerfilVenda.this, LlistaProductesActivity.class);
+
+                    startActivity(intent);
 
                 } else {
-                    Toast toast = Toast.makeText(getActivity(), "Error enviant anunci.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(EditarProductePerfilVenda.this, "Error editant el producte.", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(EditarProductePerfilVenda.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
@@ -149,7 +162,7 @@ public class EditarProductePerfilVenda extends Fragment {
     }
 
     private void crearOpcionsSpinnerCategories() {
-        ArrayAdapter<String> adapterCategories = new ArrayAdapter<>(this.getContext(), R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterCategories = new ArrayAdapter<>(EditarProductePerfilVenda.this, R.layout.support_simple_spinner_dropdown_item);
         adapterCategories.add("Selecciona una Categoria...");
 
         if (categories != null) {
@@ -172,14 +185,14 @@ public class EditarProductePerfilVenda extends Fragment {
                     categories = llista;
                     crearOpcionsSpinnerCategories();
                 } else {
-                    Toast toast = Toast.makeText(getActivity(), "ERROR: Les categories no s'han pogut carregar correctament", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(EditarProductePerfilVenda.this, "ERROR: Les categories no s'han pogut carregar correctament", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Categoria>> call, Throwable t) {
-                Toast toast = Toast.makeText(getActivity(), "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(EditarProductePerfilVenda.this, "ERROR: Revisa la connexió a Internet.", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

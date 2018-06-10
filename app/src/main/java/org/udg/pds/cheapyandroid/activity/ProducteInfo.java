@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.udg.pds.cheapyandroid.CheapyApp;
@@ -99,6 +98,22 @@ public class ProducteInfo extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(ProducteInfo.this, Conversa.class);
+                    intent.putExtra("Producte", (Serializable) producte);
+
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Login.userID_connected == Login.NO_REGISTRAT) {
+                    Toast toast = Toast.makeText(ProducteInfo.this, "Has d'estar registrat." , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Intent intent = new Intent(ProducteInfo.this, EditarProductePerfilVenda.class);
                     intent.putExtra("Producte", (Serializable) producte);
 
                     startActivity(intent);
