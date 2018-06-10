@@ -26,6 +26,7 @@ public class ProducteInfo extends AppCompatActivity {
 
     // Components visuals
     private FloatingActionButton btnMissatge;
+    private FloatingActionButton btnEditar;
     private TextView tvNomProducte;
     private TextView tvPreuProducte;
     private TextView tvDescProducte;
@@ -49,6 +50,7 @@ public class ProducteInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         btnMissatge = (FloatingActionButton) findViewById(R.id.botoMissatge);
+        btnEditar = (FloatingActionButton) findViewById(R.id.botoEditarProducte);
         tvNomProducte = (TextView) findViewById(R.id.nom_producte);
         tvPreuProducte = (TextView) findViewById(R.id.preu_producte);
         tvUbicacioProducte = (TextView) findViewById(R.id.ubicacio_producte);
@@ -75,6 +77,22 @@ public class ProducteInfo extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(ProducteInfo.this, Conversa.class);
+                    intent.putExtra("Producte", (Serializable) producte);
+
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Login.userID_connected == Login.NO_REGISTRAT) {
+                    Toast toast = Toast.makeText(ProducteInfo.this, "Has d'estar registrat." , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Intent intent = new Intent(ProducteInfo.this, EditarProductePerfilVenda.class);
                     intent.putExtra("Producte", (Serializable) producte);
 
                     startActivity(intent);
