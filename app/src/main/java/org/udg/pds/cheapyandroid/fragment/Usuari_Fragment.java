@@ -32,7 +32,6 @@ public class Usuari_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_usuari, container, false);
         mCheapyService = ((CheapyApp)getActivity().getApplication()).getAPI();
         bottomNavigation = (BottomNavigationView) view.findViewById(R.id.navigation);
@@ -54,15 +53,12 @@ public class Usuari_Fragment extends Fragment {
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.menu_Perfil:
-                                    //canviarColorMenu(bottomNavigation, 0);
                                     canviarFragment(0);
                                     break;
                                 case R.id.menu_Chats:
-                                    //canviarColorMenu(bottomNavigation, 1);
                                     canviarFragment(1);
                                     break;
                                 case R.id.menu_Location:
-                                    //canviarColorMenu(bottomNavigation, 2);
                                     canviarFragment(2);
                                     break;
                             }
@@ -95,9 +91,9 @@ public class Usuari_Fragment extends Fragment {
             bundle.putSerializable("allUserInformation", userInformation);
             fragment.setArguments(bundle);
         } else if (i == 1) {
-            fragment = new Chats_Fragment();//canviar-ho pel fragment que toqui
+            fragment = new Chats_Fragment();
         } else {
-            fragment = new Ubication_Fragment();//canviar-ho pel fragment que toqui
+            fragment = new Ubication_Fragment();
             bundle.putSerializable("ubicationUser", userInformation.getUbicacio());
             fragment.setArguments(bundle);
         }

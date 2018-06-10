@@ -183,10 +183,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
                 if(response.isSuccessful()){
 
                     toast.makeText(getContext(), "INFORMACIO ACTUALITZADA!",toast.LENGTH_SHORT).show();
-                    Fragment fragmentPerf = new Usuari_Fragment();
+                    Fragment fragmentUsu = new Usuari_Fragment();
                     FragmentTransaction fragmentManager = getFragmentManager()
                             .beginTransaction();
-                    fragmentManager.replace(R.id.frame_layout, fragmentPerf).addToBackStack(null);
+                    fragmentManager.replace(R.id.frame_layout, fragmentUsu).addToBackStack(null);
                     fragmentManager.commit();
                 }
                 else{
