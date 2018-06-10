@@ -62,8 +62,8 @@ public class ModifyUserProfile_Fragment extends Fragment {
     private boolean fotoActualitzada;
     private String emailUser;
     private Imatge imageUser;
-    private Bitmap bitmap;
     private Uri imatgeUri;
+    private String rutaImatge;
 
     private Context mContext = null;
 
@@ -154,7 +154,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         alertDialog.setPositiveButton("I'm sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                updateInformation();
+                updateUserInformation();
             }
         });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -169,17 +169,10 @@ public class ModifyUserProfile_Fragment extends Fragment {
         alertDialog.show();
     }
 
-    private void updateInformation() {
-
-        updateUserInformation();
-
-    }
-
     private void updateUserInformation() {
-        String rutaImatge = null;
+
         if(fotoActualitzada){
             postTheInternalImage();
-            //rutaImatge="https://i.imgur.com/BwMHDTBg.jpg";
         }
         UserLoggedUpdate update = new UserLoggedUpdate(nom.getText().toString(),cognom.getText().toString(), telefon.getText().toString(),rutaImatge);
         Call<Void> call = mCheapyService.updateUserInformation(update);
@@ -227,8 +220,12 @@ public class ModifyUserProfile_Fragment extends Fragment {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
 
                 if(response.isSuccessful()){
+                    rutaImatge = response.body().get(0);
+
+                    imageUser = new Imatge(rutaImatge);
+
                     Toast toast = null;
-                    toast.makeText(getContext(), "Imatge, OK! " ,toast.LENGTH_SHORT).show();
+                    toast.makeText(getContext(), "Imatge, OK! " + rutaImatge + " // " + response.body().get(0) ,toast.LENGTH_SHORT).show();
 
                 }
                 else{
@@ -262,6 +259,7 @@ public class ModifyUserProfile_Fragment extends Fragment {
         telefon = (EditText) view.findViewById(R.id.telefonActualitzat);
         fotoActualitzada = false;
         imatgeUri = null;
+        rutaImatge = null;
         Bundle bundle = getArguments();
         if(bundle!=null){
             emailUser = bundle.get("emailUser").toString();
@@ -306,11 +304,6 @@ public class ModifyUserProfile_Fragment extends Fragment {
         if (requestCode == CODI_SELECCIO){
             imatgeUri = data.getData();
             foto.setImageURI(imatgeUri);
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imatgeUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             fotoActualitzada = true;
         }
     }
