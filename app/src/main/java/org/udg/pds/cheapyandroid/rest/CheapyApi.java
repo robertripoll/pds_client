@@ -18,10 +18,10 @@ import java.util.Map;
 public interface CheapyApi {
 
     @GET("usuaris/{usuari_id}/vendes")
-    Call<LlistaProductes> getProductesVendaPerfil();
+    Call<LlistaProductes> getProductesVendaPerfil(@Path("usuari_id") Long userID);
 
     @GET("usuaris/{usuari_id}/compres")
-    Call<LlistaProductes> getProductesCompraPerfil();
+    Call<LlistaProductes> getProductesCompraPerfil(@Path("usuari_id") Long userID);
 
     @GET("usuaris/{usuari_id}")
     Call<UserLogged> getSpecificUser(@Path("usuari_id") Long userID);

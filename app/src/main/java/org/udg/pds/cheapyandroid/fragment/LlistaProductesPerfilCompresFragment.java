@@ -1,6 +1,8 @@
 package org.udg.pds.cheapyandroid.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +31,10 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
     private TextView politica_privacitat;
     private LlistaProductesAdapter adapterLlistaProductes;
 
+    private Long _user_id;
+
+    private static final String PREFS_NAME = "MisPreferencias";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -39,6 +45,9 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
         llistaProductesView = (ListView) view.findViewById(R.id.llista_productes);
         politica_privacitat = (TextView) view.findViewById(R.id.privacy_policy);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        _user_id = prefs.getLong("usuari_id", -1);
 
         inicialitzaLlista();
 
@@ -72,7 +81,7 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
 
     private void carregarProductesCompraPerfil() {
 
-        Call<LlistaProductes> call = mCheapyService.getProductesCompraPerfil();
+        Call<LlistaProductes> call = mCheapyService.getProductesCompraPerfil(_user_id);
         call.enqueue(new Callback<LlistaProductes>() {
             @Override
             public void onResponse(Call<LlistaProductes> call, Response<LlistaProductes> response) {
@@ -94,7 +103,10 @@ public class LlistaProductesPerfilCompresFragment extends Fragment {
     }
 
     private void mostrarProductes(final LlistaProductes llistaProductesVendaPerfil) {
-
+        if (llistaProductesVendaPerfil.getItems().size() == 0) {
+            Toast toast = Toast.makeText(getActivity(), "No ha realitzat cap compra.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         adapterLlistaProductes = new LlistaProductesAdapter(this.getActivity(), llistaProductesVendaPerfil);
         llistaProductesView.setAdapter(adapterLlistaProductes);
 
