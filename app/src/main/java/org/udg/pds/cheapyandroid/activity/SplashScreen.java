@@ -116,11 +116,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if(response.isSuccessful()){
-                    Toast toast = Toast.makeText(SplashScreen.this, "Token enviat OK", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
+                if(!response.isSuccessful()){
                     Toast toast = Toast.makeText(SplashScreen.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
                     toast.show();
                 }

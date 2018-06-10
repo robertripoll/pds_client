@@ -239,11 +239,7 @@ public class AddUser extends Activity implements Callback<User> {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if(response.isSuccessful()){
-                    Toast toast = Toast.makeText(AddUser.this, "Token enviat OK", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
+                if(!response.isSuccessful()){
                     Toast toast = Toast.makeText(AddUser.this, "Token enviat ERROR", Toast.LENGTH_SHORT);
                     toast.show();
                 }

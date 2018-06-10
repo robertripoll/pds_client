@@ -156,7 +156,7 @@ public class Conversa extends AppCompatActivity  {
                 if(response.isSuccessful()){
                     Toast t=Toast.makeText(Conversa.this,"Conversa eliminada correctament", Toast.LENGTH_SHORT);
                     t.show();
-                    listMiss.clear();
+                    mMessageAdapter.clear();
                     finish();
                 }
                 else{
@@ -174,7 +174,6 @@ public class Conversa extends AppCompatActivity  {
         });
 
     }
-
 
     private void mostrarConversa() {
 
@@ -218,7 +217,6 @@ public class Conversa extends AppCompatActivity  {
         if(!trobat) crearNovaConversa(producte);
     }
 
-
     public static class R_Conversa {
 
         public ID producte;
@@ -227,7 +225,6 @@ public class Conversa extends AppCompatActivity  {
             this.producte = producte;
         }
     }
-
 
     public static class ID {
 
@@ -330,7 +327,6 @@ public class Conversa extends AppCompatActivity  {
         }
     }
 
-
     private void enviarMissatges() {
 
         buttonEnviar.setOnClickListener(new View.OnClickListener() {
@@ -342,8 +338,6 @@ public class Conversa extends AppCompatActivity  {
                     return;
                 }
                 else{
-
-                    //Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), message);
                     Call<Missatge>  call = mCheapyService.sendMessage(conversacio.getId(), new R_Missatge(message));
                     call.enqueue(new Callback<Missatge>() {
                         @Override
@@ -351,8 +345,6 @@ public class Conversa extends AppCompatActivity  {
 
                             if(response.isSuccessful()){
 
-                                Toast toast = Toast.makeText(Conversa.this, "Missatge enviat correctament" , Toast.LENGTH_SHORT);
-                                toast.show();
                                 mMessageAdapter.add(response.body());
                                 editTextChat.setText("");
                             }
@@ -360,7 +352,6 @@ public class Conversa extends AppCompatActivity  {
                                 Toast toast = Toast.makeText(Conversa.this, "ERROR: " + response.toString() , Toast.LENGTH_SHORT);
                                 toast.show();
                             }
-
                         }
 
                         @Override
@@ -386,12 +377,55 @@ public class Conversa extends AppCompatActivity  {
         mMessageAdapter.add(missatgeRebut);
     }
 
+    private void volsEliminarMissatge(final int position) {
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("SEGUR QUE VOLS ELIMINAR EL MISSATGE?");
+        dialogo1.setMessage(listMiss.get(position).getMissatge());
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                eliminarMissatge(position);
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.cancel();
+            }
+        });
+        dialogo1.show();
+    }
+
+    private void eliminarMissatge(final int position) {
+
+        Call<Void> call = mCheapyService.deleteMissatge(conversacio.getId(), listMiss.get(position).getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.isSuccessful()){
+                    mMessageAdapter.remove(listMiss.get(position));
+                }
+                else{
+                    Toast t=Toast.makeText(Conversa.this ,"No volguis borrar els missatges d'altres :)", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast toast =Toast.makeText(Conversa.this ,"ERROR: Revisa la part de server", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
 
     public class MessageListAdapter extends RecyclerView.Adapter{
 
         private static final int VIEW_TYPE_MESSAGE_SENT = 1;
         private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
         Context context;
+
 
         public MessageListAdapter(Context context) {
             this.context = context;
@@ -427,6 +461,14 @@ public class Conversa extends AppCompatActivity  {
                 case VIEW_TYPE_MESSAGE_RECEIVED:
                     ((ReceivedMessageHolder) holder).bind(message);
             }
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    volsEliminarMissatge(position);
+                    return true;
+                }
+            });
 
         }
 
@@ -487,18 +529,11 @@ public class Conversa extends AppCompatActivity  {
             }
         }
 
-        // Insert a new item to the RecyclerView
-        public void insert(int position, Missatge message) {
-            listMiss.add(position, message);
-            notifyItemInserted(position);
-        }
-        // Remove a RecyclerView item containing the Data object
         public void remove(Missatge message) {
             int position = listMiss.indexOf(message);
             listMiss.remove(position);
             notifyItemRemoved(position);
         }
-
 
         public void add(Missatge m) {
 
